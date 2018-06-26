@@ -1,0 +1,614 @@
+<style>
+input[type=number]{
+    width: 45px;
+} 
+
+.col {
+	width: 120px;
+	display: inline-block;
+}
+</style>
+
+<section class='w3-container'>
+	
+	<div class='w3-display-topright w3-container' ng-show='showLogin'>
+		<form name='login'>
+			<span style='font-size: 8pt'>
+			<label>Email: </label>
+			<input type='text' ng-model='login_email' style='height: 15px'/>
+			<label>Password: </label>
+			<input type='password' ng-model='login_password' style='height: 15px'/>
+			<button class='w3-blue w3-btn w3-tiny' ng-click='Login()'>Login</button>
+			<span style='color: red'>{{loginmessage}}</span>
+			</span>
+			<br/><br/>
+		</form>
+	</div>
+	<div class='w3-display-topright w3-container' ng-show='!showLogin'>
+		<span>{{name}}</span>
+		<button class='w3-blue w3-btn w3-tiny' ng-click='Logout()'>Logout</button>
+	</div>
+	
+	<div class = 'w3-nav' style='text-align: center'>
+		<button class='w3-btn w3-round w3-blue' ng-click='showSearch=true; showAdd=false; showResult=false; searchmessage=""' ng-show='!showSearch'><span class='glyphicon glyphicon-search'>&nbsp;&nbsp;</span>Search</button>
+		<button class='w3-btn w3-round w3-blue' ng-click='showAdd=true; showSearch=false; showResult=false; addmessage=""'    ng-show='!showAdd'   ><span class='glyphicon glyphicon-plus'>&nbsp;&nbsp;</span>{{AddLabel}}</button>
+	</div>
+	
+	<h3>Portland - Data Professional Registry</h3>
+
+	<div  style='margin-left: 20px' ng-show='showAdd'>
+
+		<form name="register" class='w3-container w3-card-4'>
+			<h4>{{AddLabel}} Yourself to the Registry</h4>
+			
+			<label class='w3-label'>Summary</label>
+			<textarea class='w3-input' rows=4 ng-model='summary' placeholder='A summary of your job skills'></textarea>
+			<br/>
+			
+			<label class='w3-label'>Position</label>
+			<select class='w3-input' ng-model='position' required>
+				<option value='' disabled selected>Select your position ...</option>
+				<option ng-repeat='value in positions' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Level</label>
+			<select class='w3-input' ng-model='level' required>
+				<option value='' disabled selected>Select your level ...</option>
+				<option ng-repeat='value in levels' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Degree</label>
+			<select class='w3-input' ng-model='degree' required>
+				<option value='' disabled selected>Select your degree ...</option>
+				<option ng-repeat='value in degrees' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Technical Leadership</label>
+			<select class='w3-input' ng-model='leadership'>
+				<option value='' disabled selected>Select your leadership experience ...</option>
+				<option ng-repeat='value in leaderships' value='{{value}}'>{{value}}</option>
+			</select>
+			<br/>
+			
+			<label class='w3-label'>Retired</label>
+			<input type='checkbox' ng-model='retired' class='w3-check'><br/><br/>
+	
+			<p><i><small>Self-Rate on scale of 1 to 5, with 5 the best</small></i></p>
+			<label class='w3-label'>Programming Languages</label><br/>
+			<input type='checkbox' ng-model='skill["Android"]'  	class='w3-check'> <label class='col'>Android</label>
+			<input type='number'   ng-model='years["Android"]' 		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Android"]' 		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["C"]'        	class='w3-check'> <label class='col'>C</label>
+			<input type='number'   ng-model='years["C"]'        	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["C"]'         	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["C++"]'      	class='w3-check'> <label class='col'>C++</label>
+			<input type='number'   ng-model='years["C++"]'      	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["C++"]'       	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["C#"]'   		class='w3-check'> <label class='col'>C#</label>
+			<input type='number'   ng-model='years["C#"]'   		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["C#"]'    		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["HTML/CSS"]'     class='w3-check'> <label class='col'>HTML/CSS</label>
+			<input type='number'   ng-model='years["HTML/CSS"]'     min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["HTML/CSS"]'      min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Java"]'     	class='w3-check'> <label class='col'>Java</label>
+			<input type='number'   ng-model='years["Java"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Java"]'      	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Javascript"]'   class='w3-check'> <label class='col'>Javascript</label>
+			<input type='number'   ng-model='years["Javascript"]'   min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Javascript"]'    min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Julia"]'    	class='w3-check'> <label class='col'>Julia</label>
+			<input type='number'   ng-model='years["Julia"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Julia"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Objective-C"]'  class='w3-check'> <label class='col'>Objective-C</label>
+			<input type='number'   ng-model='years["Objective-C"]'  min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Objective-C"]'   min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["PHP"]'      	class='w3-check'> <label class='col'>PHP</label>
+			<input type='number'   ng-model='years["PHP"]'      	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["PHP"]'       	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Python"]'   	class='w3-check'> <label class='col'>Python</label>
+			<input type='number'   ng-model='years["Python"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Python"]'    	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["R"]'        	class='w3-check'> <label class='col'>R</label>
+			<input type='number'   ng-model='years["R"]'        	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["R"]'         	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Scala"]'    	class='w3-check'> <label class='col'>Scala</label>
+			<input type='number'   ng-model='years["Scala"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Scala"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Swift"]'    	class='w3-check'> <label class='col'>Swift</label>
+			<input type='number'   ng-model='years["Swift"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Swift"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["VB"]'       	class='w3-check'> <label class='col'>VB</label>
+			<input type='number'   ng-model='years["VB"]'       	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["VB"]'        	min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+		
+			<label class='w3-label'>Databases</label><br/>
+			<input type='checkbox' ng-model='skill["Cassandra"]'  	class='w3-check'> <label class='col'>Cassandra</label>
+			<input type='number'   ng-model='years["Cassandra"]'  	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Cassandra"]' 	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["DB2"]'      	class='w3-check'> <label class='col'>DB2</label>
+			<input type='number'   ng-model='years["DB2"]'    		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["DB2"]'     		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Informix"]' 	class='w3-check'> <label class='col'>Informix</label>
+			<input type='number'   ng-model='years["Informix"]' 	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Informix"]'  	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["MongoDB"]'  	class='w3-check'> <label class='col'>MongoDB</label>
+			<input type='number'   ng-model='years["MongoDB"]'  	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["MongoDB"]'   	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["MSSQL"]'    	class='w3-check'> <label class='col'>MS SQL</label>
+			<input type='number'   ng-model='years["MSSQL"]'  		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["MSSQL"]'   		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["MySQL"]'    	class='w3-check'> <label class='col'>MySQL</label>
+			<input type='number'   ng-model='years["MySQL"]'  		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["MySQL"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Oracle"]'   	class='w3-check'> <label class='col'>Oracle</label>
+			<input type='number'   ng-model='years["Oracle"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Oracle"]'    	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["SAP"]'      	class='w3-check'> <label class='col'>SAP</label>
+			<input type='number'   ng-model='years["SAP"]'    		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["SAP"]'     		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Solr"]'     	class='w3-check'> <label class='col'>Solr</label>
+			<input type='number'   ng-model='years["Solr"]'   		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Solr"]'    		min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Operating System</label><br/>	
+			<input type='checkbox' ng-model='skill["Android OS"]'   class='w3-check'> <label class='col'>Android</label>
+			<input type='number'   ng-model='years["Android OS"]' 	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Android OS"]'  	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Chrome"]'   	class='w3-check'> <label class='col'>Chrome</label>
+			<input type='number'   ng-model='years["Chrome"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Chrome"]'    	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["iOS"]'      	class='w3-check'> <label class='col'>iOS</label>
+			<input type='number'   ng-model='years["iOS"]'     		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["iOS"]'      		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["ROS"]'      	class='w3-check'> <label class='col'>ROS</label>
+			<input type='number'   ng-model='years["ROS"]'     		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["ROS"]'      		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["UNIX"]'     	class='w3-check'> <label class='col'>UNIX/Linux</label>
+			<input type='number'   ng-model='years["UNIX"]'    		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["UNIX"]'     		min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Windows"]'  	class='w3-check'> <label class='col'>Windows</label>
+			<input type='number'   ng-model='years["Windows"]' 		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Windows"]'  		min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+				
+			<label class='w3-label'>IDE</label><br/>
+			<input type='checkbox' ng-model='skill["Android Studio"]'   class='w3-check'> <label class='col'>Android Studio</label>
+			<input type='number'   ng-model='years["Android Studio"]'   min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Android Studio"]'    min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["Eclipse"]'  		class='w3-check'> <label class='col'>Eclipse</label>
+			<input type='number'   ng-model='years["Eclipse"]'  		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Eclipse"]'   		min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["Jupyter Notebook"]' class='w3-check'> <label class='col'>Jupyter Notebook</label>
+			<input type='number'   ng-model='years["Jupyter Notebook"]'	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Jupyter Notebook"]' 	min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["Net Beans"]'    	class='w3-check'> <label class='col'>Net Beans</label>
+			<input type='number'   ng-model='years["Net Beans"]'  		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Net Beans"]'   		min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Pycharm"]'  		class='w3-check'> <label class='col'>PyCharm</label>
+			<input type='number'   ng-model='years["PyCharm"]' 			min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["PyCharm"]' 			min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["Visual Studio"]'    class='w3-check'> <label class='col'>Visual Studio</label>
+			<input type='number'   ng-model='years["Visual Studio"]'    min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Visual Studio"]'     min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["XCode"]'    		class='w3-check'> <label class='col'>XCode</label>
+			<input type='number'   ng-model='years["XCode"]'  			min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["XCode"]'  			min="1" max="5"> <label>Self-Rate</label><br/>	
+			<br/>
+		
+			<label class='w3-label'>Frameworks</label><br/>		
+			<input type='checkbox' ng-model='skill["Angular"]'  	class='w3-check'> <label class='col'>AngularJS</label>
+			<input type='number'   ng-model='years["Angular"]' 		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Angular"]'  		min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["React"]'    	class='w3-check'> <label class='col'>ReactJS</label>
+			<input type='number'   ng-model='years["React"]'   		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["React"]'    		min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Ruby"]'     	class='w3-check'> <label class='col'>Ruby On Rails</label>
+			<input type='number'   ng-model='years["Ruby"]'    		min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Ruby"]'     		min="1" max="5"> <label>Self-Rate</label><br/>	
+			<br/>	
+			
+			<label class='w3-label'>Tools</label><br/>		
+			<input type='checkbox' ng-model='skill["Docker"]'   class='w3-check'> <label class='col'>Docker</label>
+			<input type='number'   ng-model='years["Docker"]'  	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Docker"]'   	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Git"]'      class='w3-check'> <label class='col'>Git</label>
+			<input type='number'   ng-model='years["Git"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Git"]'      	min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["JIRA"]'     class='w3-check'> <label class='col'>JIRA</label>
+			<input type='number'   ng-model='years["JIRA"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["JIRA"]'     	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Jenkins"]'  class='w3-check'> <label class='col'>Jenkins</label>
+			<input type='number'   ng-model='years["Jenkins"]' 	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Jenkins"]'  	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<br/>
+			
+			<label class='w3-label'>SDLC</label><br/>			
+			<input type='checkbox' ng-model='skill["Agile"]'    class='w3-check'> <label class='col'>Agile</label>
+			<input type='number'   ng-model='years["Agile"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Agile"]'    	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Extreme Programming"]'       class='w3-check'> <label class='col'>Extreme Programming</label>
+			<input type='number'   ng-model='years["Extreme Programming"]'      	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Extreme Programming"]'       	min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["OOP"]'      class='w3-check'> <label class='col'>OOP</label>
+			<input type='number'   ng-model='years["OOP"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["OOP"]'      	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["TDD"]'      class='w3-check'> <label class='col'>Test Driven Development</label>
+			<input type='number'   ng-model='years["TDD"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["TDD"]'      	min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Cloud</label><br/>		
+			<input type='checkbox' ng-model='skill["AWS"]'      class='w3-check'> <label class='col'>AWS</label>
+			<input type='number'   ng-model='years["AWS"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["AWS"]'      	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Azure"]'    class='w3-check'> <label class='col'>Azure</label>
+			<input type='number'   ng-model='years["Azure"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Azure"]'    	min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>	
+
+			<label class='w3-label'>Big Data</label><br/>		
+			<input type='checkbox' ng-model='skill["Excel"]'    class='w3-check'> <label class='col'>MS Excel</label>
+			<input type='number'   ng-model='years["Excel"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Excel"]'    	min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["Hadoop"]'   class='w3-check'> <label class='col'>Hadoop</label>
+			<input type='number'   ng-model='years["Hadoop"]'  	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Hadoop"]'   	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Hive"]'     class='w3-check'> <label class='col'>Hive</label>
+			<input type='number'   ng-model='years["Hive"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Hive"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["PIG"]'      class='w3-check'> <label class='col'>PIG</label>
+			<input type='number'   ng-model='years["PIG"]'     	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["PIG"]'      	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Spark"]'    class='w3-check'> <label class='col'>Spark</label>
+			<input type='number'   ng-model='years["Spark"]'   	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Spark"]'    	min="1" max="5"> <label>Self-Rate</label><br/>
+			<input type='checkbox' ng-model='skill["Tableau"]'  class='w3-check'> <label class='col'>Tableau</label>
+			<input type='number'   ng-model='years["Tableau"]' 	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Tableau"]'  	min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Machine Learning</label><br/>			
+			<input type='checkbox' ng-model='skill["ANN"]'      class='w3-check'> <label class='col'>Artifical Neural Networks</label>
+			<input type='number'   ng-model='years["ANN"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["ANN"]'       min="1" max="5"> <label>Self-Rate</label><br/>				
+			<input type='checkbox' ng-model='skill["Caffe"]'    class='w3-check'> <label class='col'>Caffe</label>
+			<input type='number'   ng-model='years["Caffe"]'    min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Caffe"]'     min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Class"]'    class='w3-check'> <label class='col'>Classification</label>
+			<input type='number'   ng-model='years["Class"]'    min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Class"]'     min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["CNN"]'      class='w3-check'> <label class='col'>Convolutional Neural Networks</label>
+			<input type='number'   ng-model='years["CNN"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["CNN"]'       min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["Ensemble"]' class='w3-check'> <label class='col'>Ensemble Methods</label>
+			<input type='number'   ng-model='years["Ensemble"]' min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Ensemble"]'  min="1" max="5"> <label>Self-Rate</label><br/>				
+			<input type='checkbox' ng-model='skill["Keras"]'    	class='w3-check'> <label class='col'>Keras</label>
+			<input type='number'   ng-model='years["Keras"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Keras"]'     	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["NLP"]'      class='w3-check'> <label class='col'>Natural Language Processing</label>
+			<input type='number'   ng-model='years["NLP"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["NLP"]'       min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["RNN"]'      class='w3-check'> <label class='col'>Recurrent Neural Networks</label>
+			<input type='number'   ng-model='years["RNN"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["RNN"]'       min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Regression"]'     class='w3-check'> <label class='col'>Regression</label>
+			<input type='number'   ng-model='years["Regression"]'     min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Regression"]'      min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["Scilearn"]'      	class='w3-check'> <label class='col'>Scilearn</label>
+			<input type='number'   ng-model='years["Scilearn"]'      	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Scilearn"]'       	min="1" max="5"> <label>Self-Rate</label><br/>		
+			<input type='checkbox' ng-model='skill["Statistics"]'    class='w3-check'> <label class='col'>Statistics</label>
+			<input type='number'   ng-model='years["Statistics"]'    min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Statistics"]'     min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["TensorFlow"]'    class='w3-check'> <label class='col'>TensorFlow</label>
+			<input type='number'   ng-model='years["TensorFlow"]'    min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["TensorFlow"]'     min="1" max="5"> <label>Self-Rate</label><br/>				
+			<input type='checkbox' ng-model='skill["Theano"]'    	class='w3-check'> <label class='col'>Theano</label>
+			<input type='number'   ng-model='years["Theano"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Theano"]'     	min="1" max="5"> <label>Self-Rate</label><br/>			
+			<input type='checkbox' ng-model='skill["Torch"]'    	class='w3-check'> <label class='col'>Torch</label>
+			<input type='number'   ng-model='years["Torch"]'    	min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["Torch"]'     	min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+
+			<label class='w3-label'>Data Format</label><br/>				
+			<input type='checkbox' ng-model='skill["CSV"]'      class='w3-check'> <label class='col'>CSV</label>
+			<input type='number'   ng-model='years["CSV"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["CSV"]'       min="1" max="5"> <label>Self-Rate</label><br/>					
+			<input type='checkbox' ng-model='skill["JSON"]'     class='w3-check'> <label class='col'>JSON</label>
+			<input type='number'   ng-model='years["JSON"]'     min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["JSON"]'      min="1" max="5"> <label>Self-Rate</label><br/>				
+			<input type='checkbox' ng-model='skill["RDF"]'      class='w3-check'> <label class='col'>RDF</label>
+			<input type='number'   ng-model='years["RDF"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["RDF"]'       min="1" max="5"> <label>Self-Rate</label><br/>	
+			<input type='checkbox' ng-model='skill["XML"]'      class='w3-check'> <label class='col'>XML</label>
+			<input type='number'   ng-model='years["XML"]'      min="1" max="20"> <label>Years</label>
+			<input type='number'   ng-model='rate["XML"]'       min="1" max="5"> <label>Self-Rate</label><br/>
+			<br/>
+			
+			<h4 class='w3-blue'>Hidden</h4>
+			<label class='w3-label'>Name:</label><br/>
+			<input type='text' ng-model='name' class='w3-input' required>
+			<label class='w3-label'>Email:</label><br/>
+			<input type='email' ng-model='email' class='w3-input' required>
+			<label class='w3-label'>Phone:</label><br/>
+			<input type='tel' ng-model='tel' class='w3-input' required>
+
+			<h4 class='w3-blue'>Security</h4>
+			<label class='w3-label'>Password:</label><br/>
+			<input type='password' name="password" ng-model='password' class='w3-input' ng-required='AddLabel=="Add"'>
+			<label class='w3-label'>Confirm:</label><br/>
+			<input type='password' name="confirm" ng-model='confirm' class='w3-input' ng-required='AddLabel=="Add"'
+					compare-to="password">
+			<div ng-show="register.confirm.$invalid" style='color: red; font-weight: bold'>
+					Passwords do not match.
+			</div>
+	
+			<br/>
+			<button class='w3-btn w3-round w3-blue' ng-click='Add()' ng-disabled="register.$invalid">{{AddLabel}}</button>
+			<span style='color: red; font-weight: bold'>{{addmessage}}</span>
+			<br/><br/>
+		</form>
+		<br/>
+
+	</div>
+
+	<div style='margin-left: 20px' ng-show='showSearch'>
+
+		<form name="search" class='w3-container w3-card-4'>
+			<h4>Search for Candidates</h4>
+			
+			<label class='w3-label'>Position</label>
+			<select class='w3-input' ng-model='position'>
+				<option value=''>&nbsp;</option>
+				<option value='' disabled selected>Select a position to search for ...</option>
+				<option ng-repeat='value in positions' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Level</label>
+			<select class='w3-input' ng-model='level'>
+				<option value=''>&nbsp;</option>
+				<option value='' disabled selected>Select a level to search for ...</option>
+				<option ng-repeat='value in levels' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Degree</label>
+			<select class='w3-input' ng-model='degree'>
+				<option value=''>&nbsp;</option>
+				<option value='' disabled selected>Select a degree to search for ...</option>
+				<option ng-repeat='value in degrees' value='{{value}}'>{{value}}</option>
+			</select>
+			
+			<label class='w3-label'>Technical Leadership</label>
+			<select class='w3-input' ng-model='leadership'>
+				<option value=''>&nbsp;</option>
+				<option value='' disabled selected>Select a leadership to search for ...</option>
+				<option ng-repeat='value in leaderships' value='{{value}}'>{{value}}</option>
+			</select>
+			<br/>
+	
+			<label class='w3-label'>Programming Languages</label><br/>
+			<input type='checkbox' ng-model='skill["Android"]'  	class='w3-check'> <label class='col'>Android</label>
+			<input type='number'   ng-model='years["Android"]' 		min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["C"]'        	class='w3-check'> <label class='col'>C</label>
+			<input type='number'   ng-model='years["C"]'        	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["C++"]'      	class='w3-check'> <label class='col'>C++</label>
+			<input type='number'   ng-model='years["C++"]'      	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["C#"]'   		class='w3-check'> <label class='col'>C#</label>
+			<input type='number'   ng-model='years["C#"]'   		min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["HTML/CSS"]'     class='w3-check'> <label class='col'>HTML/CSS</label>
+			<input type='number'   ng-model='years["HTML/CSS"]'     min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Java"]'     	class='w3-check'> <label class='col'>Java</label>
+			<input type='number'   ng-model='years["Java"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Javascript"]'   class='w3-check'> <label class='col'>Javascript</label>
+			<input type='number'   ng-model='years["Javascript"]'   min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Julia"]'    	class='w3-check'> <label class='col'>Julia</label>
+			<input type='number'   ng-model='years["Julia"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Objective-C"]'  class='w3-check'> <label class='col'>Objective-C</label>
+			<input type='number'   ng-model='years["Objective-C"]'  min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["PHP"]'      	class='w3-check'> <label class='col'>PHP</label>
+			<input type='number'   ng-model='years["PHP"]'      	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Python"]'   	class='w3-check'> <label class='col'>Python</label>
+			<input type='number'   ng-model='years["Python"]'   	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["R"]'        	class='w3-check'> <label class='col'>R</label>
+			<input type='number'   ng-model='years["R"]'        	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Scala"]'    	class='w3-check'> <label class='col'>Scala</label>
+			<input type='number'   ng-model='years["Scala"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Swift"]'    	class='w3-check'> <label class='col'>Swift</label>
+			<input type='number'   ng-model='years["Swift"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["VB"]'       	class='w3-check'> <label class='col'>VB</label>
+			<input type='number'   ng-model='years["VB"]'       	min="1" max="20"> <label>Years</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Databases</label><br/>
+			<input type='checkbox' ng-model='skill["Cassandra"]'    class='w3-check'> <label class='col'>Cassandra</label>
+			<input type='number'   ng-model='years["Cassandra"]'   	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["DB2"]'      class='w3-check'> <label class='col'>DB2</label>
+			<input type='number'   ng-model='years["DB2"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Informix"]' class='w3-check'> <label class='col'>Informix</label>
+			<input type='number'   ng-model='years["Informix"]' min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["MongoDB"]'  class='w3-check'> <label class='col'>MongoDB</label>
+			<input type='number'   ng-model='years["MongoDB"]'  min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["MSSQL"]'    class='w3-check'> <label class='col'>MS SQL</label>
+			<input type='number'   ng-model='years["MSSQL"]'  	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["MySQL"]'    class='w3-check'> <label class='col'>MySQL</label>
+			<input type='number'   ng-model='years["MySQL"]'  	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Oracle"]'   class='w3-check'> <label class='col'>Oracle</label>
+			<input type='number'   ng-model='years["Oracle"]'   min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["SAP"]'      class='w3-check'> <label class='col'>SAP</label>
+			<input type='number'   ng-model='years["SAP"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Solr"]'     class='w3-check'> <label class='col'>Solr</label>
+			<input type='number'   ng-model='years["Solr"]'   	min="1" max="20"> <label>Years</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Operating System</label><br/>	
+			<input type='checkbox' ng-model='skill["Android OS"]'   class='w3-check'> <label class='col'>Android</label>
+			<input type='number'   ng-model='years["Android OS"]' 	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Chrome"]'   class='w3-check'> <label class='col'>Chrome</label>
+			<input type='number'   ng-model='years["Chrome"]'   min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["iOS"]'      class='w3-check'> <label class='col'>iOS</label>
+			<input type='number'   ng-model='years["iOS"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["ROS"]'      class='w3-check'> <label class='col'>ROS</label>
+			<input type='number'   ng-model='years["ROS"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["UNIX"]'     class='w3-check'> <label class='col'>UNIX/Linux</label>
+			<input type='number'   ng-model='years["UNIX"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Windows"]'  class='w3-check'> <label class='col'>Windows</label>
+			<input type='number'   ng-model='years["Windows"]' 	min="1" max="20"> <label>Years</label><br/>
+			<br/>
+				
+			<label class='w3-label'>IDE</label><br/>
+			<input type='checkbox' ng-model='skill["Android Studio"]'       class='w3-check'> <label class='col'>Android Studio</label>
+			<input type='number'   ng-model='years["Android Studio"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Eclipse"]'  	class='w3-check'> <label class='col'>Eclipse</label>
+			<input type='number'   ng-model='years["Eclipse"]'  	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Jupyter Notebook"]'  	class='w3-check'> <label class='col'>Jupyter Notebook</label>
+			<input type='number'   ng-model='years["Jupyter Notebook"]'		min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Net Beans"]'    class='w3-check'> <label class='col'>Net Beans</label>
+			<input type='number'   ng-model='years["Net Beans"]'  	min="1" max="20"> <label>Years</label><br/>	
+			<input type='checkbox' ng-model='skill["Pycharm"]'  	class='w3-check'> <label class='col'>PyCharm</label>
+			<input type='number'   ng-model='years["PyCharm"]' 		min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Visual Studio"]'       	class='w3-check'> <label class='col'>Visual Studio</label>
+			<input type='number'   ng-model='years["Visual Studio"]'     		min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["XCode"]'    	class='w3-check'> <label class='col'>XCode</label>
+			<input type='number'   ng-model='years["XCode"]'  		min="1" max="20"> <label>Years</label><br/>
+			<br/>
+		
+			<label class='w3-label'>Frameworks</label><br/>		
+			<input type='checkbox' ng-model='skill["Angular"]'  class='w3-check'> <label class='col'>AngularJS</label>
+			<input type='number'   ng-model='years["Angular"]' 	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["React"]'    class='w3-check'> <label class='col'>ReactJS</label>
+			<input type='number'   ng-model='years["React"]'   	min="1" max="20"> <label>Years</label><br/>	
+			<input type='checkbox' ng-model='skill["Ruby"]'     class='w3-check'> <label class='col'>Ruby On Rails</label>
+			<input type='number'   ng-model='years["Ruby"]'    	min="1" max="20"> <label>Years</label><br/>
+			<br/>		
+			
+			<label class='w3-label'>Tools</label><br/>		
+			<input type='checkbox' ng-model='skill["Docker"]'   class='w3-check'> <label class='col'>Docker</label>
+			<input type='number'   ng-model='years["Docker"]'  	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Git"]'      class='w3-check'> <label class='col'>Git</label>
+			<input type='number'   ng-model='years["Git"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["JIRA"]'     class='w3-check'> <label class='col'>JIRA</label>
+			<input type='number'   ng-model='years["JIRA"]'    	min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Jenkins"]'  class='w3-check'> <label class='col'>Jenkins</label>
+			<input type='number'   ng-model='years["Jenkins"]' 	min="1" max="20"> <label>Years</label><br/>		
+			<br/>
+			
+			<label class='w3-label'>SDLC</label><br/>			
+			<input type='checkbox' ng-model='skill["Agile"]'    class='w3-check'> <label class='col'>Agile</label>
+			<input type='number'   ng-model='years["Agile"]'   	min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Extreme Programming"]'       class='w3-check'> <label class='col'>Extreme Programming</label>
+			<input type='number'   ng-model='years["Extreme Programming"]'      	min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["OOP"]'      class='w3-check'> <label class='col'>OOP</label>
+			<input type='number'   ng-model='years["OOP"]'     	min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["TDD"]'      class='w3-check'> <label class='col'>Test Driven Development</label>
+			<input type='number'   ng-model='years["TDD"]'     	min="1" max="20"> <label>Years</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Cloud</label><br/>		
+			<input type='checkbox' ng-model='skill["AWS"]'      class='w3-check'> <label class='col'>AWS</label>
+			<input type='number'   ng-model='years["AWS"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Azure"]'    class='w3-check'> <label class='col'>Azure</label>
+			<input type='number'   ng-model='years["Azure"]'   	min="1" max="20"> <label>Years</label><br/>
+			<br/>	
+
+			<label class='w3-label'>Big Data</label><br/>		
+			<input type='checkbox' ng-model='skill["Excel"]'    class='w3-check'> <label class='col'>MS Excel</label>
+			<input type='number'   ng-model='years["Excel"]'   	min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["Hadoop"]'   class='w3-check'> <label class='col'>Hadoop</label>
+			<input type='number'   ng-model='years["Hadoop"]'  	min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Hive"]'     class='w3-check'> <label class='col'>Hive</label>
+			<input type='number'   ng-model='years["Hive"]'    	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["PIG"]'      class='w3-check'> <label class='col'>PIG</label>
+			<input type='number'   ng-model='years["PIG"]'     	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Spark"]'    class='w3-check'> <label class='col'>Spark</label>
+			<input type='number'   ng-model='years["Spark"]'   	min="1" max="20"> <label>Years</label><br/>
+			<input type='checkbox' ng-model='skill["Tableau"]'  class='w3-check'> <label class='col'>Tableau</label>
+			<input type='number'   ng-model='years["Tableau"]' 	min="1" max="20"> <label>Years</label><br/>
+			<br/>
+			
+			<label class='w3-label'>Machine Learning</label><br/>			
+			<input type='checkbox' ng-model='skill["ANN"]'      class='w3-check'> <label class='col'>Artifical Neural Networks</label>
+			<input type='number'   ng-model='years["ANN"]'      min="1" max="20"> <label>Years</label><br/>				
+			<input type='checkbox' ng-model='skill["Caffe"]'    class='w3-check'> <label class='col'>Caffe</label>
+			<input type='number'   ng-model='years["Caffe"]'    min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Class"]'    class='w3-check'> <label class='col'>Classification</label>
+			<input type='number'   ng-model='years["Class"]'    min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["CNN"]'      class='w3-check'> <label class='col'>Convolutional Neural Networks</label>
+			<input type='number'   ng-model='years["CNN"]'      min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["Ensemble"]' class='w3-check'> <label class='col'>Ensemble Methods</label>
+			<input type='number'   ng-model='years["Ensemble"]' min="1" max="20"> <label>Years</label><br/>					
+			<input type='checkbox' ng-model='skill["Keras"]'    class='w3-check'> <label class='col'>Keras</label>
+			<input type='number'   ng-model='years["Keras"]'    min="1" max="20"> <label>Years</label><br/>	
+			<input type='checkbox' ng-model='skill["NLP"]'      class='w3-check'> <label class='col'>Natural Language Processing</label>
+			<input type='number'   ng-model='years["NLP"]'      min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["RNN"]'      class='w3-check'> <label class='col'>Recurrent Neural Networks</label>
+			<input type='number'   ng-model='years["RNN"]'      min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Regression"]'     class='w3-check'> <label class='col'>Regression</label>
+			<input type='number'   ng-model='years["Regression"]'     min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["Scilearn"]'      class='w3-check'> <label class='col'>Scilearn</label>
+			<input type='number'   ng-model='years["Scilearn"]'      min="1" max="20"> <label>Years</label><br/>		
+			<input type='checkbox' ng-model='skill["Statistics"]'    class='w3-check'> <label class='col'>Statistics</label>
+			<input type='number'   ng-model='years["Statistics"]'    min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["TensorFlow"]'       class='w3-check'> <label class='col'>TensorFlow</label>
+			<input type='number'   ng-model='years["TensorFlow"]'       min="1" max="20"> <label>Years</label><br/>				
+			<input type='checkbox' ng-model='skill["Theano"]'    class='w3-check'> <label class='col'>Theano</label>
+			<input type='number'   ng-model='years["Theano"]'    min="1" max="20"> <label>Years</label><br/>			
+			<input type='checkbox' ng-model='skill["Torch"]'    class='w3-check'> <label class='col'>Torch</label>
+			<input type='number'   ng-model='years["Torch"]'    min="1" max="20"> <label>Years</label><br/>
+			<br/>
+
+			<label class='w3-label'>Data Format</label><br/>				
+			<input type='checkbox' ng-model='skill["CSV"]'      class='w3-check'> <label class='col'>CSV</label>
+			<input type='number'   ng-model='years["CSV"]'      min="1" max="20"> <label>Years</label><br/>					
+			<input type='checkbox' ng-model='skill["JSON"]'     class='w3-check'> <label class='col'>JSON</label>
+			<input type='number'   ng-model='years["JSON"]'     min="1" max="20"> <label>Years</label><br/>				
+			<input type='checkbox' ng-model='skill["RDF"]'      class='w3-check'> <label class='col'>RDF</label>
+			<input type='number'   ng-model='years["RDF"]'      min="1" max="20"> <label>Years</label><br/>	
+			<input type='checkbox' ng-model='skill["XML"]'      class='w3-check'> <label class='col'>XML</label>
+			<input type='number'   ng-model='years["XML"]'      min="1" max="20"> <label>Years</label><br/>
+			<br/>
+
+			<br/>
+			<button class='w3-btn w3-round w3-blue' ng-click='Search()'>Search</button>
+			<span style='color: red; font-weight: bold'>{{searchmessage}}</span>
+			<br/><br/>
+
+		</form>
+	</div>
+	
+	<div style='margin-left: 20px' ng-show='showResult'>
+		<h4>Search Results</h4>
+		
+		<div class='w3-container w3-card-4'>
+			<ol>
+				<li ng-repeat="candidate in results">
+					<button class='w3-btn w3-tiny w3-round w3-round-large w3-teal' ng-click='View( candidate )'>View</button>
+					<label class='col'>{{candidate.position}}</label> 
+					<label class='col'>{{candidate.level}}</label> 
+					<label class='col'>{{candidate.degree}}</label>
+					<label class='col'>{{candidate.leadership}}</label>
+				</li>
+			</ol>
+			<span style='color: red; font-weight: bold'>{{resultsmessage}}</span>
+		</div>
+		
+		<div ng-show="showDetails">
+			<h4>Search Details</h4>
+			<table>
+				<th class="col">Skill</th>
+				<th class="col">Years</th>
+				<th class="col">Self-Rate</th>
+				<tr ng-repeat="entry in details">
+					<td class="col">{{entry.skill}}</td>
+					<td class="col">{{entry.years}}</td>
+					<td class="col">{{entry.rate}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</section>
+<script src='md5.js'></script>

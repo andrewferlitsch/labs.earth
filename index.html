@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crowd Training & Laboratory</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Crowd Training and Laboratory for Data Science and Artificial Intelligence">
+	<meta name='keywords' content='lab, labs, laboratory, data science, artificial intelligence, machine learning, robotics, AL, ML'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script>
+</script>
+<style>
+body { }
+h1, h2 { color: cornflowerblue; }
+h3 { color: slategray; }
+h5 { color: steelblue; }
+h4 { color: darkorange; }
+.event { width: 200px; height: 200px; padding: 10px; border: 1px solid gray; float: left }
+.presentation { margin: 10px; }
+a:link, a:visited { text-decoration: none; color: #0066FF }
+</style>
+</head>
+<body ng-app='labs' ng-init='view[0]=true' ng-controller='labsCtrl'>
+
+	<header style='text-align: center' class='w3-container'>
+		<h1>Labs.Earth</h1>
+		<h2>Crowd Training and Laboratory for Data Science and Artificial Intelligence</h2>
+		<h3>Data Science, Big Data, Machine Learning, Robotics, Autonomous Vehicles</h3>
+	</header>
+	
+	<div class = 'w3-nav' style='margin-left: 20px'>
+		<!--
+		<button class='w3-btn w3-round w3-green' ng-click='View(1)'>Calendar</button>
+		-->
+		<button class='w3-btn w3-round w3-green' ng-click='View(2)'>Presentations</button>
+		<button class='w3-btn w3-round w3-green' ng-click='View(6)'>Data</button>
+		<button class='w3-btn w3-round w3-green' ng-click='View(3)'>Quisse</button>
+		<!--
+		<button class='w3-btn w3-round w3-green' ng-click='View(4)'>Bootcamps</button>
+		-->
+		<button class='w3-btn w3-round w3-green' ng-click='View(5)'>Registry</button>
+	</div>
+	
+	<section style='margin: 10px' ng-controller='welcomeCtrl' ng-show='view[0]'>
+		<div welcome></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='calendarCtrl' ng-show='view[1]'>
+		<div sept2017></div>
+		<div august2017></div>
+		<div july2017></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='presentationCtrl' ng-show='view[2]'>
+		<h3>Artificial Intelligence Training Presentations</h3>
+		<p>
+		All of the following training presentations are publicly available for use by others, and are licensed under the creative common terms CC-BY.
+		</p>
+		<h3 style='text-align: center'>
+		<a href='https://github.com/andrewferlitsch/Portland-Data-Science-Group/blob/master/Presentations/AI%20Training%20Syllabus.pptx' target='_blank' style='text-decoration: none'>Syllabus</a>
+		</h3>
+		<h4>Statistics</h4>
+		<div st-basic></div>
+		<div st-argmax></div>
+		<div st-softmax></div>
+		<h4>Machine Learning</h4>
+		<div ml-intro></div>
+		<div tensor-intro></div>
+		<div ml-dataset></div>
+		<div ml-split></div>
+		<div ml-categorical></div>
+		<div ml-decision></div>
+		<div ml-linear></div>
+		<div ml-mlinear></div>
+		<div ml-ensemble></div>
+		<div ml-accuracy></div>
+		<div py-numpy></div>
+		<div ml-nn></div>
+		<div ml-cnn></div>
+		<div ml-rnn></div>
+		<div ml-adv></div>
+		<h4>Natural Language Processing</h4>
+		<div nlp-intro></div>
+		<div nlp-narrative></div>
+		<div nlp-group></div>
+		<h4>Artifical Intelligence</h4>
+		<div ai-graph></div>
+		<div ai-greedy></div>
+		<div ai-hill></div>
+		<div ai-monty></div>
+		<div ml-percept></div>
+		<div ai-minmax></div>
+		<div ai-ab></div>
+		<div ai-assoc></div>
+		<div ai-bayes></div>
+		<h4>Robotics</h4>
+		<div rb-dynamic></div>
+		<div rb-agent></div>
+		<div rb-rlintro></div>
+		<div rb-markov></div>
+		<div rb-bellman></div>
+		<h4>Python</h4>
+		<div py-jupyter></div>
+		<div py-oop></div>
+		<h4>Programming</h4>
+		<div oop></div>
+		<div whiteboarding></div>
+		<h4>Quality Assurance</h4>
+		<div qa-pareto></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='dataCtrl' ng-show='view[6]'>
+		<div ontology></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='quisseCtrl' ng-show='view[3]'>
+		<div quisse></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='bootcampCtrl' ng-show='view[4]'>
+		<div bootcamp></div>
+	</section>
+	
+	<section style='margin: 10px' ng-controller='registryCtrl' ng-show='view[5]'>
+		<div registry></div>
+	</section>
+	
+	<footer style='text-align: center; margin-top: 20px;'>Copyright 2017(c), Andrew Ferlitsch</footer>
+	<br/>
+
+<script>
+var labs = angular.module( 'labs', []);
+labs.controller( 'labsCtrl', function( $scope, $window ) {
+	$scope.view = [];
+	$scope.Quisse = function() {
+		$window.location.href = 'http://www.quisse.com'
+	}
+	
+	$scope.View = function(page) {
+		$scope.view[0]=false;
+		$scope.view[1]=false;
+		$scope.view[2]=false;
+		$scope.view[3]=false;
+		$scope.view[4]=false;
+		$scope.view[5]=false;
+		$scope.view[6]=false;
+		$scope.view[page]=true;
+	}
+});
+</script>
+<script src='welcome.js'></script>
+<script src='calendar.js'></script>
+<script src='presentation.js'></script>
+<script src='quisse.js'></script>
+<script src='bootcamp.js'></script>
+<script src='registry.js'></script>
+<script src='data.js'></script>
+</body>
+</html>

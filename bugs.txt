@@ -1,0 +1,7 @@
+1. Login controls will overlap title when screen is small (mobile)
+
+9. Clear settings on search
+
+10. Search on Skills
+
+12.

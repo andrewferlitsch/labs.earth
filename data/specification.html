@@ -1,0 +1,3383 @@
+
+<style>
+.required { font-weight: bold; }
+.optional { font-style: italic; }
+.field { width: 25px; display: inline-block; }
+.field60 { width: 60px; display: inline-block; }
+.field70 { width: 70px; display: inline-block; }
+.field100 { width: 100px; display: inline-block; }
+.field170 { width: 170px; display: inline-block; }
+.field250 { width: 250px; display: inline-block; }
+.field370 { width: 370px; display: inline-block; }
+.desc  { width: 190px; display: inline-block; }
+.desc240  { width: 240px; display: inline-block; }
+.std { color: brown; }
+.example { color: brown; cursor: pointer; }
+.comment { color: green; }
+.divider { color: green; font-style: italic; }
+</style>
+
+<script>
+	function Expand( tag )
+	{
+		var tag = document.getElementById( tag );
+		if ( tag )
+		{
+			if ( tag.style.display == "none" )
+			{
+				tag.style.display = "inline";
+				tag.innerHTML == " - Show me an example.";
+			}
+			else
+			{
+				tag.style.display = "none";
+				tag.innerHTML == " + Show me an example";
+			}
+		}
+	}
+</script>
+<style>
+.site_links a:link
+{
+	text-decoration	: none;
+	color			: #0066FF;
+}
+.site_links a:visited
+{
+	text-decoration	: none;
+	color			: #0066FF;
+}
+</style>
+
+<div style="text-align: center">
+	<h3>CSV Universal Data Exchange for Geospatial Data (CUDE)</h3>
+	<h4>OpenGeoCode.Org - The open big data project</h4>
+	<h5>Specification: Version 1.2.5, November 22, 2014</h5>
+	
+	<h5>Use of the CUDE specification and associated tools for commercial use are subject to licensing from OpenGeoCode.Org. 
+	Academic institutions and others conducting non-commercial research are free to use the CUDE specification and associated tools free of charge for research only purposes. 
+	If you are interested in obtaining a license for commercial use, please contact us at license@opengeocode.org. 
+	<br/><br/>
+	The CUDE datasets provided on this site have been placed into the public domain and are free to use.
+	<br/><br/>
+	</h5>
+</div>
+
+<div>
+	<h4>1. Purpose</h4>
+	<p>
+	The purpose of CUDE is to provide a means for extracting, exchanging and importing data reliably and
+	accurately from national and international geospatial databases worldwide. Many of these databases have mandates,
+	either legislative or organizational, to make their data easily accessible for public use, free of charge.
+	</p>
+	<p>
+	As of yet, there is no single uniform method for accessing the data in bulk format for download. A myriad of
+	issues still exist that have impeded this public endeavor. We've encountered the following:
+	<ol>
+		<li>Data may only be available on a per record at a time using a text-based search.</li>
+		<li>Data may only be available via an excel spreadsheet or PDF document.</li>
+		<li>Data may be in old-style exchange formats, using inconsistent delimination:
+			<ul>
+				<li>Fixed Column Width</li>
+				<li>Tab deliminated</li>
+				<li>Pipe Symbol deliminated</li>
+			</ul>
+		</li>
+		<li>Data may not be indexed using non-standard codes vs. international standard, such as ISO 3166 codes for
+		countries and administrative subdivisions.
+		</li>
+		<li>Relevant data from the same entity may be spread across plural databases, with inconsistent
+		cross indexing.</li>
+		<li>Records may be historical, out-of-date, or not descriptive enough to identify its feature
+		designation accurately.</li>
+	</ol>
+	</p>
+</div>
+
+<div>
+	<h4>2. Methodology</h4>
+	<p>
+	[2.1] We propose using CSV (comma-separated-values) as a format for exchange. This has several advantages for
+	wide access to application developers of various skills and platforms:
+	<ul>
+		<li>Easy to parse and describe the fields.</li>
+		<li>Data can be imported/exported to/from spreadsheets.</li>
+		<li>Conventional databases accept CSV format for import.</li>
+		<li>Flat file structure can be read and visually parsed by people.</li>
+	</ul>
+	</p>
+	
+	<p>
+	[2.2] We further propose using the European standard for CSV where fields are deliminated by semi-colons (vs. commas).
+	This assists in avoiding parsing conflicts with postal addressing and set fields which commonly use commas as
+	separators. Use of semi-colons in data representation is fairly rare and provides a means for the least 
+	conflict between field separators and field values.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.2')" > + Show me an example</span>.
+	<div id="2.2" style="display:none">
+		<br/>
+		value1; value2; value3
+	</div>
+	</p>
+	
+	<p>
+	[2.3] We further propose that all integer values be represented in base ten as single numbers without thousandths unit
+	separators. This avoids parsing conflicts between conventions used in the United States (comma) 
+	and other countries (e.g., semi-colon).
+		
+	<br/><br/>
+	<span class="example" onclick="Expand('2.3')" > + Show me an example</span>.
+	<div id="2.3" style="display:none">
+		<br/>
+		1234; 40000; 99999
+	</div>
+	</p>
+	
+	<p>
+	[2.4] We further propose that all decimal numbers must have at least one digit before the decimal point. Thus
+	a number less than one would be represented with a leading '0.'. This assists in parsing in clearly
+	identifying the decimal point from a punctuation number. 
+	<br/><br/>
+	<span class="example" onclick="Expand('2.4')" > + Show me an example</span>.
+	<div id="2.4" style="display:none">
+		<br/>
+		0.001; 12.123; 16.45
+	</div>
+	</p>
+	
+	<p>
+	[2.5] We further propose all signed numbers be preceded by a single plus ('+') or minus ('-') sign with no whitespace
+	between the sign and the number. 
+	<br/><br/>
+	<span class="example" onclick="Expand('2.5')" > + Show me an example</span>.
+	<div id="2.5" style="display:none">
+		<br/>
+		+42; -32.6; -0.005
+	</div>
+	</p>
+	
+	<p>
+	[2.6] We further propose all numeric ranges be specified as a minimum and maximum value with a dash ('-') separating the
+	minimum and maximum values.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.6')" > + Show me an example</span>.
+	<div id="2.6" style="display:none">
+		<br/>
+		0-60 ; 100 - 2000 ; -0.01 - 0.01
+	</div>
+	</p>
+	
+	<p>
+	[2.7] We further propose all values in a set of values for a field be separated by a pipe symbol ('|'). We choose not to use a comma
+	due to the common occurence in values such as addresses and coordinates.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.7')" > + Show me an example</span>.
+	<div id="2.7" style="display:none">
+		<br/>
+		one|two|three ; four|five|six
+	</div>
+	</p>
+	
+	<p>
+	[2.8] We further propose all variant values for a field be separated by a forward slash ('/').			
+	<br/><br/>
+	<span class="example" onclick="Expand('2.8')" > + Show me an example</span>.
+	<div id="2.8" style="display:none">
+		<br/>
+		Tom / Thomas / Tommy ; Sue / Susan / Suzie
+	</div>
+	</p>
+	
+	<p>
+	[2.9] We further propose all coordinates be specified in decimal format (vs. degrees, minutes, seconds) which
+	simplifies parsing. Each coordinate is specified as a latitude and longitude pair separated by a comma (',').
+	<br/><br/>
+	<span class="example" onclick="Expand('2.9')" > + Show me an example</span>.
+	<div id="2.9" style="display:none">
+		<br/>
+		10.1, -170 ; 46.123, -120.019
+	</div>
+	</p>
+	
+	<p>
+	[2.9.1] We further propose a bounding box with a Northeast and Southwest corner is specified as a pair of coordinates (i.e., separated by '|').
+	<br/><br/>
+	<span class="example" onclick="Expand('2.9.1')" > + Show me an example</span>.
+	<div id="2.9.1" style="display:none">
+		<br/>
+		71.8 , 179.78 | 5.87 , -179.15
+	</div>
+	</p>
+	
+	<p>
+	[2.10] We further propose specifying all measurement units in metrics, which avoids confusion on the measurement
+	unit system.			
+	<br/><br/>
+	<span class="example" onclick="Expand('2.10')" > + Show me an example</span>.
+	<div id="2.10" style="display:none">
+		<br/>
+		meters vs. feet<br/>
+		square kilometers (km2) vs. square miles
+	</div>
+	</p>
+	
+	<p>
+	[2.11] We further propose all leading and trailing whitespace in a field value is ignored.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.11')" > + Show me an example</span>.
+	<div id="2.11" style="display:none">
+		<br/>
+		12 ; 123 ; &nbsp; &nbsp; <span class='comment'>is the same as</span> &nbsp; 12;123;
+	</div>
+	</p>
+	
+	<p>
+	[2.12] We further propose field qualifiers are added to the end of a field to designate some 
+	qualifier specific to the field. The supported global conventions will be:
+	<ul>
+		<li>[l:chars]	Used to designate a language qualifier (e.g., [l:es] for Spanish).</li>
+		<li>[c:number]	Used to designate a citation note (e.g. [c:2]).</li>
+		<li>[u:unit]	Used to designage a unit multipler (e.g., [u:K] for Thousand). <sup>Added Nov. 1, 2013</sup></li>
+		<li>[$:currency] Used to designate the currency of a monetary value. Uses the ISO-4127 standard for currency symbols. <sup>Added Nov. 6, 2013</sup></li>
+		<li>[~]			Used to designate an estimate (i.e., [~]).</li>
+	</ul>
+	Valid unit qualifiers are:<br/>
+	<ul>
+	 	<li>K <span class='comment'>Thousand</span></li>
+	 	<li>M <span class='comment'>Million</span></li>
+	 	<li>B <span class='comment'>Billion</span></li>
+	 	<li>T <span class='comment'>Trillion</span></li>
+		<li>KHa <span class='comment'>1000 Hectare</span></li>
+		<li>SQM <span class='comment'>Square Meters</span></li>
+	</ul>
+	<span class="example" onclick="Expand('2.12')" > + Show me an example</span>.
+	<div id="2.12" style="display:none">
+		<br/><br/>
+		Estados Unidos de Am&#233;rica[l:es]		<span class='comment'># language qualifier</span><br/>
+		30000[~]	<span class='comment'># estimate qualiier</span><br/>
+		2009[c:13] <span class='comment'># citation note qualifier</span><br/>
+		104[u:K] <span class='comment'># unit qualifier</span>
+	</div>
+	</p>
+
+	<p>
+	[2.13] We further propose qualifier annotations are added to the end of the qualifier term to designate some 
+	a numeric domain. The supported global conventions will be:
+	<ul>
+		<li>% <span class="comment">Percent</span></li>
+		<li>* <span class="comment">Per Person (Capita)</span></li>
+		<li>** <span class="comment">Per 1K Persons</span></li>
+		<li>*** <span class="comment">Per 100K Persons</span></li>
+		<li>^ <span class="comment">Per Hectacre</span></li>
+		<li>+ <span class="comment">Male</span></li>
+		<li>- <span class="comment">Female</span></li>
+	</ul>
+	<span class="example" onclick="Expand('2.13')" > + Show me an example</span>.
+	<div id="2.13" style="display:none">
+		<br/><br/>
+		30000[rural+]	<span class='comment'># male domain to rural qualiier</span><br/>
+		6.2[death%] <span class='comment'># percent domain to death qualifier</span><br/>
+		11[deathm**] <span class='comment'># per 100K domain to maternal mortality qualifier</span>
+	</div>
+	</p>
+	
+	<p>
+	[2.14] We further propose a # is used to indicate a commnent line that extends to the end of the line.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.14')" > + Show me an example</span>.
+	<div id="2.14" style="display:none">
+		<br/>
+		<span class='comment'># this whole line is a comment</span><br/>
+		field1; field2; <span class='comment'># the remainder of this line is a comment</span>
+	</div>
+	</p>
+	
+	<p>
+	[2.15] We additionally propose a fixed order of fields in the CSV file; whereby the fields can concisely
+	and comprehensively describe features that are geographic, business, people, animals, etc.		
+	<br/><br/>
+	<span class="example" onclick="Expand('2.15')" > + Show me an example</span>.
+	<div id="2.15" style="display:none">
+		<br/>
+		field1; field2; field3;....
+	</div>
+	</p>
+	
+	<p>
+	[2.16] We further propose that the fields are segmented into ordered segments with a fixed order sequence per
+	segment.	
+	<br/><br/>
+	<span class="example" onclick="Expand('2.16')" > + Show me an example</span>.
+	<div id="2.16" style="display:none">
+		<br/>
+		segment1; segment2; segment3; ...<br>
+		where segment = field1; field2; field3; ....
+	</div>
+	</p>
+	
+	<p>
+	[2.17] We further propose that the sequence starts with a root segment; whereby, the root segment identifies
+	the country and first level administrative division, using ISO 3166 codes, that the feature relates to,
+	and feature classifications identifying the nature of the feature.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.17')" > + Show me an example</span>.
+	<div id="2.17" style="display:none">
+		<br/>
+		root-segment; segment2; segment3; ...
+	</div>
+	</p>
+	
+	<p>
+	[2.18] We further propose that the root segment is followed by a location segment whereby, the location
+	segment provides geographic coordinate on where on a map to place the feature and area scope of the feature.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.18')" > + Show me an example</span>.
+	<div id="2.18" style="display:none">
+		<br/>
+		root-segment; location-segment; segment3; ...
+	</div>
+	</p>
+	
+	<p>
+	[2.19] We further propse that the location segment is followed by a name segment; whereby, the name segment
+	provides name identification(s) of the feature specific to the local language of the location or
+	root segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.19')" > + Show me an example</span>.
+	<div id="2.19" style="display:none">
+		<br/>
+		root-segment; location-segment; name-segment3; segment4; ...
+	</div>
+	</p>
+	
+	<p>
+	[2.20] We further propose that all name values be written in their proper case and character set.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.20')" > + Show me an example</span>.
+	<div id="2.20" style="display:none">
+		<br/>
+		&#201;tats-Unis d'Am&#233;rique 	<span class='comment'># proper noun capitalization and character set for French</span>
+	</div>
+	</p>
+	
+	<p>
+	[2.21] We further propose that all name values be written as UTF-8 Unicode characters to support latin-based,
+	cyrillic and asian eastern based character sets.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.21')" > + Show me an example</span>.
+	<div id="2.21" style="display:none">
+		<br/>
+		Ka&#1085;a&#1076;a 	<span class='comment'># Russian cyrillic characters</span>
+	</div>
+	</p>
+
+	<p>
+	[2.22] We further propose that language identification is identified using ISO 639 language codes.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.22')" > + Show me an example</span>.
+	<div id="2.22" style="display:none">
+		<br/>
+		en 	<span class='comment'># English</span><br/>
+		es 	<span class='comment'># Spanish</span><br/>
+		fr 	<span class='comment'># French</span>
+	</div>
+	</p>
+	
+	<p>
+	[2.23] We further propose that the root, location and name segments are required in all records, and all
+	remaining segments are optional.
+	<br/><br/>
+	<span class="example" onclick="Expand('2.23')" > + Show me an example</span>.
+	<div id="2.23" style="display:none">
+		<br/>
+		root-segment; location-segment; name-segment;	<span class='comment'># Required segments</span><br/>
+		root-segment; location-segment; name-segment; segment4; ... <span class='comment'># Required followed by optional segments</span><br/>
+	</div>
+	</p>
+	
+	<p>
+	[2.24] We further propose that requirements 2.1 to 2.23 must be meet for compliance to the base standard.
+	</p>
+</div>
+
+<div>
+	<h4>3. Specification</h4>
+	
+	<h4>3.1 Layout</h4>
+	<p>
+	[3.1.1] The layout of segments in the CSV file is all follows, where <span class="required">bold</span> are
+	required and <span class="optional">italic</span> are optional segments:
+	<blockquote>
+		<span class="required">Root</span>
+		&nbsp; <span class="required">Location</span> 
+		&nbsp; <span class="required">Name</span>
+		&nbsp; <span class="optional">Address</span>
+		&nbsp; <span class="optional">Contact</span>
+		&nbsp; <span class="optional">Population</span>
+		&nbsp; <span class="optional">Resource</span>
+		&nbsp; <span class="optional">Scope</span>
+		&nbsp; <span class="optional">Extended</span>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.1.2] Preceding segments must be specified for any optional segment specified. For example, if 
+	<span class="optional">Contact</span> segment is specified, then the preceding 
+	<span class="optional">Address</span> segment must be specified.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.1.2')" > + Show me an example</span>.
+	<div id="3.1.2" style="display:none">
+		<br/>
+		<span class="required">Root</span>
+		&nbsp; <span class="required">Location</span> 
+		&nbsp; <span class="required">Name</span>
+		&nbsp; <span class="optional">Address</span>
+		&nbsp; <span class="optional">Contact</span>
+		&nbsp; <span class="comment"># Valid</span>
+		<br/>
+		<span class="required">Root</span>
+		&nbsp; <span class="required">Location</span> 
+		&nbsp; <span class="required">Name</span>
+		&nbsp; <span class="optional">Contact</span>
+		&nbsp; <span class="comment"># Invalid, Address segment does not proceed Contact</span><br/>
+	</div>
+	</p>
+	
+	<h4>3.2 Root</h4>
+	<p>
+	[3.2.1] The root segment has the following field sequence:
+	<blockquote>
+		CC ; SC ; <span class="optional">ADM2</span>; <span class="optional">LOCODE</span>; FC ; FD ; <span class="optional">FX</span> ; <span class="optional">ID</span> ;<br/>
+		<br/>
+		<span class="field">CC</span> = <span class="desc240">Country Code</span>							<span class="std">ISO 3166-1 alpha 2 (2-letter) code</span>.<br/>
+		<span class="field">SC</span> = <span class="desc240">Subdivision Code</span>						<span class="std">ISO 3166-2:2007 (2 or 3-letter) subdivision code</span>.<br/>
+		<span class="optional">ADM2&nbsp;</span> = <span class="desc240">2nd Level Administrative Division Code</span> <span class="std">No international standard code</span><br/>
+		<span class="optional">LOCODE</span> = <span class="desc240">Trade and Transport Location</span> 	<span class="std">UN/LOCODE code</span><br/>
+		<span class="field">FC</span> = <span class="desc240">Feature Class</span>							<span class="std">NGA Geonet Server GNS Feature Class (FC)</span><br/>
+		<span class="field">FD</span> = <span class="desc240">Feature Designation Code</span>				<span class="std">NGA Geonet Server GNS Feature Designation (DSG)</span><br/>
+		<span class="optional">FX&nbsp;</span> = <span class="desc240">Feature Description Extension</span>		<span class="std">Proprietary Extension</span><br/>
+		<span class="optional">ID&nbsp;</span> = <span class="desc240">Feature Identifier</span>					<span class="std">Dataset(s) specific uniquer identifier for featuire</span><br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.2.2] All field values are required, except the A2, MC, FX and ID fields. Those fields may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.2')" > + Show me an example</span>.
+	<div id="3.2.2" style="display:none">
+		<br/>
+		US ; CA ; <span class="optional">037[fips]</span>; <span class="optional">LAX[iata]</span> ; P ; PPL ; <span class="optional">city</span> ; <span class="optional"> 201334[gnis]</span> ;
+	</div>
+	</p>
+	
+	<p>
+	[3.2.3] CC is the International Standard Organization (ISO) 3166-1 alpha-2 standard for the assignment of 2-letter codes to
+	countries, dependencies and territories recognized by the United Nations. <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists.htm" target="_blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.3')" > + Show me an example</span>.
+	<div id="3.2.3" style="display:none">
+		<br/>
+		US = <span class="std">United States</span><br/>
+		CA = <span class="std">Canada</span><br/>
+		MX = <span class="std">Mexico</span>
+	</div>
+	</p>
+	
+	[3.2.3.1] All CC values may be appended with one of or more of the following qualifiers enclosed within
+	brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.3.1a')" > + Show me the qualifiers</span>.
+	<div id="3.2.3.1a" style="display:none">
+	<blockquote>
+		a3 = <span class="std">ISO 3166-1 alpha-3 country code</span><br/>
+		n3 = <span class="std">ISO 3166-1 numeric-3 country code</span><br/>
+		n3r = <span class="std">ISO 3166-1 numeric macro geographical (continental) region code</span><br/>
+		n3s = <span class="std">ISO 3166-1 numeric geographical sub-region code</span><br/>
+		fips  = <span class="std">US FIPS 10-4 country code</span><br/>
+	</blockquote>
+	</div><br/>
+	<span class="example" onclick="Expand('3.2.3.1b')" > + Show me an example</span>.
+	<div id="3.2.3.1b" style="display:none">
+	<blockquote>
+		US|USA[a3]|840[n3]|US[fips]
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.4] SC is the International Standard Organization (ISO) 3166-2:2007 standard for the assignment of 2 and 3 letter codes to
+	first level administrative divisions (subdivisions) of the countries, dependencies and territories recognized by the United Nations. 
+	<a href="http://www.iso.org/iso/country_codes/background_on_iso_3166/iso_3166-2.htm">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.4')" > + Show me an example</span>.
+	<div id="3.2.4" style="display:none">
+		<br/>
+		NY = <span class="std">New York, US</span><br/>
+		BC = <span class="std">British Columbia, CA</span><br/>
+		ACT = <span class="std">Australian Capital Territory, AU</span><br/>
+	</div>
+	</p>
+	
+	[3.2.4.1] All SC values may be appended with one of or more of the following qualifiers enclosed within
+	brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.4.1a')" > + Show me the qualifiers</span>.
+	<div id="3.2.4.1a" style="display:none">
+	<blockquote>
+		fips  = <span class="std">US FIPS 5-2 state code</span><br/>
+		conv  = <span class="std">Country specific conventional abbreviation</span><br/>
+	</blockquote>
+	</div><br/>
+	<span class="example" onclick="Expand('3.2.4.1b')" > + Show me an example</span>.
+	<div id="3.2.4.1b" style="display:none">
+	<blockquote>
+		NY|36[fips]
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.5] A2 is for codes identiying 2nd level administrative divisions. There is no standard code for the base.
+	</p>
+	
+	[3.2.5.1] All A2 values may be appended with one of or more of the following qualifiers enclosed within
+	brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.5.1a')" > + Show me the qualifiers</span>.
+	<div id="3.2.5.1a" style="display:none">
+	<blockquote>
+		fips  = <span class="std">US FIPS 6-4 (INCITS 31:200x) county code</span><br/>
+	</blockquote>
+	</div><br/>
+	<span class="example" onclick="Expand('3.2.5.1b')" > + Show me an example</span>.
+	<div id="3.2.5.1b" style="display:none">
+	<blockquote>
+		047[fips]
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.6] LOCODE is the United Nations Code for Trade and Transport Locations for locations which function as
+	seaports, rail and road terminals, airports, post offices and border crossings <a href="http://www.unece.org/cefact/locode/service/location.html" target="_blank">citation</a>.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.6a')" > + Show me the qualifiers</span>.
+	<div id="3.2.6a" style="display:none">
+	<blockquote>
+		fips  = <span class="std">US FIPS 55-3 code for named populated place</span><br/>
+		iata  = <span class="std">International Air Transport Association code</span><br/>
+		icao  = <span class="std">International Civil Aviation Organization code</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.2.6b')" > + Show me an example</span>.
+	<div id="3.2.6b" style="display:none">
+	<blockquote>
+		<span class="field170">LAX|SNA[iata]</span>	<span class="comment"># Los Angeles (LOCODE) | John Wayne Airport (IATA)</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.7] FC is the National Geospatial Intelligence Agency (NGA) Geonet Server single letter designator for the feature
+	class of the corresponding feature.<a href="http://earth-info.nga.mil/gns/html/gis_countryfiles.html" target="_blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.7')" > + Show me the codes</span>.
+	<div id="3.2.7" style="display:none">
+	<blockquote>
+		A = <span class="std">Administrative region type feature</span><br/>
+		P = <span class="std">Populated place type feature</span> <br/>
+		V = <span class="std">Vegetation type feature</span> <br/>
+		L = <span class="std">Locality or area type feature</span> <br/>
+		U = <span class="std">Undersea type feature</span> <br/>
+		R = <span class="std">Streets, highways, roads, or railroad type feature</span> <br/>
+		T = <span class="std">Hypsographic type feature</span> <br/>
+		H = <span class="std">Hydrographic type feature</span> <br/>
+		S = <span class="std">Spot type feature</span><br/>
+		M = <span class="std">Mobile Features (non-NGA class)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8] FD is the National Geospatial Intelligence Agency (NGA) Geonet Server two to six character string for the
+	feature designation code of the corresponding feature. <a href="http://earth-info.nga.mil/gns/html/gis_countryfiles.html" target="_blank">citation</a>
+	</p>
+	
+	<p>
+	[3.2.8.1] The following are the feature designation codes (FD) of administrative region type features (A):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.1')" > + Show me the codes</span>.
+	<div id="3.2.8.1" style="display:none">
+	<blockquote>
+		<span class="field70">ADM1</span> = <span class="std">first level administrative division</span><br/>
+		<span class="field70">ADM2</span> = <span class="std">second level administrative division</span><br/>
+		<span class="field70">ADM3</span> = <span class="std">third level administrative division</span><br/>
+		<span class="field70">ADM4</span> = <span class="std">fourth level administrative division</span><br/>
+		<span class="field70">ADMD</span> = <span class="std">administrative division, unsecified level</span><br/>
+		<span class="field70">ADMR</span> = <span class="std">religious administrative division (non-NGA value)</span><br/>
+		<span class="field70">CDP</span> = <span class="std">census designated place (~ADM2, non-NGA value)</span><br/>
+		<span class="field70">CNTT</span> = <span class="std">Continental Region (non-NGA value)</span><br/>
+		<span class="field70">DTER</span> = <span class="std">disputed territory (non-NGA value)</span><br/>
+		<span class="field70">ECGR</span> = <span class="std">Economic Grouping (non-NGA value)</span><br/>
+		<span class="field70">LTER</span> = <span class="std">leased territory</span><br/>
+		<span class="field70">PCL</span> = <span class="std">political entity (i.e., country)</span><br/>
+		<span class="field70">PCLD</span> = <span class="std">dependent political entity</span><br/>
+		<span class="field70">PCLF</span>  = <span class="std">freely associated state</span><br/>
+		<span class="field70">PCLI</span> = <span class="std">independent political entity</span><br/>
+		<span class="field70">PCLIX</span> = <span class="std">section of independent political entity</span><br/>
+		<span class="field70">PCLS</span> = <span class="std">semi-independent political entity</span><br/>
+		<span class="field70">PCLU</span> = <span class="std">union of political entities (e.g., European Union, non-NGA value)</span><br/>
+		<span class="field70">PCLW</span> = <span class="std">world, note (non-NGA value)</span><br/>
+		<span class="field70">SBA</span>  = <span class="std">sovereign base area, (non-NGA value)</span><br/>
+		<span class="field70">TERR</span> = <span class="std">territory</span><br/>
+		<span class="field70">VOTF</span> = <span class="std">federal voting district (e.g., congressional district, non-NGA value)</span><br/>
+		<span class="field70">VOTA</span> = <span class="std">administrative voting district (e.g., state legislative district, non-NGA value)</span><br/>
+		<span class="field70">WRG</span>  = <span class="std">wildlife refuge (non-NGA value)</span><br/>
+		<span class="field70">ZN</span> = <span class="std">zone (e.g., international zone)</span><br/>
+		<span class="field70">ZNB</span> = <span class="std">zone buffer (e.g., demilitarized zone)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.2] The following are the feature designation codes (FD) of populated place type features (P):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.2')" > + Show me the codes</span>.
+	<div id="3.2.8.2" style="display:none">
+	<blockquote>
+		<span class="field70">PPL</span> = <span class="std">populated place</span><br/>
+		<span class="field70">PPLA</span> = <span class="std">seat of first level administrative division</span><br/>
+		<span class="field70">PPLA2</span> = <span class="std">seat of second level administrative division</span><br/>
+		<span class="field70">PPLA3</span> = <span class="std">seat of third level administrative division</span><br/>
+		<span class="field70">PPLA4</span> = <span class="std">seat of fourth level administrative division</span><br/>
+		<span class="field70">PPLC</span> = <span class="std">capital of political entity</span><br/>
+		<span class="field70">PPLF</span> = <span class="std">populated farm</span><br/>
+		<span class="field70">PPLL</span> = <span class="std">populated locality</span><br/>
+		<span class="field70">PPLQ</span> = <span class="std">abandoned populated place</span><br/>
+		<span class="field70">PPLR</span> = <span class="std">religious populated place</span><br/>
+		<span class="field70">PPLS</span> = <span class="std">populated places</span><br/>
+		<span class="field70">PPPC</span> = <span class="std">postal code area (non-NGA value)</span><br/>
+		<span class="field70">STLMT</span> = <span class="std">settlement (e.g., Israeli settlement)</span><br/>
+		<span class="field70">CCD</span> = <span class="std">census county division (~ADM3, non-NGA value)</span><br/>
+		<span class="field70">MCD</span> = <span class="std">minor civil division (~ADM3, non-NGA value) -
+		<a href="http://www.census.gov/geo/reference/gtc/gtc_cousub.html" target="_blank">citation</a></span><br/>
+		<span class="field70">UUT</span> = <span class="std">unincorporated unorganized territory (non-NGA value) - 
+		<a href="https://www.census.gov/geo/www/cob/cs_metadata.html" target="_blank">citation</a></span><br/>
+		<span class="field70">AIR</span> = <span class="std">american indian reservation (non-NGA value)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.3] The following are the feature designation codes (FD) of vegetation type features (V):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.3')" > + Show me the codes</span>.
+	<div id="3.2.8.3" style="display:none">
+	<blockquote>
+		<span class="field70">BUSH</span> = <span class="std">bush(es) (e.g., brush)</span><br/>
+		<span class="field70">CULT</span> = <span class="std">cultivated area</span><br/>
+		<span class="field70">FRST</span> = <span class="std">forest(s)</span><br/>
+		<span class="field70">FRSTF</span> = <span class="std">fossilized forest</span><br/>
+		<span class="field70">GRSLD</span> = <span class="std">grasslands</span><br/>
+		<span class="field70">GRVC</span> = <span class="std">coconut grove</span><br/>
+		<span class="field70">GRVO</span> = <span class="std">olive grove</span><br/>
+		<span class="field70">GRVP</span> = <span class="std">palm grove</span><br/>
+		<span class="field70">GRVPN</span> = <span class="std">pine grove</span><br/>
+		<span class="field70">HTH</span> = <span class="std">heath</span><br/>
+		<span class="field70">MDW</span> = <span class="std">meadow</span><br/>
+		<span class="field70">OCH</span> = <span class="std">orchards</span><br/>
+		<span class="field70">SCRB</span> = <span class="std">scrubland</span><br/>
+		<span class="field70">TREE</span> = <span class="std">tree(s)</span><br/>
+		<span class="field70">TUND</span> = <span class="std">tundra</span><br/>
+		<span class="field70">VIN</span> = <span class="std">vinyard</span><br/>
+		<span class="field70">VINS</span> = <span class="std">vinyards</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.4] The following are the feature designation codes (FD) of locality type features (L):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.4')" > + Show me the codes</span>.
+	<div id="3.2.8.4" style="display:none">
+	<blockquote>
+		<span class="field70">AGRC</span> = <span class="std">agriculture colony</span><br/>
+		<span class="field70">AREA</span> = <span class="std">area</span><br/>
+		<span class="field70">BSND</span> = <span class="std">drainage basin</span><br/>
+		<span class="field70">BSNP</span> = <span class="std">petroleum basin</span><br/>
+		<span class="field70">BTL</span> = <span class="std">battlefield</span><br/>
+		<span class="field70">CLG</span> = <span class="std">clearing</span><br/>
+		<span class="field70">CMN</span> = <span class="std">common</span><br/>
+		<span class="field70">CNS</span> = <span class="std">concession area</span><br/>
+		<span class="field70">COLF</span> = <span class="std">coalfield</span><br/>
+		<span class="field70">CTRB</span> = <span class="std">business center</span><br/>
+		<span class="field70">DEVH</span> = <span class="std">housing development</span><br/>
+		<span class="field70">FLD</span> = <span class="std">field(s)</span><br/>
+		<span class="field70">FLDI</span> = <span class="std">irrigated field(s)</span><br/>
+		<span class="field70">GASF</span> = <span class="std">gas field(s)</span><br/>
+		<span class="field70">GRAZ</span> = <span class="std">grazing area</span><br/>
+		<span class="field70">GVL</span> = <span class="std">gravel area</span><br/>
+		<span class="field70">INDS</span> = <span class="std">industrial area</span><br/>
+		<span class="field70">LAND</span> = <span class="std">artic land</span><br/>
+		<span class="field70">LCTY</span> = <span class="std">locality</span><br/>
+		<span class="field70">MILB</span> = <span class="std">military base</span><br/>
+		<span class="field70">MNA</span> = <span class="std">mining area</span><br/>
+		<span class="field70">MVA</span> = <span class="std">maneuvor area</span><br/>
+		<span class="field70">NVB</span> = <span class="std">naval base</span><br/>
+		<span class="field70">OAS</span> = <span class="std">oasis(-es)</span><br/>
+		<span class="field70">OILF</span> = <span class="std">oilfield</span><br/>
+		<span class="field70">PEAT</span> = <span class="std">peat cutting area</span><br/>
+		<span class="field70">PRK</span> = <span class="std">park</span><br/>
+		<span class="field70">PRT</span> = <span class="std">port</span><br/>
+		<span class="field70">QCKS</span> = <span class="std">quicksand</span><br/>
+		<span class="field70">REP</span> = <span class="std">republic</span><br/>
+		<span class="field70">RES</span> = <span class="std">reserve</span><br/>
+		<span class="field70">RESA</span> = <span class="std">agriculture reserve</span><br/>
+		<span class="field70">RESF</span> = <span class="std">forest reserve</span><br/>
+		<span class="field70">RESH</span> = <span class="std">hunting reserve reserve</span><br/>
+		<span class="field70">RESN</span> = <span class="std">nature reserve</span><br/>
+		<span class="field70">RESP</span> = <span class="std">palm tree reserve</span><br/>
+		<span class="field70">RESV</span> = <span class="std">reservation (e.g., US indian reservation)</span><br/>
+		<span class="field70">RESW</span> = <span class="std">wildlife reserve</span><br/>
+		<span class="field70">RGN</span> = <span class="std">region</span><br/>
+		<span class="field70">RGNE</span> = <span class="std">economic region</span><br/>
+		<span class="field70">RGNL</span> = <span class="std">lake region</span><br/>
+		<span class="field70">RNGA</span> = <span class="std">artillery range</span><br/>
+		<span class="field70">SALT</span> = <span class="std">salt area</span><br/>
+		<span class="field70">SNOW</span> = <span class="std">snow field</span><br/>
+		<span class="field70">TRB</span> = <span class="std">tribal</span><br/>																																											
+		<span class="field70">WTRF</span> = <span class="std">waterfront (non-NGA value)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.5] The following are the feature designation codes (FD) of undersea type features (U):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.5')" > + Show me the codes</span>.
+	<div id="3.2.8.5" style="display:none">
+	<blockquote>
+		<span class="field70">APNU</span> = <span class="std">undersea apron</span><br/>
+		<span class="field70">ARCU</span> = <span class="std">undersea arch</span><br/>
+		<span class="field70">ARRU</span> = <span class="std">undersea arrugado</span><br/>
+		<span class="field70">BDLU</span> = <span class="std">undersea borderland</span><br/>
+		<span class="field70">BKSU</span> = <span class="std">undersea banks</span><br/>
+		<span class="field70">BNCU</span> = <span class="std">undersea bench</span><br/>
+		<span class="field70">BNKU</span> = <span class="std">undersea bank</span><br/>
+		<span class="field70">BSNU</span> = <span class="std">undersea basin</span><br/>
+		<span class="field70">CDAU</span> = <span class="std">undersea cordillera</span><br/>
+		<span class="field70">CNYU</span> = <span class="std">undersea canyon</span><br/>
+		<span class="field70">CRSU</span> = <span class="std">contintental rise</span><br/>
+		<span class="field70">DEPU</span> = <span class="std">deep</span><br/>
+		<span class="field70">EDGU</span> = <span class="std">undersea shelf edge</span><br/>
+		<span class="field70">ESCU</span> = <span class="std">undersea escarpment (or scrap)</span><br/>
+		<span class="field70">FANU</span> = <span class="std">undersea fan</span><br/>
+		<span class="field70">FTLU</span> = <span class="std">undersea flat</span><br/>
+		<span class="field70">FRKU</span> = <span class="std">undersea fork</span><br/>
+		<span class="field70">FRSU</span> = <span class="std">undersea forks</span><br/>
+		<span class="field70">FRZU</span> = <span class="std">undersea fracture zone</span><br/>
+		<span class="field70">FURU</span> = <span class="std">undersea furrow</span><br/>
+		<span class="field70">GAPU</span> = <span class="std">undersea gap</span><br/>
+		<span class="field70">GYLU</span> = <span class="std">undersea gully</span><br/>
+		<span class="field70">HLLU</span> = <span class="std">undersea hill</span><br/>
+		<span class="field70">HLSU</span> = <span class="std">undersea hills</span><br/>
+		<span class="field70">HOLU</span> = <span class="std">undersea hole</span><br/>
+		<span class="field70">KNLU</span> = <span class="std">undersea knoll</span><br/>
+		<span class="field70">KNSU</span> = <span class="std">undersea knolls</span><br/>
+		<span class="field70">LDGU</span> = <span class="std">undersea ledge</span><br/>
+		<span class="field70">LEVU</span> = <span class="std">undersea levee</span><br/>
+		<span class="field70">MDVU</span> = <span class="std">undersea median valley</span><br/>
+		<span class="field70">MESU</span> = <span class="std">undersea mesa</span><br/>
+		<span class="field70">MNDU</span> = <span class="std">undersea mound</span><br/>
+		<span class="field70">MOTU</span> = <span class="std">undersea moat</span><br/>
+		<span class="field70">MTSU</span> = <span class="std">undersea mountains</span><br/>
+		<span class="field70">MTU</span> = <span class="std">undersea mountain</span><br/>
+		<span class="field70">PKSU</span> = <span class="std">undersea peaks</span><br/>
+		<span class="field70">PKLU</span> = <span class="std">undersea peak</span><br/>
+		<span class="field70">PLFU</span> = <span class="std">undersea platform</span><br/>
+		<span class="field70">PLNU</span> = <span class="std">undersea plain</span><br/>
+		<span class="field70">PLTU</span> = <span class="std">undersea plateau</span><br/>
+		<span class="field70">PNLU</span> = <span class="std">undersea pinnacle</span><br/>
+		<span class="field70">PRVU</span> = <span class="std">undersea province</span><br/>
+		<span class="field70">RAVU</span> = <span class="std">undersea ravin</span><br/>
+		<span class="field70">RDGU</span> = <span class="std">undersea ridge</span><br/>
+		<span class="field70">RFU</span> = <span class="std">undersea reefs</span><br/>
+		<span class="field70">RISU</span> = <span class="std">undersea rise</span><br/>
+		<span class="field70">RMPU</span> = <span class="std">undersea ramp</span><br/>
+		<span class="field70">RNGU</span> = <span class="std">undersea range</span><br/>
+		<span class="field70">SCNU</span> = <span class="std">seachannel</span><br/>
+		<span class="field70">SCSU</span> = <span class="std">seachannels</span><br/>
+		<span class="field70">SDLU</span> = <span class="std">undersea saddle</span><br/>
+		<span class="field70">SHFU</span> = <span class="std">undersea shelf</span><br/>
+		<span class="field70">SHLU</span> = <span class="std">undersea shoal</span><br/>
+		<span class="field70">SHSU</span> = <span class="std">undersea shoals</span><br/>
+		<span class="field70">SHFU</span> = <span class="std">undersea shelf</span><br/>
+		<span class="field70">SHFU</span> = <span class="std">undersea shelf</span><br/>
+		<span class="field70">SHVU</span> = <span class="std">undersea shelf valley</span><br/>
+		<span class="field70">SILU</span> = <span class="std">undersea sill</span><br/>
+		<span class="field70">SLPU</span> = <span class="std">undersea slope</span><br/>
+		<span class="field70">SMSU</span> = <span class="std">seamounds</span><br/>
+		<span class="field70">SMU</span> = <span class="std">seamound</span><br/>
+		<span class="field70">SPRU</span> = <span class="std">undersea spur</span><br/>
+		<span class="field70">TERU</span> = <span class="std">undersea terrace</span><br/>
+		<span class="field70">TMSU</span> = <span class="std">tablemounts (or guyots)</span><br/>
+		<span class="field70">TMTU</span> = <span class="std">tablemount (or guyot)</span><br/>
+		<span class="field70">TNGU</span> = <span class="std">undersea tongue</span><br/>
+		<span class="field70">TRGU</span> = <span class="std">undersea trough</span><br/>
+		<span class="field70">TRNU</span> = <span class="std">undersea trench</span><br/>
+		<span class="field70">UFHU</span> = <span class="std">historical undersea feature</span><br/>
+		<span class="field70">VALU</span> = <span class="std">undersea valley</span><br/>
+		<span class="field70">VLSU</span> = <span class="std">undersea valleys</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.6] The following are the feature designation codes (FD) of street, highways, roads or railroads type features (R):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.6')" > + Show me the codes</span>.
+	<div id="3.2.8.6" style="display:none">
+	<blockquote>
+		<span class="field70">CSWY</span> = <span class="std">causeway</span><br/>
+		<span class="field70">OILP</span> = <span class="std">oil pipeline</span><br/>
+		<span class="field70">PRMN</span> = <span class="std">promenade</span><br/>
+		<span class="field70">PTGE</span> = <span class="std">portage</span><br/>
+		<span class="field70">RD</span> = <span class="std">road</span><br/>
+		<span class="field70">RDA</span> = <span class="std">ancient road</span><br/>
+		<span class="field70">RDB</span> = <span class="std">road bend</span><br/>
+		<span class="field70">RDCUT</span> = <span class="std">road cut</span><br/>
+		<span class="field70">RDJCT</span> = <span class="std">road junction</span><br/>
+		<span class="field70">RR</span> = <span class="std">railroad</span><br/>
+		<span class="field70">RTE</span> = <span class="std">caravan route</span><br/>
+		<span class="field70">RYD</span> = <span class="std">railroad yard</span><br/>
+		<span class="field70">ST</span> = <span class="std">street</span><br/>
+		<span class="field70">STKR</span> = <span class="std">stock route</span><br/>
+		<span class="field70">TNL</span> = <span class="std">tunnel</span><br/>	
+		<span class="field70">TNLN</span> = <span class="std">natural tunnel</span><br/>	
+		<span class="field70">TNLRD</span> = <span class="std">road tunnel</span><br/>	
+		<span class="field70">TNLRR</span> = <span class="std">railroad tunnel</span><br/>
+		<span class="field70">TRL</span> = <span class="std">trail</span><br/>			
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.7] The following are the feature designation codes (FD) of hypsographic type features (T):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.7')" > + Show me the codes</span>.
+	<div id="3.2.8.7" style="display:none">
+	<blockquote>
+		<span class="field70">ASPH</span> = <span class="std">asphalt lake</span><br/>
+		<span class="field70">ATOL</span> = <span class="std">atoll(s)</span><br/>	
+		<span class="field70">BAR</span> = <span class="std">bar</span><br/>	
+		<span class="field70">BCH</span> = <span class="std">beach</span><br/>	
+		<span class="field70">BDLD</span> = <span class="std">badlands</span><br/>	
+		<span class="field70">BDLR</span> = <span class="std">boulder fields</span><br/>
+		<span class="field70">BLHL</span> = <span class="std">blow hole(s)</span><br/>
+		<span class="field70">BLOW</span> = <span class="std">blow(s)</span><br/>	
+		<span class="field70">BNCH</span> = <span class="std">bench</span><br/>	
+		<span class="field70">BUTE</span> = <span class="std">butte(s)</span><br/>	
+		<span class="field70">CAPE</span> = <span class="std">cape</span><br/>
+		<span class="field70">CFT</span> = <span class="std">cleft(s)</span><br/>	
+		<span class="field70">CLDA</span> = <span class="std">caldera</span><br/>	
+		<span class="field70">CLF</span> = <span class="std">cliff(s)</span><br/>	
+		<span class="field70">CNYN</span> = <span class="std">canyon</span><br/>	
+		<span class="field70">CONE</span> = <span class="std">cone(s)</span><br/>
+		<span class="field70">CRDR</span> = <span class="std">corridor</span><br/>	
+		<span class="field70">CRQ</span> = <span class="std">cirque</span><br/>		
+		<span class="field70">CRTR</span> = <span class="std">crator</span><br/>			
+		<span class="field70">CUET</span> = <span class="std">cuesta(s)</span><br/>		
+		<span class="field70">DLTA</span> = <span class="std">delta</span><br/>		
+		<span class="field70">DPR</span> = <span class="std">depression(s)</span><br/>		
+		<span class="field70">DSRT</span> = <span class="std">desert</span><br/>		
+		<span class="field70">DUNE</span> = <span class="std">dune(s)</span><br/>		
+		<span class="field70">DVD</span> = <span class="std">divide</span><br/>		
+		<span class="field70">ERG</span> = <span class="std">sandy desert</span><br/>		
+		<span class="field70">FAN</span> = <span class="std">fan(s)</span><br/>	
+		<span class="field70">FLT</span> = <span class="std">flat(s) (note: non-NGA)</span><br/>
+		<span class="field70">FORD</span> = <span class="std">ford</span><br/>		
+		<span class="field70">FSR</span> = <span class="std">fissure</span><br/>		
+		<span class="field70">GAP</span> = <span class="std">gap</span><br/>		
+		<span class="field70">GRGE</span> = <span class="std">gorge(s)</span><br/>			
+		<span class="field70">HDLD</span> = <span class="std">headland(s)</span><br/>			
+		<span class="field70">HLL</span> = <span class="std">hill</span><br/>			
+		<span class="field70">HMCK</span> = <span class="std">hammock(s)</span><br/>			
+		<span class="field70">HMDA</span> = <span class="std">rock desert</span><br/>			
+		<span class="field70">INTF</span> = <span class="std">interfluve</span><br/>			
+		<span class="field70">ISL</span> = <span class="std">island</span><br/>			
+		<span class="field70">ISLF</span> = <span class="std">artifical island</span><br/>			
+		<span class="field70">ISLM</span> = <span class="std">mangrove island</span><br/>				
+		<span class="field70">ISLT</span> = <span class="std">land-tied island</span><br/>			
+		<span class="field70">ISTH</span> = <span class="std">isthmus</span><br/>			
+		<span class="field70">KRST</span> = <span class="std">karst area</span><br/>			
+		<span class="field70">LAVA</span> = <span class="std">lava area</span><br/>			
+		<span class="field70">LEV</span> = <span class="std">levee</span><br/>			
+		<span class="field70">MESA</span> = <span class="std">mesa(s)</span><br/>			
+		<span class="field70">MND</span> = <span class="std">mound(s)</span><br/>			
+		<span class="field70">MRN</span> = <span class="std">moraine</span><br/>			
+		<span class="field70">MT</span> = <span class="std">mountain</span><br/>	
+		<span class="field70">NMK</span> = <span class="std">meander neck</span><br/>	
+		<span class="field70">NTK</span> = <span class="std">nunatak</span><br/>	
+		<span class="field70">PAN</span> = <span class="std">pan</span><br/>	
+		<span class="field70">PASS</span> = <span class="std">pass</span><br/>	
+		<span class="field70">PEN</span> = <span class="std">peninsula</span><br/>	
+		<span class="field70">PK</span>= <span class="std">peak</span><br/>		
+		<span class="field70">PLT</span> = <span class="std">plateau</span><br/>	
+		<span class="field70">PLDR</span> = <span class="std">polder</span><br/>	
+		<span class="field70">PLN</span> = <span class="std">plain(s)</span><br/>	
+		<span class="field70">PRM</span> = <span class="std">promontory(es)</span><br/>	
+		<span class="field70">PT</span> = <span class="std">point</span><br/>	
+		<span class="field70">RGBD</span> = <span class="std">beach ridge</span><br/>	
+		<span class="field70">RDGE</span> = <span class="std">ridge(s)</span><br/>	
+		<span class="field70">REG</span> = <span class="std">stony desert</span><br/>	
+		<span class="field70">RK</span> = <span class="std">rock</span><br/>		
+		<span class="field70">RKFL</span> = <span class="std">rock falls(s)</span><br/>		
+		<span class="field70">SAND</span> = <span class="std">sand</span><br/>		
+		<span class="field70">SBED</span> = <span class="std">dry stream bed</span><br/>		
+		<span class="field70">SCRP</span> = <span class="std">escarpment</span><br/>		
+		<span class="field70">SDL</span> = <span class="std">saddle</span><br/>		
+		<span class="field70">SHOR</span> = <span class="std">shore</span><br/>		
+		<span class="field70">SNK</span> = <span class="std">sink hole</span><br/>		
+		<span class="field70">SLID</span> = <span class="std">slide</span><br/>	
+		<span class="field70">SLP</span> = <span class="std">slope(s)</span><br/>		
+		<span class="field70">SPIT</span> = <span class="std">spit</span><br/>		
+		<span class="field70">SPUR</span> = <span class="std">spur(s)</span><br/>	
+		<span class="field70">TAL</span> = <span class="std">talus slope</span><br/>		
+		<span class="field70">TRGD</span> = <span class="std">interdune trough(s)</span><br/>	
+		<span class="field70">TRR</span> = <span class="std">terrace</span><br/>		
+		<span class="field70">UPLD</span> = <span class="std">upland</span><br/>			
+		<span class="field70">VAL</span> = <span class="std">valley</span><br/>			
+		<span class="field70">VALG</span> = <span class="std">hanging valley</span><br/>			
+		<span class="field70">VALS</span> = <span class="std">valleys</span><br/>			
+		<span class="field70">VLC</span> = <span class="std">volcano</span><br/>		
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.8] The following are the feature designation codes (FD) of hydrographic type features (H):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.8')" > + Show me the codes</span>.
+	<div id="3.2.8.8" style="display:none">
+	<blockquote>
+		<span class="field70">AIRS</span> = <span class="std">seaplane landing area</span><br/>			
+		<span class="field70">ANCH</span> = <span class="std">anchorage</span><br/>		
+		<span class="field70">BAY</span> = <span class="std">bay</span><br/>			
+		<span class="field70">BGHT</span> = <span class="std">bight(s)</span><br/>			
+		<span class="field70">BNK</span> = <span class="std">bank(s)</span><br/>				
+		<span class="field70">BNKR</span> = <span class="std">stream bank</span><br/>				
+		<span class="field70">BOG</span> = <span class="std">bog(s)</span><br/>				
+		<span class="field70">CAPG</span> = <span class="std">ice cap(s)</span><br/>				
+		<span class="field70">CHN</span> = <span class="std">channel</span><br/>					
+		<span class="field70">CHNL</span> = <span class="std">lake channel(s)</span><br/>				
+		<span class="field70">CHNM</span> = <span class="std">marine channel</span><br/>				
+		<span class="field70">CHNN</span> = <span class="std">navigation channel</span><br/>					
+		<span class="field70">CNFL</span> = <span class="std">confluence</span><br/>				
+		<span class="field70">CNL</span> = <span class="std">canal</span><br/>				
+		<span class="field70">CNLA</span> = <span class="std">aqueduct</span><br/>					
+		<span class="field70">CNLB</span> = <span class="std">canal bend</span><br/>						
+		<span class="field70">CNLD</span> = <span class="std">drainage canal</span><br/>				
+		<span class="field70">CNLI</span> = <span class="std">irrigation canal</span><br/>					
+		<span class="field70">CNLN</span> = <span class="std">navigation canal(s)</span><br/>					
+		<span class="field70">CNLSB</span> = <span class="std">undergound irrigation canal(s)</span><br/>					
+		<span class="field70">COVE</span> = <span class="std">cove(s)</span><br/>						
+		<span class="field70">CRKT</span> = <span class="std">tidal creek(s)</span><br/>											
+		<span class="field70">CRNT</span> = <span class="std">current</span><br/>												
+		<span class="field70">CUTF</span> = <span class="std">cutoff</span><br/>												
+		<span class="field70">DCK</span> = <span class="std">dock(s)</span><br/>													
+		<span class="field70">DCKB</span> = <span class="std">docking basin</span><br/>													
+		<span class="field70">DOMG</span> = <span class="std">icecap dome</span><br/>													
+		<span class="field70">DPRG</span> = <span class="std">icecap depression</span><br/>													
+		<span class="field70">DTCH</span> = <span class="std">ditch</span><br/>													
+		<span class="field70">DTCHD</span> = <span class="std">drainage ditch</span><br/>														
+		<span class="field70">DTCHI</span> = <span class="std">irrigation ditch</span><br/>													
+		<span class="field70">DTCHM</span> = <span class="std">ditch mouth(s)</span><br/>													
+		<span class="field70">ESTY</span> = <span class="std">estuary</span><br/>														
+		<span class="field70">FISH</span> = <span class="std">fishing area</span><br/>													
+		<span class="field70">FJD</span> = <span class="std">fjord</span><br/>														
+		<span class="field70">FLLS</span> = <span class="std">water fall(s)</span><br/>													
+		<span class="field70">FLTM</span> = <span class="std">mud flat(s)</span><br/>														
+		<span class="field70">FLTT</span> = <span class="std">tidal flat(s)</span><br/>														
+		<span class="field70">GLCR</span> = <span class="std">glacier(s)</span><br/>														
+		<span class="field70">GULF</span> = <span class="std">gulf</span><br/>													
+		<span class="field70">GYSR</span> = <span class="std">geyser</span><br/>														
+		<span class="field70">HBR</span> = <span class="std">harbor(s)</span><br/>															
+		<span class="field70">INLT</span> = <span class="std">inlet</span><br/>														
+		<span class="field70">LBED</span> = <span class="std">lake bed(s)</span><br/>														
+		<span class="field70">LGN</span> = <span class="std">lagoon</span><br/>																
+		<span class="field70">LK</span> = <span class="std">lake</span><br/>																
+		<span class="field70">LKC</span> = <span class="std">crater lake</span><br/>																	
+		<span class="field70">LKI</span> = <span class="std">intermittent lake</span><br/>																		
+		<span class="field70">LKN</span> = <span class="std">salt lake</span><br/>																	
+		<span class="field70">LKNI</span> = <span class="std">intermittent salt lake</span><br/>																			
+		<span class="field70">LKO</span> = <span class="std">oxbow lake</span><br/>																	
+		<span class="field70">LKOI</span> = <span class="std">intermittent oxbow lake</span><br/>																				
+		<span class="field70">LKSB</span> = <span class="std">underground lakes</span><br/>																			
+		<span class="field70">MFGN</span> = <span class="std">salt evaporation ponds</span><br/>																								
+		<span class="field70">MGV</span> = <span class="std">mangrove swamp</span><br/>																																							
+		<span class="field70">MOOR</span> = <span class="std">moore(s)</span><br/>																					
+		<span class="field70">MRSH</span> = <span class="std">marsh(es)</span><br/>																																							
+		<span class="field70">MRSHN</span> = <span class="std">salt water marsh</span><br/>																					
+		<span class="field70">NRWS</span> = <span class="std">narrows</span><br/>																																							
+		<span class="field70">OCN</span> = <span class="std">ocean</span><br/>																						
+		<span class="field70">OVF</span> = <span class="std">overfall(s)</span><br/>																																							
+		<span class="field70">PND</span> = <span class="std">pond</span><br/>																																							
+		<span class="field70">PNDI</span> = <span class="std">intermittent pond</span><br/>																																							
+		<span class="field70">PNDN</span> = <span class="std">salt pond</span><br/>																																							
+		<span class="field70">PNDNI</span> = <span class="std">intermittent salt pond</span><br/>																																							
+		<span class="field70">PNDSF</span> = <span class="std">fish ponds</span><br/>																																							
+		<span class="field70">POOL</span> = <span class="std">pool(s)</span><br/>																																								
+		<span class="field70">POOLI</span> = <span class="std">intermittent pool</span><br/>										
+		<span class="field70">RCH</span> = <span class="std">reach</span><br/>																																							
+		<span class="field70">RDGG</span> = <span class="std">icecap ridge</span><br/>																																							
+		<span class="field70">RDST</span> = <span class="std">roadstead</span><br/>																																							
+		<span class="field70">RF</span> = <span class="std">reef(s)</span><br/>																																								
+		<span class="field70">RFC</span> = <span class="std">coral reef(s)</span><br/>																																							
+		<span class="field70">RPDS</span> = <span class="std">rapids</span><br/>																																								
+		<span class="field70">RSV</span> = <span class="std">resevoir(s)</span><br/>																																							
+		<span class="field70">RSVI</span> = <span class="std">intermittent resevoir</span><br/>																																							
+		<span class="field70">RSVT</span> = <span class="std">water tank</span><br/>																																							
+		<span class="field70">RVN</span> = <span class="std">ravine(s)</span><br/>																																							
+		<span class="field70">SBKH</span> = <span class="std">sabkha(s)</span><br/>																																						
+		<span class="field70">SD</span> = <span class="std">sound</span><br/>																																						
+		<span class="field70">SEA</span> = <span class="std">sea</span><br/>																																								
+		<span class="field70">SHOL</span> = <span class="std">shoal(s)</span><br/>																																							
+		<span class="field70">SILL</span> = <span class="std">sill</span><br/>																																						
+		<span class="field70">SPNG</span> = <span class="std">spring(s)</span><br/>																																							
+		<span class="field70">SPNS</span> = <span class="std">sulphur spring(s)</span><br/>																																						
+		<span class="field70">SPNT</span> = <span class="std">hot spring(s)</span><br/>																																							
+		<span class="field70">STM</span> = <span class="std">stream</span><br/>																																							
+		<span class="field70">STMA</span> = <span class="std">anabranch</span><br/>																																							
+		<span class="field70">STMB</span> = <span class="std">stream bend</span><br/>																																							
+		<span class="field70">STMC</span> = <span class="std">canalized stream</span><br/>																																							
+		<span class="field70">STMD</span> = <span class="std">distributary(ies) stream</span><br/>																																							
+		<span class="field70">STMH</span> = <span class="std">headwaters</span><br/>																																								
+		<span class="field70">STMI</span> = <span class="std">intermittent stream</span><br/>																																							
+		<span class="field70">STMM</span> = <span class="std">stream mouth(s)</span><br/>																																							
+		<span class="field70">STMQ</span> = <span class="std">abandoned watercourse</span><br/>																																								
+		<span class="field70">STMSB</span> = <span class="std">lost river</span><br/>																																							
+		<span class="field70">STRT</span> = <span class="std">strait</span><br/>																																								
+		<span class="field70">SWMP</span> = <span class="std">swamp</span><br/>																																							
+		<span class="field70">SYSI</span> = <span class="std">irrigation system</span><br/>																																									
+		<span class="field70">TNLC</span> = <span class="std">tunnel canal</span><br/>																																									
+		<span class="field70">WAD</span> = <span class="std">wadi</span><br/>																																									
+		<span class="field70">WADB</span> = <span class="std">wadi bend</span><br/>																																									
+		<span class="field70">WADJ</span> = <span class="std">wadi junction</span><br/>																																									
+		<span class="field70">WADM</span> = <span class="std">wadi mouth</span><br/>																																									
+		<span class="field70">WADS</span> = <span class="std">wadies</span><br/>																																									
+		<span class="field70">WHRL</span> = <span class="std">whirlpool</span><br/>																																										
+		<span class="field70">WLL</span> = <span class="std">well</span><br/>																																										
+		<span class="field70">WTLD</span> = <span class="std">wetland</span><br/>																																										
+		<span class="field70">WTLDI</span> = <span class="std">intermittent wetland</span><br/>																																										
+		<span class="field70">WTRC</span> = <span class="std">watercourse</span><br/>																																											
+		<span class="field70">WTRH</span> = <span class="std">waterhole(s)</span><br/>																																																																												
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.9] The following are the feature designation codes (FD) of spot type features (S):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.9')" > + Show me the codes</span>.
+	<div id="3.2.8.9" style="display:none">
+	<blockquote>																																										
+		<span class="field70">ADMF</span> = <span class="std">administrative facility</span><br/>																																									
+		<span class="field70">AGRF</span> = <span class="std">agricultural facility</span><br/>																																									
+		<span class="field70">AIRB</span> = <span class="std">airbase</span><br/>																																									
+		<span class="field70">AIRF</span> = <span class="std">airfield</span><br/>																																									
+		<span class="field70">AIRG</span> = <span class="std">hanger</span><br/>																																									
+		<span class="field70">AIRH</span> = <span class="std">heliport</span><br/>																																									
+		<span class="field70">AIRP</span> = <span class="std">airport</span><br/>																																									
+		<span class="field70">AIRQ</span> = <span class="std">abandoned airfield</span><br/>																																									
+		<span class="field70">AIRT</span> = <span class="std">air terminal</span><br/>																																									
+		<span class="field70">AMTH</span> = <span class="std">ampitheater</span><br/>																																									
+		<span class="field70">ANS</span> = <span class="std">ancient site</span><br/>																																									
+		<span class="field70">AQC</span> = <span class="std">aquaculture facility</span><br/>																																									
+		<span class="field70">ARCH</span> = <span class="std">arch</span><br/>																																									
+		<span class="field70">ASTR</span> = <span class="std">astronomical station</span><br/>			
+		<span class="field70">ARTP</span> = <span class="std">public art (non-NGA value)</span><br/>																																								
+		<span class="field70">ASYL</span> = <span class="std">asylum</span><br/>																																									
+		<span class="field70">ATHF</span> = <span class="std">athletic field</span><br/>																																									
+		<span class="field70">BNK</span> = <span class="std">bank</span><br/>																																									
+		<span class="field70">BCN</span> = <span class="std">beacon</span><br/>																																									
+		<span class="field70">BDG</span> = <span class="std">bridge</span><br/>																																									
+		<span class="field70">BLDA</span> = <span class="std">apartment building</span><br/>																																									
+		<span class="field70">BLDG</span> = <span class="std">building(s)</span><br/>																																								
+		<span class="field70">BLDO</span> = <span class="std">office building</span><br/>																																							
+		<span class="field70">BP</span> = <span class="std">boundary marker</span><br/>																																							
+		<span class="field70">BRKS</span> = <span class="std">barracks</span><br/>																																							
+		<span class="field70">BRKW</span> = <span class="std">breakwater</span><br/>																																							
+		<span class="field70">BSTN</span> = <span class="std">baling station</span><br/>																																							
+		<span class="field70">BTYD</span> = <span class="std">boatyard</span><br/>																																							
+		<span class="field70">BUR</span> = <span class="std">burial cave(s)</span><br/>																																							
+		<span class="field70">CARN</span> = <span class="std">cairn</span><br/>																																							
+		<span class="field70">CAVE</span> = <span class="std">cave(s)</span><br/>																																							
+		<span class="field70">CH</span> = <span class="std">church</span><br/>																																							
+		<span class="field70">CMP</span> = <span class="std">camp(s)</span><br/>																																						
+		<span class="field70">CMPL</span> = <span class="std">logging camp</span><br/>																																						
+		<span class="field70">CMPLA</span> = <span class="std">labor camp</span><br/>																																						
+		<span class="field70">CMPMN</span> = <span class="std">mining camp</span><br/>																																						
+		<span class="field70">CMPO</span> = <span class="std">oil camp</span><br/>																																						
+		<span class="field70">CMPRF</span> = <span class="std">refugee camp</span><br/>																																						
+		<span class="field70">CMTY</span> = <span class="std">cemetery</span><br/>																																						
+		<span class="field70">COMC</span> = <span class="std">communication center</span><br/>																																						
+		<span class="field70">CRRL</span> = <span class="std">corral(s)</span><br/>																																						
+		<span class="field70">CSNO</span> = <span class="std">casino</span><br/>																																						
+		<span class="field70">CSTL</span> = <span class="std">castle</span><br/>																																						
+		<span class="field70">CSTM</span> = <span class="std">customs house</span><br/>																																						
+		<span class="field70">CTHSE</span> = <span class="std">courthouse</span><br/>																																						
+		<span class="field70">CTRA</span> = <span class="std">atomic center</span><br/>																																						
+		<span class="field70">CTRCM</span> = <span class="std">community center</span><br/>																																						
+		<span class="field70">CTRF</span> = <span class="std">facility center</span><br/>																																						
+		<span class="field70">CTRM</span> = <span class="std">medical center</span><br/>																																						
+		<span class="field70">CTRR</span> = <span class="std">religious center</span><br/>																																						
+		<span class="field70">CTRS</span> = <span class="std">space center</span><br/>																																						
+		<span class="field70">CVNT</span> = <span class="std">covenant</span><br/>																																						
+		<span class="field70">DAM</span> = <span class="std">dam(s)</span><br/>																																						
+		<span class="field70">DAMSB</span> = <span class="std">sub-surface dam</span><br/>																																						
+		<span class="field70">DARY</span> = <span class="std">dairy</span><br/>																																						
+		<span class="field70">DCKD</span> = <span class="std">dry dock</span><br/>																																						
+		<span class="field70">DCKY</span> = <span class="std">dockyard</span><br/>																																						
+		<span class="field70">DIKE</span> = <span class="std">dike</span><br/>																																						
+		<span class="field70">DIP</span> = <span class="std">diplomattic facility</span><br/>																																						
+		<span class="field70">DPOF</span> = <span class="std">fuel depot</span><br/>	
+		<span class="field70">DPRK</span> = <span class="std">dog park  (non-NGA value)</span><br/>	
+		<span class="field70">ELC</span> = <span class="std">environment learning center (non-NGA value)</span><br/>
+		<span class="field70">EST</span> = <span class="std">estate(s)</span><br/>																																					
+		<span class="field70">ESTB</span> = <span class="std">banana plantation</span><br/>																																					
+		<span class="field70">ESTC</span> = <span class="std">cotton plantation</span><br/>																																					
+		<span class="field70">ESTO</span> = <span class="std">oil palm plantation</span><br/>																																					
+		<span class="field70">ESTR</span> = <span class="std">rubber plantation</span><br/>																																					
+		<span class="field70">ESTSG</span> = <span class="std">sugar plantation</span><br/>																																					
+		<span class="field70">ESTSL</span> = <span class="std">sisal plantation</span><br/>																																					
+		<span class="field70">ESTT</span> = <span class="std">tea plantation</span><br/>																																					
+		<span class="field70">FCL</span> = <span class="std">facility</span><br/>		
+		<span class="field70">FDBK</span> = <span class="std">food bank (non-NGA value)</span><br/>
+		<span class="field70">FIRE</span> = <span class="std">fire station</span><br/>																																					
+		<span class="field70">FNY</span> = <span class="std">foundary</span><br/>																																					
+		<span class="field70">FRM</span> = <span class="std">farm</span><br/>																																					
+		<span class="field70">FRMT</span> = <span class="std">farmstead</span><br/>																																					
+		<span class="field70">FT</span> = <span class="std">fort</span><br/>																																					
+		<span class="field70">FY</span> = <span class="std">ferry</span><br/>																																					
+		<span class="field70">FYT</span> = <span class="std">ferry terminal</span><br/>																																					
+		<span class="field70">GARG</span> = <span class="std">parking garage</span><br/>																																					
+		<span class="field70">GATE</span> = <span class="std">gate</span><br/>																																					
+		<span class="field70">GDN</span> = <span class="std">garden(s)</span><br/>																																					
+		<span class="field70">GDNC</span> = <span class="std">community garden (non-NGA value)</span><br/>																																					
+		<span class="field70">GHAT</span> = <span class="std">gh&#225;t</span><br/>																																					
+		<span class="field70">GHSE</span> = <span class="std">guest house</span><br/>																																					
+		<span class="field70">GOSP</span> = <span class="std">gas-oil separator plant</span><br/>																																					
+		<span class="field70">GOVL</span> = <span class="std">local government office</span><br/>																																					
+		<span class="field70">GRVE</span> = <span class="std">grave</span><br/>																																					
+		<span class="field70">HERM</span> = <span class="std">hermitage</span><br/>																																					
+		<span class="field70">HLT</span> = <span class="std">halting place</span><br/>																																					
+		<span class="field70">HMSD</span> = <span class="std">homestead</span><br/>																																					
+		<span class="field70">HSE</span> = <span class="std">house(s)</span><br/>																																					
+		<span class="field70">HSEC</span> = <span class="std">country house</span><br/>																																					
+		<span class="field70">HSP</span> = <span class="std">hospital</span><br/>																																					
+		<span class="field70">HSPC</span> = <span class="std">clinic</span><br/>																																					
+		<span class="field70">HSPD</span> = <span class="std">dispensary</span><br/>																																					
+		<span class="field70">HSPL</span> = <span class="std">leprosarium</span><br/>																																					
+		<span class="field70">HSTS</span> = <span class="std">historical site</span><br/>																																					
+		<span class="field70">HTRE</span> = <span class="std">heritage tree (non-NGA value)</span><br/>																																					
+		<span class="field70">HTL</span> = <span class="std">hotel</span><br/>																																					
+		<span class="field70">HUT</span> = <span class="std">hut</span><br/>																																					
+		<span class="field70">HUTS</span> = <span class="std">huts</span><br/>																																					
+		<span class="field70">INSM</span> = <span class="std">military installation</span><br/>																																					
+		<span class="field70">ITTR</span> = <span class="std">research institute</span><br/>																																					
+		<span class="field70">JDY</span> = <span class="std">jetty</span><br/>																																					
+		<span class="field70">LNDG</span> = <span class="std">landing</span><br/>																																					
+		<span class="field70">LEPC</span> = <span class="std">leper colony</span><br/>																																					
+		<span class="field70">LIBP</span> = <span class="std">public library (non-NGA value)</span><br/>																																						
+		<span class="field70">LIBS</span> = <span class="std">school library (non-NGA value)</span><br/>																																						
+		<span class="field70">LIBU</span> = <span class="std">university library (non-NGA value)</span><br/>																																			
+		<span class="field70">LNDF</span> = <span class="std">landfill</span><br/>
+		<span class="field70">LNDM</span> = <span class="std">landmark (non-NGA value)</span><br/>
+		<span class="field70">LOCK</span> = <span class="std">lock(s)</span><br/>																																					
+		<span class="field70">LTHSE</span> = <span class="std">lighthouse</span><br/>																																					
+		<span class="field70">MAR</span> = <span class="std">marina</span><br/>																																					
+		<span class="field70">MFG</span> = <span class="std">factory</span><br/>																																					
+		<span class="field70">MFGB</span> = <span class="std">brewery</span><br/>																																				
+		<span class="field70">MFGW</span> = <span class="std">winery (non-NGA value)</span><br/>																																					
+		<span class="field70">MFGC</span> = <span class="std">cannery</span><br/>																																					
+		<span class="field70">MFGCU</span> = <span class="std">copper works</span><br/>																																					
+		<span class="field70">MFGM</span> = <span class="std">munitions plant</span><br/>																																					
+		<span class="field70">MFGPH</span> = <span class="std">phosphate works</span><br/>																																					
+		<span class="field70">MFGSG</span> = <span class="std">sugar refinery</span><br/>																																					
+		<span class="field70">MKT</span> = <span class="std">market</span><br/>																																					
+		<span class="field70">ML</span> = <span class="std">mill(s)</span><br/>																																					
+		<span class="field70">MLM</span> = <span class="std">ore treatment plant</span><br/>																																					
+		<span class="field70">MLO</span> = <span class="std">olive oil mill</span><br/>																																					
+		<span class="field70">MLSG</span> = <span class="std">sugar mill</span><br/>																																					
+		<span class="field70">MLSW</span> = <span class="std">sawmill</span><br/>																																					
+		<span class="field70">MLWND</span> = <span class="std">windmill</span><br/>																																					
+		<span class="field70">MLWTR</span> = <span class="std">water mill</span><br/>																																					
+		<span class="field70">MN</span> = <span class="std">mine(s)</span><br/>																																					
+		<span class="field70">MNAU</span> = <span class="std">gold mine(s)</span><br/>																																					
+		<span class="field70">MNC</span> = <span class="std">coal mine(s)</span><br/>																																					
+		<span class="field70">MNCR</span> = <span class="std">chrome mine(s)</span><br/>																																					
+		<span class="field70">MNCU</span> = <span class="std">copper mine(s)</span><br/>																																					
+		<span class="field70">MNDT</span> = <span class="std">diatomite mine(s)</span><br/>																																					
+		<span class="field70">MNFE</span> = <span class="std">iron mine(s)</span><br/>																																					
+		<span class="field70">MNMT</span> = <span class="std">monument</span><br/>																																					
+		<span class="field70">MNN</span> = <span class="std">salt mine(s)</span><br/>																																					
+		<span class="field70">MNNI</span> = <span class="std">nickel mine(s)</span><br/>																																					
+		<span class="field70">MNPB</span> = <span class="std">lead mine(s)</span><br/>																																					
+		<span class="field70">MNP</span> = <span class="std">placer mine(s)</span><br/>																																					
+		<span class="field70">MNQR</span> = <span class="std">quarry(ies)</span><br/>																																					
+		<span class="field70">MNSN</span> = <span class="std">tin mine(s)</span><br/>																																					
+		<span class="field70">MOLE</span> = <span class="std">mole</span><br/>																																					
+		<span class="field70">MSQE</span> = <span class="std">mine(s)</span><br/>																																					
+		<span class="field70">MSSN</span> = <span class="std">mission</span><br/>																																					
+		<span class="field70">MSTY</span> = <span class="std">monastery</span><br/>																																					
+		<span class="field70">MUS</span> = <span class="std">museum</span><br/>																																					
+		<span class="field70">NOV</span> = <span class="std">novitiate</span><br/>																																					
+		<span class="field70">NSY</span> = <span class="std">nursery(ies)</span><br/>																																					
+		<span class="field70">OBPT</span> = <span class="std">observation point</span><br/>																																					
+		<span class="field70">OBS</span> = <span class="std">observatory</span><br/>																																					
+		<span class="field70">OBSR</span> = <span class="std">radio observatory</span><br/>																																					
+		<span class="field70">OILJ</span> = <span class="std">oil pipeline junction</span><br/>																																					
+		<span class="field70">OILR</span> = <span class="std">oil refinery</span><br/>																																					
+		<span class="field70">OILT</span> = <span class="std">oil tank</span><br/>																																					
+		<span class="field70">OILW</span> = <span class="std">oil well</span><br/>																																					
+		<span class="field70">PAL</span> = <span class="std">palace</span><br/>																																		
+		<span class="field70">PGDA</span> = <span class="std">pagoda</span><br/>																																					
+		<span class="field70">PIER</span> = <span class="std">pier</span><br/>																																					
+		<span class="field70">PKLT</span> = <span class="std">parking lot</span><br/>
+		<span class="field70">PLYG</span> = <span class="std">playground (non-NGA value)</span><br/>																																					
+		<span class="field70">PMPO</span> = <span class="std">oil pumping station</span><br/>																																					
+		<span class="field70">PMPW</span> = <span class="std">water pumping station</span><br/>																																					
+		<span class="field70">PO</span> = <span class="std">post office</span><br/>																																					
+		<span class="field70">PP</span> = <span class="std">police post</span><br/>																																					
+		<span class="field70">PRKGT</span> = <span class="std">park gate</span><br/>																																				
+		<span class="field70">PRKHQ</span> = <span class="std">park headquarters</span><br/>																																				
+		<span class="field70">PRN</span> = <span class="std">prison</span><br/>																																			
+		<span class="field70">PRNJ</span> = <span class="std">reformatory</span><br/>																																			
+		<span class="field70">PS</span> = <span class="std">power station</span><br/>																																			
+		<span class="field70">PSH</span> = <span class="std">hydroelectric power station</span><br/>																																			
+		<span class="field70">PSN</span> = <span class="std">nuclear power station</span><br/>																																			
+		<span class="field70">PSB</span> = <span class="std">border post</span><br/>																																			
+		<span class="field70">PSC</span> = <span class="std">customs post</span><br/>																																			
+		<span class="field70">PST</span> = <span class="std">patrol post</span><br/>																																			
+		<span class="field70">PYR</span> = <span class="std">pyramind</span><br/>																																			
+		<span class="field70">QUAY</span> = <span class="std">quay</span><br/>
+		<span class="field70">RDCM</span> = <span class="std">traffic camera (non-NGA value)</span><br/>
+		<span class="field70">RDCR</span> = <span class="std">traffic circle</span><br/>																																			
+		<span class="field70">RDIN</span> = <span class="std">intersection</span><br/>	
+		<span class="field70">RECB</span> = <span class="std">basketball court (non-NGA value)</span><br/>
+		<span class="field70">RECG</span> = <span class="std">golf course</span><br/>	
+		<span class="field70">RECP</span> = <span class="std">swimming pool (non-NGA value)</span><br/>	
+		<span class="field70">RECN</span> = <span class="std">picnic site (non-NGA value)</span><br/>																																		
+		<span class="field70">RECR</span> = <span class="std">racetrack</span><br/>		
+		<span class="field70">RECT</span> = <span class="std">tennis court (non-NGA value)</span><br/>		
+		<span class="field70">RESP</span> = <span class="std">public restroom (non-NGA value)</span><br/>																																	
+		<span class="field70">RET</span> = <span class="std">store</span><br/>																																			
+		<span class="field70">RHSE</span> = <span class="std">resthouse</span><br/>																																			
+		<span class="field70">RKRY</span> = <span class="std">rockery</span><br/>																																			
+		<span class="field70">RLG</span> = <span class="std">religious site</span><br/>																																			
+		<span class="field70">RLGR</span> = <span class="std">retreat</span><br/>																																			
+		<span class="field70">RLSTN</span> = <span class="std">light rail station (non-NGA value)</span><br/>																																			
+		<span class="field70">RLSTP</span> = <span class="std">light rail stop (non-NGA value)</span><br/>																																			
+		<span class="field70">RMSTN</span> = <span class="std">monorail station (non-NGA value)</span><br/>																																		
+		<span class="field70">RNCH</span> = <span class="std">ranch(es)</span><br/>																																			
+		<span class="field70">RSD</span> = <span class="std">railroad siding</span><br/>																																			
+		<span class="field70">RSGNL</span> = <span class="std">railroad signal</span><br/>																																			
+		<span class="field70">RSRT</span> = <span class="std">resort</span><br/>																																			
+		<span class="field70">RSTN</span> = <span class="std">railroad station</span><br/>																																			
+		<span class="field70">RSTP</span> = <span class="std">railroad stop</span><br/>																																			
+		<span class="field70">RUIN</span> = <span class="std">ruin(s)</span><br/>																																			
+		<span class="field70">SCH</span> = <span class="std">school</span><br/>																																			
+		<span class="field70">SCHA</span> = <span class="std">agriculture school</span><br/>																																			
+		<span class="field70">SCHC</span> = <span class="std">college</span><br/>																																			
+		<span class="field70">SCHD</span> = <span class="std">school district (non-NGA value)</span><br/>																																		
+		<span class="field70">SCHM</span> = <span class="std">military school</span><br/>																																			
+		<span class="field70">SCHN</span> = <span class="std">maritime school</span><br/>																																			
+		<span class="field70">SCHT</span> = <span class="std">technical school</span><br/>			
+		<span class="field70">SHOPC</span> = <span class="std">shopping center or mall</span><br/>																																			
+		<span class="field70">SHPF</span> = <span class="std">sheepfold</span><br/>																																			
+		<span class="field70">SHRN</span> = <span class="std">shrine</span><br/>																																			
+		<span class="field70">SHSE</span> = <span class="std">storehouse</span><br/>			
+		<span class="field70">SCSTP</span> = <span class="std">street car stop (non-NGA value)</span><br/>																																				
+		<span class="field70">SLCE</span> = <span class="std">sluice</span><br/>																																			
+		<span class="field70">SNTR</span> = <span class="std">sanatorium</span><br/>																																			
+		<span class="field70">SPA</span> = <span class="std">spa</span><br/>																																			
+		<span class="field70">SPLY</span> = <span class="std">spillway</span><br/>																																			
+		<span class="field70">SQR</span> = <span class="std">square</span><br/>																																			
+		<span class="field70">STBL</span> = <span class="std">stable</span><br/>																																			
+		<span class="field70">STDM</span> = <span class="std">stadium</span><br/>																																			
+		<span class="field70">STMGS</span> = <span class="std">stream gauging station</span><br/>																																			
+		<span class="field70">STNB</span> = <span class="std">scientific research base</span><br/>																																			
+		<span class="field70">STNC</span> = <span class="std">coast guard station</span><br/>																																			
+		<span class="field70">STNE</span> = <span class="std">experiment station</span><br/>																																			
+		<span class="field70">STNF</span> = <span class="std">forest station</span><br/>																																			
+		<span class="field70">STNI</span> = <span class="std">inspection station</span><br/>																																			
+		<span class="field70">STNM</span> = <span class="std">meteorological station</span><br/>																																			
+		<span class="field70">STNR</span> = <span class="std">radio station</span><br/>																																			
+		<span class="field70">STNS</span> = <span class="std">satellite station</span><br/>																																			
+		<span class="field70">STNW</span> = <span class="std">whaling station</span><br/>																																			
+		<span class="field70">STPS</span>= <span class="std">steps</span><br/>																																			
+		<span class="field70">SUBS</span> = <span class="std">subway station</span><br/>																																			
+		<span class="field70">SUBW</span> = <span class="std">subway</span><br/>																																			
+		<span class="field70">SWT</span> = <span class="std">sewage treatment plant</span><br/>																																			
+		<span class="field70">TMB</span> = <span class="std">tomb(s)</span><br/>																																			
+		<span class="field70">TMPL</span> = <span class="std">temple</span><br/>																																			
+		<span class="field70">TNKD</span> = <span class="std">cattle dipping tank</span><br/>																																			
+		<span class="field70">TOLL</span> = <span class="std">tollgate/barrier</span><br/>																																			
+		<span class="field70">TOWR</span> = <span class="std">tower</span><br/>																																			
+		<span class="field70">TRANP</span> = <span class="std">transit park and ride (non-NGA value)</span><br/>																																				
+		<span class="field70">TRANT</span> = <span class="std">transit station</span><br/>																																		
+		<span class="field70">TRIG</span> = <span class="std">trigulation station</span><br/>																																			
+		<span class="field70">TRMO</span> = <span class="std">oil pipleline terminal</span><br/>																																			
+		<span class="field70">USGE</span> = <span class="std">United States Government Establishment</span><br/>																																			
+		<span class="field70">VETF</span> = <span class="std">veterinary facility</span><br/>																																			
+		<span class="field70">WALL</span> = <span class="std">wall</span><br/>																																			
+		<span class="field70">WALLA</span> = <span class="std">ancient wall</span><br/>																																			
+		<span class="field70">WEIR</span> = <span class="std">weir</span><br/>																																			
+		<span class="field70">WHRF</span> = <span class="std">wharf</span><br/>																																			
+		<span class="field70">WRCK</span> = <span class="std">wreck</span><br/>																																																																							
+		<span class="field70">WTRW</span> = <span class="std">waterworks</span><br/>																																			
+		<span class="field70">ZNF</span> = <span class="std">free trade zone</span><br/>																																			
+		<span class="field70">ZOO</span> = <span class="std">zoo</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.8.10] The following are the feature designation codes (FD) of mobile type features (M) (non-NGA feature class):
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.10')" > + Show me the codes</span>.
+	<div id="3.2.8.10" style="display:none">
+	<blockquote>
+		<span class="field70">AIRC</span> = <span class="std">commercial passenger airplane</span><br/>
+		<span class="field70">AIRM</span> = <span class="std">military airplane</span><br/>
+		<span class="field70">AIRP</span> = <span class="std">private airplane</span><br/>		
+		<span class="field70">AIRT</span> = <span class="std">commercial transport airplane</span><br/>
+		<span class="field70">AUTO</span> = <span class="std">automobile</span><br/>
+		<span class="field70">BIKE</span> = <span class="std">bicycle</span><br/>
+		<span class="field70">BLNH</span> = <span class="std">hot air ballon</span><br/>
+		<span class="field70">BLNW</span> = <span class="std">weather ballon</span><br/>
+		<span class="field70">BOAT</span> = <span class="std">boat</span><br/>
+		<span class="field70">BUS</span> = <span class="std">bus</span><br/>
+		<span class="field70">FRMV</span> = <span class="std">farm vehicle</span><br/>
+		<span class="field70">HLCP</span> = <span class="std">helicopter</span><br/>
+		<span class="field70">HVEQ</span> = <span class="std">heavy equipment vehicle</span><br/>
+		<span class="field70">MTRC</span> = <span class="std">motorcycle</span><br/>
+		<span class="field70">MVSL</span> = <span class="std">military vessel</span><br/>
+		<span class="field70">SCT</span> = <span class="std">street car/trolley</span><br/>
+		<span class="field70">SHIP</span> = <span class="std">commercial ship</span><br/>
+		<span class="field70">SUB</span> = <span class="std">subway</span><br/>
+		<span class="field70">TAXI</span> = <span class="std">taxi</span><br/>
+		<span class="field70">TRCK</span> = <span class="std">commerical truck/transport</span><br/>
+		<span class="field70">TRN</span> = <span class="std">train</span><br/>
+		<span class="field70">TRNL</span> = <span class="std">light rail</span><br/>
+		<span class="field70">UAV</span> = <span class="std">unmanned ariel vehicle</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.2.8.11] All FD values may be appended with one of or more single capitalized letters enclosed within
+	brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.8.11a')" > + Show me the qualifiers</span>.
+	<div id="3.2.8.11a" style="display:none">
+	<blockquote>
+		A = <span class="std">entry is an ancient site</span><br/>
+		H = <span class="std">entry is historical</span><br/>
+		Q = <span class="std">entry was abandoned or in ruins</span><br/>
+		S = <span class="std">entry is multiple of</span><br/>
+		W = <span class="std">entry was destroyed (e.g, war, natural or human disaster)</span><br/>
+		X = <span class="std">entry is section of</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.2.8.11b')" > + Show me an example</span>.
+	<div id="3.2.8.11b" style="display:none">
+	<blockquote>
+		<span class="field70">ADM1[H]</span> = <span class="std">first level administrative division is historical</span><br/>
+		<span class="field70">CSWY[Q]</span> = <span class="std">former causeway</span><br/>
+		<span class="field70">TNL[S]</span> = <span class="std">tunnels</span><br/>
+		<span class="field70">PPL[W]</span> = <span class="std">destroyed populated place</span><br/>
+		<span class="field70">PPL[X]</span> = <span class="std">section of a populated place</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.2.9] FX is a proprietaty feature designator used to extend a more descriptive or differentiating than can be indicated with
+	the FD field.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.9')" > + Show me an example</span>.
+	<div id="3.2.9" style="display:none">
+	<blockquote>
+		university = 		<span class="std">college (SCHC) is a university.</span><br/>
+		community college = <span class="std">college (SCHC) is a community college.</span><br/>
+		junior college = 	<span class="std">college (SCHC) is a junior college.</span><br/>
+		beauty school = 	<span class="std">trade school (SCHT) is a beauty school.</span><br/>
+		art school = 		<span class="std">trade school (SCHT) is an arts school.</span><br/>
+		gemological school = <span class="std">trade school (SCHT) is a gemological school.</span><br/>
+		nursing school = 	<span class="std">trade school (SCHT) is a nursing school.</span><br/>
+		<br/>
+		city = 				<span class="std">populated place (PPL) is an incorporated entity.</span><br/>
+		town = 				<span class="std">populated place (PPL) is a town.</span><br/>
+		village = 			<span class="std">populated place (PPL) is a village.</span><br/>
+		<br/>
+		townhouse = 		<span class="std">Housing unit (HSE) is a residental townhouse.</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.9.1] All FX values may be appended with one of or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.9.1a')" > + Show me the qualifiers</span>.
+	<div id="3.2.9.1a" style="display:none">
+	<blockquote>
+		gnis = <span class="std">USGS GNIS Feature code</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.9.2] The following are the GNIS feature class codes:
+	<a href="http://geonames.usgs.gov/pls/gnispublic/f?p=gnispq:8:2642603167829713" target="_blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.9.2')" > + Show me the codes</span>.
+	<div id="3.2.9.2" style="display:none">
+	<blockquote>	
+	Airport  = 		<span class="std">Manmade facility maintained for the use of aircraft (airfield, airstrip, landing field, landing strip). </span><br/>
+	Arch  = 		<span class="std">Natural arch-like opening in a rock mass (bridge, natural bridge, sea arch). </span><br/>
+	Area  = 		<span class="std">Any one of several areally extensive natural features not included in other categories (badlands, barren, delta, fan, garden). </span><br/>
+	Arroyo  = 		<span class="std">Watercourse or channel through which water may occasionally flow (coulee, draw, gully, wash). </span><br/>
+	Bar  = 			<span class="std">Natural accumulation of sand, gravel, or alluvium forming an underwater or exposed embankment (ledge, reef, sandbar, shoal, spit). </span><br/>
+	Basin  = 		<span class="std">Natural depression or relatively low area enclosed by higher land (amphitheater, cirque, pit, sink). </span><br/>
+	Bay  = 			<span class="std">Indentation of a coastline or shoreline enclosing a part of a body of water; a body of water partly surrounded by land (arm, bight, cove, estuary, gulf, inlet, sound). </span><br/>
+	Beach  = 		<span class="std">The sloping shore along a body of water that is washed by waves or tides and is usually covered by sand or gravel (coast, shore, strand). </span><br/>
+	Bench  = 		<span class="std">Area of relatively level land on the flank of an elevation such as a hill, ridge, or mountain where the slope of the land rises on one side and descends on the opposite side (level). </span><br/>
+	Bend  = 		<span class="std">Curve in the course of a stream and (or) the land within the curve; a curve in a linear body of water (bottom, loop, meander). </span><br/>
+	Bridge  = 		<span class="std">Manmade structure carrying a trail, road, or other transportation system across a body of water or depression (causeway, overpass, trestle). </span><br/>
+	Building  = 	<span class="std">A manmade structure with walls and a roof for protection of people and (or) materials, but not including church, hospital, or school. </span><br/>
+	Canal  = 		<span class="std">Manmade waterway used by watercraft or for drainage, irrigation, mining, or water power (ditch, lateal). </span><br/>
+	Cape  = 		<span class="std">Projection of land extending into a body of water (lea, neck, peninsula, point). </span><br/>
+	Cave  = 		<span class="std">Natural underground passageway or chamber, or a hollowed out cavity in the side of a cliff (cavern, grotto). </span><br/>
+	Cemetery  = 	<span class="std">A place or area for burying the dead (burial, burying ground, grave, memorial garden). </span><br/>
+	Census  = 		<span class="std">A statistical area delineated locally specifically for the tabulation of Census Bureau data (census designated place, census county division, unorganized territory, various types of American Indian/Alaska Native statistical areas). Distinct from Civil and Populated Place. </span><br/>
+	Channel  = 		<span class="std">Linear deep part of a body of water through which the main volume of water flows and is frequently used as aroute for watercraft (passage, reach, strait, thoroughfare, throughfare). </span><br/>
+	Church  = 		<span class="std">Building used for religious worship (chapel, mosque, synagogue, tabernacle, temple). </span><br/>
+	Civil  = 		<span class="std">A political division formed for administrative purposes (borough, county, incorporated place, municipio, parish, town, township). Distinct from Census and Populated Place. </span><br/>
+	Cliff  = 		<span class="std">Very steep or vertical slope (bluff, crag, head, headland, nose, palisades, precipice, promontory, rim, rimrock). </span><br/>
+	Crater  = 		<span class="std">Circular-shaped depression at the summit of a volcanic cone or one on the surface of the land caused by the impact of a meteorite; a manmade depression caused by an explosion (caldera, lua). </span><br/>
+	Crossing  = 	<span class="std">A place where two or more routes of transportation form a junction or intersection (overpass, underpass). </span><br/>
+	Dam  = 			<span class="std">Water barrier or embankment built across the course of a stream or into a body of water to control and (or) impound the flow of water (breakwater, dike, jetty). </span><br/>
+	Falls  = 		<span class="std">Perpendicular or very steep fall of water in the course of a stream (cascade, cataract, waterfall). </span><br/>
+	Flat  = 		<span class="std">Relative level area within a region of greater relief (clearing, glade, playa). </span><br/>
+	Forest  = 		<span class="std">Bounded area of woods, forest, or grassland under the administration of a political agency (see "woods") (national forest, national grasslands, State forest). </span><br/>
+	Gap  = 			<span class="std">Low point or opening between hills or mountains or in a ridge or mountain range (col, notch, pass, saddle, water gap, wind gap). </span><br/>
+	Glacier  = 		<span class="std">Body or stream of ice moving outward and downslope from an area of accumulation; an area of relatively permanent snow or ice on the top or side of a mountain or mountainous area (icefield, ice patch, snow patch). </span><br/>
+	Gut  = 			<span class="std">Relatively small coastal waterway connecting larger bodies of water or other waterways (creek, inlet, slough). </span><br/>
+	Harbor  = 		<span class="std">Sheltered area of water where ships or other watercraft can anchor or dock (hono, port, roads, roadstead). </span><br/>
+	Hospital  = 	<span class="std">Building where the sick or injured may receive medical or surgical attention (infirmary). </span><br/>
+	Island  = 		<span class="std">Area of dry or relatively dry land surrounded by water or low wetland (archipelago, atoll, cay, hammock, hummock, isla, isle, key, moku, rock). </span><br/>
+	Isthmus  = 		<span class="std">Narrow section of land in a body of water connecting two larger land areas. </span><br/>
+	Lake  = 		<span class="std">Natural body of inland water (backwater, lac, lagoon, laguna, pond, pool, resaca, waterhole). </span><br/>
+	Lava  = 		<span class="std">Formations resulting from the consolidation of molten rock on the surface of the Earth (kepula, lava flow). </span><br/>
+	Levee  = 		<span class="std">Natural or manmade embankment flanking a stream (bank, berm). </span><br/>
+	Locale  = 		<span class="std">Place at which there is or was human activity; it does not include populated places, mines, and dams (battlefield, crossroad, camp, farm, ghost town, landing, railroad siding, ranch, ruins, site, station, windmill). </span><br/>
+	Military  = 	<span class="std">Place or facility used for various aspects of or relating to military activity. </span><br/>
+	Mine  = 		<span class="std">Place or area from which commercial minerals are or were removed from the Earth; not including oilfield (pit, quarry, shaft). </span><br/>
+	Oilfield  = 	<span class="std">Area where petroleum is or was removed from the Earth. </span><br/>
+	Park  = 		<span class="std">Place or area set aside for recreation or preservation of a cultural or natural resource and under some form of government administration; not including National or State forests or Reserves (national historical landmark, national park, State park, wilderness area). </span><br/>
+	Pillar  = 		<span class="std">Vertical, standing, often spire-shaped, natural rock formation (chimney, monument, pinnacle, pohaku, rock tower). </span><br/>
+	Plain  = 		<span class="std">A region of general uniform slope, comparatively level and of considerable extent (grassland, highland, kula, plateau, upland). </span><br/>
+	Populated Place  = 	<span class="std">Place or area with clustered or scattered buildings and a permanent human population (city, settlement, town, village). A populated place is usually not incorporated and by definition has no legal boundaries. However, a populated place may have a corresponding "civil" record, the legal boundaries of which may or may not coincide with the perceived populated place. Distinct from Census and Civil classes. </span><br/>
+	Post Office   = <span class="std">An official facility of the U.S. Postal Service used for processing and distributing mail and other postal material. </span><br/>
+	Range   = 		<span class="std">Chain of hills or mountains; a somewhat linear, complex mountainous or hilly area (cordillera, sierra). </span><br/>
+	Rapids   = 		<span class="std">Fast-flowing section of a stream, often shallow and with exposed rock or boulders (riffle, ripple). </span><br/>
+	Reserve   = 	<span class="std">A tract of land set aside for a specific use (does not include forests, civil divisions, parks). </span><br/>
+	Reservoir   = 	<span class="std">Artificially impounded body of water (lake, tank). </span><br/>
+	Ridge   = 		<span class="std">Elevation with a narrow, elongated crest which can be part of a hill or mountain (crest, cuesta, escarpment, hogback, lae, rim, spur). </span><br/>
+	School   = 		<span class="std">Building or group of buildings used as an institution for study, teaching, and learning (academy, college, high school, university). </span><br/>
+	Sea   = 		<span class="std">Large body of salt water (gulf, ocean). </span><br/>
+	Slope   = 		<span class="std">A gently inclined part of the Earth's surface (grade, pitch). </span><br/>
+	Spring   = 		<span class="std">Place where underground water flows naturally to the surface of the Earth (seep). </span><br/>
+	Stream   = 		<span class="std">Linear body of water flowing on the Earth's surface (anabranch, awawa, bayou, branch, brook, creek, distributary, fork, kill, pup, rio, river, run, slough). </span><br/>
+	Summit   = 		<span class="std">Prominent elevation rising above the surrounding level of the Earth's surface; does not include pillars, ridges, or ranges (ahu, berg, bald, butte, cerro, colina, cone, cumbre, dome, head, hill, horn, knob, knoll, mauna, mesa, mesita, mound, mount, mountain, peak, puu, rock, sugarloaf, table, volcano). </span><br/>
+	Swamp   = 		<span class="std">Poorly drained wetland, fresh or saltwater, wooded or grassy, possibly covered with open water (bog, cienega, marais, marsh, pocosin). </span><br/>
+	Tower   = 		<span class="std">A manmade structure, higher than its diameter, generally used for observation, storage, or electronic transmission. </span><br/>
+	Trail   = 		<span class="std">Route for passage from one point to another; does not include roads or highways (jeep trail, path, ski trail). </span><br/>
+	Tunnel   = 		<span class="std">Linear underground passageway open at both ends. </span><br/>
+	Unknown   = 	<span class="std">This class is assigned to legacy data only. It will not be assigned to new or edited records. </span><br/>
+	Valley   = 		<span class="std">Linear depression in the Earth's surface that generally slopes from one end to the other (barranca, canyon, chasm, cove, draw, glen, gorge, gulch, gulf, hollow, ravine). </span><br/>
+	Well   = 		<span class="std">Manmade shaft or hole in the Earth's surface used to obtain fluid or gaseous materials. </span><br/>
+	Woods   = 		<span class="std">Small area covered with a dense growth of trees; does not include an area of trees under the administration of a political agency (see "forest"). </span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.2.10] ID is a proprietary identifier specific to the dataset.
+	<br/><br/><span class="example" onclick="Expand('3.2.10')" > + Show me common identifiers</span>.
+	<div id="3.2.10" style="display:none">
+	<blockquote>
+	GNIS	<span class="std">USGS GNIS identifier code (INCITS 446-2008)</span><br/>
+	UNI		<span class="std">NGA GNS UNI code</span><br/>
+	UFI		<span class="std">NGA GNS Unique Feature Identifier code</span><br/>
+	EIN		<span class="std">United States Employer Tax Identification Number</span><br/>
+	IPEDS	<span class="std">The Integrated Postsecondary Education Data System ( US Education )</span><br/>
+	SGC		<span class="std">Canada: Standard Geographic Code</span><br/>
+	TRACT	<span class="std">US Census Tract</span><br/>
+	UPC		<span class="std">Universal Product Code<</span><br/>
+	EAN		<span class="std">International Product Number</span><br/>
+	SKU		<span class="std">Stock Keeping Unit </span><br/>
+	SCHD	<span class="std">School District Identifier (e.g., US Local Education Agency)</span><br/>
+	VOTF	<span class="std">Federal Voting District (e.g., congressional district)</span><br/>
+	VOTA	<span class="std">Administrative Voting District (e.g., state legislative district)</span><br/>
+	UCR		<span class="std">Uniform Crime Reporting code</span><br/>
+	DSIT	<span class="std">UN Designated Vehicle Signs for International Travel</span><br/>
+	NBHD	<span class="std">Neighborhood Name</span><br/>
+	PP		<span class="std">Police Precinct</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.2.11] Examples of root segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.2.11')" > + Show me the examples</span>.
+	<div id="3.2.11" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>		US ; ; ; ; A; PLC ; ; ;<br/>
+		<span class="field100">State</span>			US ; WA ; ; ; A ; ADM1 ; ; ;<br/>
+		<span class="field100">City</span>			US ; WA ; ; PDX[iata]; P ; PPL ; city; ;<br/>
+		<br/>
+		<span class="field100">Residence</span>		US ; WA ; ; ; S ; HSE ; townhouse ; ;<br/>
+		<br/>
+		<span class="field100">Business Center</span>	US ; WA ; ; ; L ; CTRB ; supercenter ; ;<br/>
+		<span class="field100">Building</span>			US ; WA ; ; ; S ; BLDG ; building[gnis] ; ;<br/>
+		<span class="field100">Store</span>				US ; WA ; ; ; S ; MKT ; ; ;
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.3 Location</h4>
+	<p>
+	[3.3.1] The location segment specifies the geographic location of the entity and most follow the root segment. The location segment has the following field sequence:
+	<blockquote>
+		<span class="optional">COORD</span> ; <span class="optional">ELV</span> ; <span class="optional">LVL</span> ; <span class="optional">AREA</span> ; <span class="optional">WTR</span> ; <span class="optional">INH</span> ;
+		<br/><br/>
+		<span class="field60">COORD</span> = <span class="desc">Coordinate</span>		<span class="std">WGS84 Latitude, Longitude.</span><br/>
+		<span class="field60">ELV</span>   = <span class="desc">Elevation</span>		<span class="std">Elevation in meters.</span><br/>
+		<span class="field60">LVL</span>   = <span class="desc">Level</span>			<span class="std">Level in multiple level entity (e.g., building).</span><br/>
+		<span class="field60">AREA</span>  = <span class="desc">Land Area</span>		<span class="std">Area of physical terrain covered by entity.</span><br/>
+		<span class="field60">WTR</span>   = <span class="desc">Water Area</span>		<span class="std">Area of physical terrain covered by entity which is covered by water.</span><br/>
+		<span class="field60">INH</span>   = <span class="desc">Inhabited Area</span>	<span class="std">Amount of area inhabited, includes inhabited levels (e.g., floors).</span><br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.3.2] All field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.2')" > + Show me an example</span>.
+	<div id="3.3.2" style="display:none">
+		<br/>
+		<span class="optional">45.5, -122.7</span> ; 
+		<span class="optional">200</span> ; 
+		<span class="optional">0</span> ; 
+		<span class="optional">12</span> ; 
+		<span class="optional">1</span> ; 
+		<span class="optional">10</span> ;
+	</div>
+	</p>
+	
+	<p>
+	[3.3.3] COORD is the World Geodetic Standard (WGS) 84, last revised in 2004, for specifying coordinates
+	and altitude data for Earth. Coordinates are specified as a latitude and longitude pair separated by a comma.
+	The coordinates may be specified either in decimal (DEC) or degrees, minutes, seconds (DMS) format. The coordinate
+	is the area centroid of the feature.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.3')" > + Show me an example</span>.
+	<div id="3.3.3" style="display:none">
+	<blockquote>
+		<span class="field170">45.5, -122.7</span>				<span class="comment"># decimal (DEC) format</span><br/>
+		<span class="field170">45&#176; 30' 0", -122&#176; 0' 0"</span>	<span class="comment"># degrees, minutes, seconds (DMS) format</span><br/>
+		<span class="field170">45&#176; 30' 0" N, 122&#176; 0' 0" W</span> <span class="comment"># degrees, minutes, seconds (DMS) format</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.3.1] All COORD values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.3.1a')" > + Show me the qualifiers</span>.
+	<div id="3.3.3.1a" style="display:none">
+	<blockquote>
+		roof = <span class="std">rooftop centroid (building)</span><br/>
+		street = <span class="std">street entrance (lot)</span><br/>
+		pop = <span class="std">population centroid</span><br/>
+		src = <span class="std">source (origin)</span><br/>
+		nac = <span class="std">Natural Area Coding (NAC) coordinate system</span>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.3.3.1b')" > + Show me an example</span>.
+	<div id="3.3.3.1b" style="display:none">
+	<blockquote>
+		<span class="field170">45.5, -122.7[roof]</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.4] ELV is the elevation above sea level and is specified in meters. Elevation may be specified either
+	as a single value for the tallest point or as a dash separated pair for the tallest and lowest points respectively.
+	When specifying the lowest point without a tallest point, the tallest point is left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.4')" > + Show me an example</span>.
+	<div id="3.3.4" style="display:none">
+	<blockquote>
+		<span class="field60">36</span>		<span class="comment"># 36 meters above sea level (tallest)</span><br/>
+		<span class="field60">-10</span>	<span class="comment"># 10 meters below sea level(tallest)</span><br/>
+		<span class="field60">36 - -10</span>	<span class="comment"># 36 meters above seal level (tallest) and 10 meters below sea level (lowest)</span><br/>
+		<span class="field60">- -10</span>	<span class="comment"># 10 meters below sea level(lowest)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.5] LVL is the level when specifying within a multi-level entity. This is primarily used for floors
+	in buildings. Level may be specified either as a single level or a range of levels.
+	<blockquote>
+		<span class="field">0</span> <span class="std">Basement (first level underground, -1 = 2nd level underground, etc)</span><br/>
+		<span class="field">1</span> <span class="std">Ground or First Floor</span><br/>
+		<span class="field">2</span> <span class="std">2nd Floor</span><br/>
+		<span class="field">999</span> <span class="std">Rooftop</span><br/>
+	</blockquote>
+	<span class="example" onclick="Expand('3.3.5')" > + Show me an example</span>.
+	<div id="3.3.5" style="display:none">
+	<blockquote>
+		<span class="field60">3</span>	<span class="comment"># 3rd Floor</span><br/>
+		<span class="field60">1 - 10</span>	<span class="comment"># ten floors, 1st to 10th</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.5.1] The field qualifiers for the LVL field may be appended with a '#' symbol indicating that the value is the total number
+	of levels.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.5.1')" > + Show me an examples</span>.
+	<div id="3.3.5.1" style="display:none">
+	<blockquote>
+		<span class="field170">16[#]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	
+	<p>
+	[3.3.6] AREA is the total area of physical terrain covered by entity that is covered by both land and water and is specified in square kilometers. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.6')" > + Show me an example</span>.
+	<div id="3.3.6" style="display:none">
+	<blockquote>
+		<span class="field60">200</span>	<span class="comment"># 200 square kilometers (km2)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.6.1] All AREA values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.6.1a')" > + Show me the qualifiers</span>.
+	<div id="3.3.6.1a" style="display:none">
+	<blockquote>
+		land = <span class="std">area covered by land only (w/o bodies of water)</span><br/>
+		fertile = <span class="std">fertile land for farming</span><br/>
+		farm = <span class="std">land in farming production</span><br/>
+		irrigated = <span class="std">irrigated farm land in production</span><br/>
+		crop = <span class="std">permanent crop land in production</span><br/>
+		cereal = <span class="std">cereal crop land in production</span><br/>
+		urban = <span class="std">urbanized area (non-farming)</span><br/>
+		desert = <span class="std">area covered by desert (infertile)</span><br/>
+		forest = <span class="std">area covered by forrest</span><br/>
+		glacier = <span class="std">area covered by glaciers</span><br/>
+		perma = <span class="std">area covered by permafrost</span><br/>
+		snow = <span class="std">area covered by snow</span><br/>
+		elv5m = <span class="std">area below 5 meters</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.3.6.1b')" > + Show me an example</span>.
+	<div id="3.3.6.1b" style="display:none">
+	<blockquote>
+		<span class="field170">20.6[land]</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.6.2] The field qualifiers for the AREA field may be appended with a '%' symbol indicating that the value is a percentage
+	of the tota area value.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.6.2')" > + Show me an examples</span>.
+	<div id="3.3.6.2" style="display:none">
+	<blockquote>
+		<span class="field170">89.2[land%]</span><br/>
+		<span class="field170">6.3[farm%]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	
+	<p>
+	[3.3.7] WTR is the area of physical terrain covered by entity that is covered by open bodies of water and is specified in square kilometers. This area
+	covers water bodies such as lakes, rivers, streams and open resevoirs. It does not include covered bodies of water such as
+	a covered resevior or water tower.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.7')" > + Show me an example</span>.
+	<div id="3.3.7" style="display:none">
+	<blockquote>
+		<span class="field60">12</span>	<span class="comment"># 12 square kilometers (km2)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.7.1] All WTR values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.7.1a')" > + Show me the qualifiers</span>.
+	<div id="3.3.7.1a" style="display:none">
+	<blockquote>
+		wet = <span class="std">area covered by wetlands</span><br/>
+		fresh = <span class="std">area covered by fresh water</span><br/>
+		salt = <span class="std">area covered by salt water</span><br/>
+		flood = <span class="std">area covered by flooding</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.3.7.1b')" > + Show me an example</span>.
+	<div id="3.3.7.1b" style="display:none">
+	<blockquote>
+		<span class="field170">20.6[fresh]</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.3.8] INH is the amount of area inhabited, includes inhabited levels (e.g., floors in a building), and is specified in square kilometers. For example, if the
+	entity is a 3-story residental apartment complex, the inhabited area would be the combined living space of each story.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.8')" > + Show me an example</span>.
+	<div id="3.3.8" style="display:none">
+	<blockquote>
+		<span class="field60">0.6</span>	<span class="comment"># 0.6 square kilometer (km2)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.3.9] Examples of location segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.3.9')" > + Show me the examples</span>.
+	<div id="3.3.9" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span> 	38 , -97 ; -282 - 20320 ; ; 9826675 ; 684091 ; ;<br/>
+		<span class="field100">State</span>		47.34 , -121.62 ; 0 - 14410 ; ; 184663 ; 6200 ; ;<br/>
+		<span class="field100">City</span>		47.6097, -122.3330 ; 0 - 520 ; ; 369 ; 17 ; ;<br/>
+		<br/>
+		<span class="field100">Residence</span>	45.6044, -122.5013 ; 200 ; 0 - 2;  .00101 ; 0 ; .00040 ; <br/>
+		<br/>
+		<span class="field100">Business Center</span>	 45.6044, -122.5013 ; 200 ; 1 , 3 ; 0.012140 ; 0; .00606 ;<br/>
+		<span class="field100">Building</span> 	 45.6044, -122.5013 ; 200 ; 1 , 2 ; .00101 ; 0 ; .0016 ;<br/>
+		<span class="field100">Store</span>		 45.6044, -122.5013 ; 210 ; 2 ; .00051 ; 0 ; .00051 ;
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.4 Name</h4>
+	<p>
+	[3.4.1] The name segment specifies the name of the entity and most follow the location segment. The name segment has the following field sequence:
+	<blockquote>
+	LANG ; <span class="optional">SCRIPT</span> ; <span class="optional">ABBR</span> ; Short ; <span class="optional">ShortRO</span> ;  <span class="optional">Formal</span> ; <span class="optional">FormalRO</span> ; <span class="optional">Nickname</span> ; <span class="optional">Demonym</span> ; <span class="optional">DemonymAdj</span> ;
+	<br/><br/>
+	<span class="field100">LANG</span> 		= Language	<span class="comment"># ISO 639-1/2 language code(s).</span><br/>
+	<span class="field100">SCRIPT</span>	= Language script.<br/>
+	<span class="field100">ABBR</span> 		= Abbreviation <span class="comment"># Standard or Local abbreviation for entity.</span><br/> 
+	<span class="field100">Short</span> 	= Short name in gazetter (map) sorting order.<br/>
+	<span class="field100">ShortRO</span> 	= Short name in reading order.<br/>
+	<span class="field100">Formal</span> 	= Formal (long, official) name in gazetter (map) sorting order.<br/>
+	<span class="field100">FormalRO</span> 	= Formal (long, official) name in reading order.<br/>
+	<span class="field100">Nickname</span> 	= Nickname of the entity. <span class="comment"># Official or local nickname for entity.</span><br/>
+	<span class="field100">Demonym</span> 	= Local name for inhabitants (noun).<br/>
+	<span class="field100">DemonymAdj</span> = Local adjective for referring to inhabitants (adjective).<br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.4.2] The field values LANG and Short are required, the remaining field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.2')" > + Show me an example</span>.
+	<div id="3.4.2" style="display:none">
+		<br/>
+		<span class="required">en</span> ; 
+		<span class="optional">latin</span> ;
+		<span class="optional">USA</span> ; 
+		<span class="required">United States</span> ;
+		<span class="optional">United States</span> ; 
+		<span class="optional">United States of America, the</span> ; 
+		<span class="optional">the United States of America</span> ; 
+		<span class="optional">American(s)</span> ; 
+		<span class="optional">American</span> ;
+	</div>
+	</p>
+	
+	<p>
+	[3.4.3] LANG is language of the field values, specified as a ISO 639-1/2 two or three letter
+	language code. <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.3')" > + Show me an example</span>.
+	<div id="3.4.3" style="display:none">
+	<blockquote>
+		<span class="field60">en</span>	<span class="comment"># English</span><br/>
+		<span class="field60">es</span>	<span class="comment"># Spanish</span><br/>
+		<span class="field60">fr</span> <span class="comment"># French</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.3.1] The LANG field may be appended by a dialect indicator, comma followed by acronym.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.3.1')" > + Show me an example</span>.
+	<div id="3.4.3.1" style="display:none">
+	<blockquote>
+		<span class="field60">en-iso</span>	<span class="comment"># ISO Standard in English</span><br/>
+		<span class="field60">en-us</span>	<span class="comment"># American English</span><br/>
+		<span class="field60">en-un</span>	<span class="comment"># United Nations standard in English</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.4] SCRIPT is the language script of the field values, and maybe one of the following values:
+	<blockquote>
+		<span class="field60">english</span>		<span class="comment"># English character set (w/o diacritics)</span><br/>
+		<span class="field60">latin</span>		<span class="comment"># Latin character set (with diacritics)</span><br/>
+		<span class="field60">cyrillic</span>	<span class="comment"># Cyrillic character set</span><br/>
+		<span class="field60">russian</span>	<span class="comment"># Russian character set</span><br/>
+		<span class="field60">chinese</span>	<span class="comment"># Chinese character set</span><br/>
+		<span class="field60">korean</span>		<span class="comment"># Korean character set</span><br/>
+		<span class="field60">japanese</span>		<span class="comment"># Japanese character set</span><br/>
+		<span class="field60">hebrew</span>		<span class="comment"># Hebrew character set</span><br/>
+		<span class="field60">arabic</span>		<span class="comment"># Arabic character set</span><br/>
+		<span class="field60">brahmic</span>		<span class="comment"># Brahmic character set</span><br/>
+		<span class="field60">burmese</span>		<span class="comment"># Burmese character set</span><br/>
+		<span class="field60">khmer</span>		<span class="comment"># Khmer character set</span><br/>
+		<span class="field60">armenian</span>		<span class="comment"># Armenian character set</span><br/>
+		<span class="field60">thai</span>		<span class="comment"># Thai character set</span><br/>
+		<span class="field60">amharic</span>		<span class="comment"># Amharic character set</span><br/>
+		<span class="field60">georgian</span>		<span class="comment"># Georgian character set</span><br/>
+		<span class="field60">geez</span>		<span class="comment"># Ge'ez character set</span><br/>
+	</blockquote>
+	</p>
+
+	<p>
+	[3.4.5] ABBR is the local or commonly recognized abbreviation for the name of the entity.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.5')" > + Show me an example</span>.
+	<div id="3.4.5" style="display:none">
+	<blockquote>
+		<span class="field60">USA</span>	<span class="comment"># United States of America, the</span><br/>
+		<span class="field60">UK</span>		<span class="comment"># United Kingdom of Great Britain and Northern Ireland, the</span><br/>
+		<span class="field60">ISO</span> 	<span class="comment"># International Standards Organization, the</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.6] Short is the short form of the name of the entity in gazetter sorting order (used for maps).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.6')" > + Show me an example</span>.
+	<div id="3.4.6" style="display:none">
+	<blockquote>
+		<span class="field170">United States</span>			<span class="comment"># United States of America, the</span><br/>
+		<span class="field170">United Kingdom</span>		<span class="comment"># United Kingdom of Great Britain and Northern Ireland, the</span><br/>
+		<span class="field170">Korea, Republic of</span>	<span class="comment"># Republic of Korea, the</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.6.1] All Short values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.6.1a')" > + Show me the qualifiers</span>.
+	<div id="3.4.6.1a" style="display:none">
+	<blockquote>
+		dba = <span class="std">Doing Business As (e.g., Establishment Name)</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.4.6.1b')" > + Show me an example</span>.
+	<div id="3.4.6.1b" style="display:none">
+	<blockquote>
+		<span>Country Salon Bar & Grill[dba]</span>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.4.7] ShortRO is the short form of the name of the entity in proper reading order.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.7')" > + Show me an example</span>.
+	<div id="3.4.7" style="display:none">
+	<blockquote>
+		<span class="field170">United States</span>			<span class="comment"># United States of America, the</span><br/>
+		<span class="field170">United Kingdom</span>		<span class="comment"># United Kingdom of Great Britain and Northern Ireland, the</span><br/>
+		<span class="field170">Republic of Korea</span>		<span class="comment"># Republic of Korea, the</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.8] Formal is the formal (long or official) form of the name of the entity in gazetter sorting order (used for maps).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.8')" > + Show me an example</span>.
+	<div id="3.4.8" style="display:none">
+	<blockquote>
+		<span class="field370">United States of America, the</span>			<span class="comment"># United States of America, the</span><br/>
+		<span class="field370">United Kingdom of Great Britain and Northern Ireland, the</span>		<span class="comment"># United Kingdom of Great Britain and Northern Ireland, the</span><br/>
+		<span class="field370">Republic of Korea, the</span>	<span class="comment"># Republic of Korea, the</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.9] FormalRO is the formal (long or official) form of the name of the entity in proper reading order.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.9')" > + Show me an example</span>.
+	<div id="3.4.9" style="display:none">
+	<blockquote>
+		<span class="field370">the United States of America</span>			<span class="comment"># United States of America, the</span><br/>
+		<span class="field370">the United Kingdom of Great Britain and Northern Ireland</span>		<span class="comment"># United Kingdom of Great Britain and Northern Ireland, the</span><br/>
+		<span class="field370">the Republic of Korea</span>	<span class="comment"># Republic of Korea, the</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.9.1] All FormalRO values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.9.1a')" > + Show me the qualifiers</span>.
+	<div id="3.4.9.1a" style="display:none">
+	<blockquote>
+		legal = <span class="std">Legal name of entity (e.g., License Name)</span><br/>
+		corp = <span class="std">Name of Parent Corporation</span><br/>
+		agency = <span class="std">Agency</span><br/>
+		historic = <span class="std">Historic Name</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.4.9.1b')" > + Show me an example</span>.
+	<div id="3.4.9.1b" style="display:none">
+	<blockquote>
+		<span>The Country Salons, LLC[legal]</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.10] Nickname is the local or official nickname of the entity.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.10')" > + Show me an example</span>.
+	<div id="3.4.10" style="display:none">
+	<blockquote>
+		<span class="field170">City of Roses</span>			<span class="comment"># City of Portland, the</span><br/>
+		<span class="field170">The Emerald City</span>		<span class="comment"># City of Seattle, the</span><br/>
+		<span class="field170">La Ville-Lumi&#232;re</span>	<span class="comment"># Paris, France</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.11] Demonym (also gentillic) is the local name of the inhabitants of the entity as a noun. The root form specifies
+	the singular usage and the (..) modifier specifies the plural usage. If there
+	is a distinction between male and female gender, the plural form is specified in group notation as male(plural),female(plural).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.11')" > + Show me an example</span>.
+	<div id="3.4.11" style="display:none">
+	<blockquote>
+		<span class="field250">American(Americans)</span>			<span class="comment"># Residents of the United States of America</span><br/>
+		<span class="field250">Californian(Californians)</span>		<span class="comment"># Residents of the State of California, United States</span><br/>
+		<span class="field250">Irishman(Irishmen),Irishwoman(Irishwomen)</span>		<span class="comment"># Male and female residents of Ireland</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.4.12] DemonymAdj is the local name for referring to the inhabitants of the entity as an adjective.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.12')" > + Show me an example</span>.
+	<div id="3.4.12" style="display:none">
+	<blockquote>
+		<span class="field170">American</span>			<span class="comment"># Residents of the United States of America</span><br/>
+		<span class="field170">Californian</span>		<span class="comment"># Residents of the State of California, United States</span><br/>
+		<span class="field170">Irish</span>				<span class="comment"># Residents of Ireland</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.4.13] Examples of name segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.4.13')" > + Show me the examples</span>.
+	<div id="3.4.13" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	en ; utf7 ; USA ; United States ; United States ; United States of America, the ; the United States of America ; American(s) ; American ;<br/>
+		<span class="field100">State</span>		en ; utf7 ; WA ; Washington ; Washington ; Washington, State of ; State of Washington ; The Evergreen State ; Washingtonian(s) ; Washington ;<br/>
+		<span class="field100">City</span>		en ; ut77 ; SEA ; Seattle ; Seattle ; Seattle, City of ; City of Seattle ; The Emerald City ; Seattleite(s); Seattleite;<br/>
+		<br/>
+		<span class="field100">Residence</span>	en ; utf7 ; ; Smith; ; ; ; ; The Smith Family ; Smith(s) ; Smith ;<br/>
+		<br/>
+		<span class="field100">Building</span> 	en ; ut77 ; ; ABC Center ; ABC Center; ABC Center, The ;  The ABC Center; ; ; ;<br/>
+		<span class="field100">Store</span>		en ; ut77 ; ; Walmart ; Walmart ;  Walmart, Riverside ;  Riverside Walmart ; Wally World ; Wal-martian(s) ; Wal-martians ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.5 Address</h4>
+	<p>
+	[3.5.1] The address segment specifies the postal address of the entity and most follow the name segment. The address segment has the following field sequence:
+	<blockquote>
+	<span class="optional">Street</span> ; <span class="optional">SAU</span> ; <span class="optional">City</span> ; <span class="optional">Postal</span> ; <span class="optional">SPC</span> ;
+	<br/><br/>
+	<span class="field100">Street</span> 		= Street Address<br/>
+	<span class="field100">SAU</span> 			= Secondary Address Unit <br/> 
+	<span class="field100">City</span> 			= City name<br/>
+	<span class="field100">Postal</span> 		= Postal Code<br/>
+	<span class="field100">SPC</span> 			= Secondary Postal Code<br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.5.2] All the field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.2')" > + Show me an example</span>.
+	<div id="3.5.2" style="display:none">
+		<blockquote>
+		<span class="optional">110 SW Main St.</span> ; 
+		<span class="optional">Apt. 3</span> ; 
+		<span class="optional">Boomtown</span> ;
+		<span class="optional">97219</span> ; 
+		<span class="optional">1114</span> ; 
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.3] Street is street address of the entity according to the corresponding country's postal addressing system. Abbreviations
+	must comply with the corresponding country's postal addressing system.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.3')" > + Show me an example</span>.
+	<div id="3.5.3" style="display:none">
+	<blockquote>
+		<span class="field170">110 SW Main St.</span>			<span class="comment"># US Street Address</span><br/>
+		<span class="field170">Nezahualcoyotl 109 Piso 8</span>	<span class="comment"># Mexico Street Address</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.3.1] Street address may optionally have a reduced to common form specification, which facilitates matching
+	variations of the same street address. When specified, the reduced to common form is specified using the qualifier
+	format of reduced-street[reduced].
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.3.1')" > + Show me an example</span>.
+	<div id="3.5.3.1" style="display:none">
+	<blockquote>
+		<span>110 S.W. Main Street|110 sw main st[reduced]</span><br/>
+		<span>7 Fourth Avenue NE|7 4th ave ne[reduced]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.5.3.2] All street address values may be appended with one or more qualifiers enclosed within brackets.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.3.2a')" > + Show me the qualifiers</span>.
+	<div id="3.5.3.2a" style="display:none">
+	<blockquote>
+		<span class="field70">num</span> = <span class="std">Street number component</span><br/>
+		<span class="field70">dir</span> = <span class="std">Street direction component</span><br/>
+		<span class="field70">name</span> = <span class="std">Street name component</span><br/>
+		<span class="field70">type</span> = <span class="std">Street type component</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.4.9.2b')" > + Show me an example</span>.
+	<div id="3.4.9.2b" style="display:none">
+	<blockquote>
+		<span>110 S.W. Main Street|110[num]|sw[dir]|main[name]|st[type]</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.4] SAU is the secondary street address of the entity according to the corresponding country's postal addressing system. Abbreviations
+	must comply with the corresponding country's postal addressing system. Secondary address units designate a location within a
+	building(s), such as post office boxes, apartment numbers, floors, and departments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.4')" > + Show me an example</span>.
+	<div id="3.5.4" style="display:none">
+	<blockquote>
+		<span class="field170">Apt. #3</span>			<span class="comment"># Apartment Number</span><br/>
+		<span class="field170">P.O. Box 106</span>	<span class="comment"># Post Office Box</span><br/>
+		<span class="field170">3rd Floor</span>	<span class="comment"># 3rd Floor</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.4.1] Secondary address units may optionally have a reduced to common form specification, which facilitates matching
+	variations of the same street address. When specified, the reduced to common form is specified using the qualifier
+	format of reduced-sau[reduced].
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.4.1')" > + Show me an example</span>.
+	<div id="3.5.4.1" style="display:none">
+	<blockquote>
+		<span>Apt. #3|apt 3[reduced]</span><br/>
+		<span>P.O. Box 106|po 106[reduced]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.5] City is city name for the postal address of the entity. The city name shall be in the language
+	and script specified by the LANG and SCRIPT fields in the name segment.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.5')" > + Show me an example</span>.
+	<div id="3.5.5" style="display:none">
+	<blockquote>
+		<span class="field170">Atlanta</span>	<span class="comment"># Atlanta, GA</span><br/>
+		<span class="field170">London</span>	<span class="comment"># London, England</span><br/>
+		<span class="field170">Wien</span>		<span class="comment"># Wien (Vienna), Austria</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.5.1] City may optionally have a reduced to common form specification, which facilitates matching
+	variations of the same city name. When specified, the reduced to common form is specified using the qualifier
+	format of reduced-city[reduced].
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.5.1')" > + Show me an example</span>.
+	<div id="3.5.5.1" style="display:none">
+	<blockquote>
+		<span class="field250">Saint Louis|st louis[reduced]</span><br/>
+		<span class="field250">Mt. Vernon|mt vernon[reduced]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.6] Postal is the primary postal code of the entity according to the corresponding country's postal addressing system.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.6')" > + Show me an example</span>.
+	<div id="3.5.6" style="display:none">
+	<blockquote>
+		<span class="field70">97219</span>		<span class="comment"># US Postal Code</span><br/>
+		<span class="field70">V6Z</span>	<span class="comment"># Canada Postal Code (FSA)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.6.1] Postal may be expressed as a set of postal codes.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.6.1')" > + Show me an example</span>.
+	<div id="3.5.6.1" style="display:none">
+	<blockquote>
+		<span class="field70">97219|97220</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.6.2] Postal may be expressed as a range of postal codes.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.6.2')" > + Show me an example</span>.
+	<div id="3.5.6.2" style="display:none">
+	<blockquote>
+		<span class="field170">98001-99403</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.6.3] Postal may be expressed as a regular expression.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.6.3')" > + Show me an example</span>.
+	<div id="3.5.6.3" style="display:none">
+	<blockquote>
+		<span class="field70">([0-9]{5})</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.5.7] SPC is the secondary postal code of the entity according to the corresponding country's postal addressing system. For the United States,
+	the secondary postal code is the 4 digit sequence in the zip+4 format.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.7')" > + Show me an example</span>.
+	<div id="3.5.7" style="display:none">
+	<blockquote>
+		<span class="field70">1106</span> <span class="comment"># US secondary Postal Code</span><br/>
+		<span class="field70">2V4</span>  <span class="comment"># Canada secondary Postal Code (LDU)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.5.8] Examples of address segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.5.8')" > + Show me the examples</span>.
+	<div id="3.5.8" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	; ; ;([0-9]}{5} ; ([0-9]{4}) ;	<span class="comment"># United States</span><br/>
+		<span class="field100">State</span>		; ; ; 98001-99403 ; ([0-9]{4}) ; <span class="comment"># State of  Washington</span><br/>
+		<span class="field100">City</span>		; ; ;97219 | 97220 ; ([0-9]{4}) ;<br/>
+		<br/>
+		<span class="field100">Residence</span>	110 SW Main St. ; Apt. 3 ; BoomTown; 97219 ; ;<br/>
+		<br/>
+		<span class="field100">Business Center</span>	 100-350 SW Main St. ; ; Boomtown ; 97219 ; ;<br/>
+		<span class="field100">Building</span> 	 100-150 SW Main St. ; ; Boomtown ; 97219 ; ;<br/>
+		<span class="field100">Store</span>		 155 SW Main St. ; 2nd Floor ; Boomtown ; 97219 ; ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.6 Contact</h4>
+	<p>
+	[3.6.1] The contact segment specifies the contact information of the entity and most follow the name segment. The address segment has the following field sequence:
+	<blockquote>
+	<span class="optional">TEL</span> ; <span class="optional">EML</span> ; <span class="optional">CON</span> ; <span class="optional">ROL</span> ;
+	<br/><br/>
+	<span class="field70">TEL</span> 		= Local Telephone Number<br/>
+	<span class="field70">EML</span> 		= Email address<br/> 
+	<span class="field70">CON</span> 		= Contact Person<br/>
+	<span class="field70">ROL</span> 		= Role of Contact<br/>
+	</blockquote>
+	</p>
+
+	<p>
+	[3.6.2] All the field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.2')" > + Show me an example</span>.
+	<div id="3.6.2" style="display:none">
+		<blockquote>
+		<span class="optional">503-123-1100</span> ; 
+		<span class="optional">store@ourstore.com </span> ; 
+		<span class="optional">Jean Allen</span> ;
+		<span class="optional">Manager</span>  ;
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.3] TEL is the local primary or administrative telephone number of the entity or contact. The telephone number shall include the area code. The
+	telephone number may be a single integer sequence or number components may be separated by dash, whitespace and/or
+	encapsulated within paranthesis.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.3')" > + Show me an example</span>.
+	<div id="3.6.3" style="display:none">
+	<blockquote>
+		<span class="field170">5031234567</span><br/>
+		<span class="field170">503 123 4567</span><br/>
+		<span class="field170">503-123-4567</span><br/>
+		<span class="field170">(503) 123-4567</span>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.3.1] Multiple telephone numbers may be specified in set notation. If the numbers correspond to
+	different contacts, the CON, ROL and EML values may also be specified in the correponding positions in set notation.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.3.1')" > + Show me an example</span>.
+	<div id="3.6.3.1" style="display:none">
+	<blockquote>
+		503-123-1001|503-123-1002 ; info@mybiz.com|sales@mybiz.com ; ; General Information|Sales ;
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.3.2] Telephone numbers may be appended with the following telephone specific field qualifiers:
+	<blockquote>
+		<span class="field70">[cell]</span> = cell number<br/>
+		<span class="field70">[itl]</span> = international number<br/>
+		<span class="field70">[fax]</span> = fax number<br/>
+		<span class="field70">[800]</span> = 800 number<br/>
+		<span class="field70">[cs]</span> = customer service, support or help telephone number<br/>
+		<span class="field70">[order]</span> = ordering, purchasing or registration telephone number<br/>
+		<span class="field70">[ITU]</span> = ITU international country calling code<br/>
+	</blockquote>
+	<span class="example" onclick="Expand('3.6.3.2')" > + Show me an example</span>.
+	<div id="3.6.3.2" style="display:none">
+	<blockquote>
+		1-800-623-4567[800]<br/>
+		(503) 236-1004[fax]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.4] EML is the email address of the entity's contact. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.4')" > + Show me an example</span>.
+	<div id="3.6.4" style="display:none">
+	<blockquote>
+		<span class="field170">info@mybiz.com</span><br/>
+		<span class="field170">allen.meyers@foobar.co.uk</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.5] CON is the personel or descriptive name of the entity's contact. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.5')" > + Show me an example</span>.
+	<div id="3.6.5" style="display:none">
+	<blockquote>
+		<span class="field170">General Information</span><br/>
+		<span class="field170">Allen Meyers</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.6.6] ROL is the role within the entity of the entity's contact. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.6')" > + Show me an example</span>.
+	<div id="3.6.6" style="display:none">
+	<blockquote>
+		<span class="field170">Vice-President</span><br/>
+		<span class="field170">Head of Household</span><br/>
+	</blockquote>
+	</div>
+	</p>
+
+	<p>
+	[3.6.7] Examples of contact segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.6.7')" > + Show me the examples</span>.
+	<div id="3.6.7" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	1-800-USA-HOME[itl] ; welcome@us.gov ; US Information Line ; ;<br/>
+		<span class="field100">State</span>		1-800-STA-0013[itl] ; welcome@ca.state.gov ; California Information Line ; ;<br/>	
+		<span class="field100">City</span>		1-800-666-2700[itl] ; info@seattle.gov ; Seattle Information Line ; ;<br/>
+		<br/>
+		<span class="field100">Residence</span>	503-123-1234 ; ; John Smith ; Head of Household ; <br/>
+		<br/>
+		<span class="field100">Business Center</span>	 1503-123-1000|503-123-1001[fax]; info@ourcenter.com ; Bob Jones ; General Manager ;<br/>
+		<span class="field100">Building</span> 	 1503-123-1011; bldg1@ourcenter.com ; Sam Smith ; Building Manager ;<br/>
+		<span class="field100">Store</span>		 503-123-1100 ; store@ourstore.com ; Jean Allen ; Manager ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.7 Population</h4>
+	<p>
+	[3.7.1] The population segment specifies the inhabited population information of the entity and most follow the contact segment. The population segment has the following field sequence:
+	<blockquote>
+	<span class="optional">SPS</span> ; <span class="optional">YEAR</span> ; <span class="optional">POP</span> ; <span class="optional">HSU</span> ;
+	<span class="optional">IHSU</span> ; <span class="optional">POPA</span> ; <span class="optional">HSUA</span> ; <span class="optional">IHSUA</span> ; <span class="optional">HRS</span> ;
+	<br/><br/>
+	<span class="field70">SPS</span> 		= Species<br/>
+	<span class="field70">YEAR</span> 		= Year data was gathered (e.g., 2011). <br/>
+	<span class="field70">POP</span> 		= Population. Either inhabited or employed.<br/> 
+	<span class="field70">HSU</span> 		= Number of inhabitable (housing) units.<br/> 
+	<span class="field70">IHSU</span> 		= Number of inhabited (housing) units.<br/> 
+	<span class="field70">POPA</span> 		= Population Agglomeration. Urban agglomeration inhabitation.<br/>
+	<span class="field70">HSUA</span> 		= Number of inhabitable (housing) units of agglormeration.<br/> 
+	<span class="field70">IHSUA</span> 		= Number of inhabited (housing) units of agglormeration.<br/> 
+	<span class="field70">HRS</span> 		= Dates/Hours of inhabitation when not permanent.<span class="comment"># ISO 8601 datetime format</span><br/>
+	</blockquote>
+	</p>
+
+	<p>
+	[3.7.2] All the field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.2')" > + Show me an example</span>.
+	<div id="3.7.2" style="display:none">
+		<blockquote>
+		<span class="optional">bird</span> ; 
+		<span class="optional">2010</span> ; 
+		<span class="optional">16300</span> ;
+		<span class="optional">5000</span>  ;
+		<span class="optional">4100</span>  ;
+		<span class="optional"></span>  ;
+		<span class="optional"></span>  ;
+		<span class="optional"></span>  ;
+		<span class="optional"></span> Mar-Sep ;
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.3] SPS is the species of the corresponding population. Leave blank if human. The following are
+	predefined set of values:
+	<blockquote>
+		<span class="divider">Race</span><br/>
+		<span class="field170">white</span><br/>
+		<span class="field170">black</span><br/>
+		<span class="field170">asian</span><br/>
+		<span class="field170">hispanic</span><br/>
+		<span class="field170">arab</span><br/>
+		<span class="field170">pacific</span><br/>
+		<span class="field170">native</span><br/>
+		<span class="field170">mix</span><br/>
+		<span class="field170">mulatto</span><br/>
+		
+		<span class="divider">Ethnic</span><br/>
+		<span class="field170">aimak</span><br/>
+		<span class="field170">albanian</span><br/>
+		<span class="field170">arab berber</span><br/>
+		<span class="field170">baloch</span><br/>
+		<span class="field170">chinese</span><br/>
+		<span class="field170">east indian</span><br/>
+		<span class="field170">french</span><br/>
+		<span class="field170">german</span><br/>
+		<span class="field170">greek</span><br/>
+		<span class="field170">hazara</span><br/>
+		<span class="field170">indian</span><br/>
+		<span class="field170">italian</span><br/>
+		<span class="field170">japanese</span><br/>
+		<span class="field170">jewish</span><br/>
+		<span class="field170">metis</span><br/>
+		<span class="field170">pashtun</span><br/>
+		<span class="field170">persian</span><br/>
+		<span class="field170">polish</span><br/>
+		<span class="field170">portuguese</span><br/>
+		<span class="field170">russian</span><br/>
+		<span class="field170">spanish</span><br/>
+		<span class="field170">tajik</span><br/>
+		<span class="field170">turkmen</span><br/>
+		<span class="field170">uzbek</span><br/>
+		
+		<span class="divider">Animal</span><br/>
+		<span class="field170">animal</span><br/>
+		<span class="field170">bird</span><br/>
+		<span class="field170">fish</span><br/>
+		<span class="field170">insect</span><br/>
+		
+		<span class="divider">Religion</span><br/>
+		<span class="field170">Adventist</span><br/>
+		<span class="field170">Aglipayan</span><br/>
+		<span class="field170">Alawite</span><br/>
+		<span class="field170">Al Qamishli</span><br/>
+		<span class="field170">Animist</span><br/>
+		<span class="field170">Apostolic</span><br/>
+		<span class="field170">Asssembly of God</span><br/>
+		<span class="field170">Assyrian</span><br/>
+		<span class="field170">Atheist</span><br/>
+		<span class="field170">Badimo</span><br/>
+		<span class="field170">Bahai</span><br/>
+		<span class="field170">Baptist</span><br/>
+		<span class="field170">Buddhist</span><br/>
+		<span class="field170">Bukot nan Jesus</span><br/>
+		<span class="field170">Calvinist</span><br/>
+		<span class="field170">Cao Dai</span><br/>
+		<span class="field170">Catholic</span><br/>
+		<span class="field170">Chaldean</span><br/>
+		<span class="field170">Christian</span><br/>
+		<span class="field170">Church of England</span><br/>
+		<span class="field170">Church of God</span><br/>
+		<span class="field170">Church of Ireland</span><br/>
+		<span class="field170">Church of Norway</span><br/>
+		<span class="field170">Confucianism</span><br/>
+		<span class="field170">Congregational</span><br/>
+		<span class="field170">Coptic</span><br/>
+		<span class="field170">Daoist</span><br/>
+		<span class="field170">Druze</span><br/>
+		<span class="field170">Dutch Reformed</span><br/>
+		<span class="field170">Eastern Orthodox</span><br/>
+		<span class="field170">Episcopalian</span><br/>
+		<span class="field170">Ekalesia Niue</span><br/>
+		<span class="field170">Evanglist</span><br/>
+		<span class="field170">Greek Orthodox</span><br/>
+		<span class="field170">Hafnarfjorour Free Church</span><br/>
+		<span class="field170">Hoa Hao</span><br/>
+		<span class="field170">Hindu</span><br/>
+		<span class="field170">Iglesia ni Kristo</span><br/>
+		<span class="field170">Ismailite</span><br/>
+		<span class="field170">Judaism</span><br/>
+		<span class="field170">Jehovah Witnesses</span><br/>
+		<span class="field170">Judeo Christian</span><br/>
+		<span class="field170">Kimbanguist</span><br/>
+		<span class="field170">Kirant</span><br/>
+		<span class="field170">Lutheran</span><br/>
+		<span class="field170">Mennonite</span><br/>
+		<span class="field170">Methodist</span><br/>
+		<span class="field170">Modelngei</span><br/>
+		<span class="field170">Moravian</span><br/>
+		<span class="field170">Mormon</span><br/>
+		<span class="field170">Muslim</span><br/>
+		<span class="field170">Nauru Independent Church</span><br/>
+		<span class="field170">Nazarene</span><br/>
+		<span class="field170">Orthodox</span><br/>
+		<span class="field170">Pagan</span><br/>
+		<span class="field170">Pentecostal</span><br/>
+		<span class="field170">Presbyterian</span><br/>
+		<span class="field170">Protestant</span><br/>
+		<span class="field170">Rastafarian</span><br/>
+		<span class="field170">Reykjavik Free Church</span><br/>
+		<span class="field170">Russian Orthodox</span><br>
+		<span class="field170">Santeria</span><br>
+		<span class="field170">Shia</span><br>
+		<span class="field170">Shintoism</span><br>
+		<span class="field170">sikh</span><br>
+		<span class="field170">Society of Friends</span><br>
+		<span class="field170">Spiritualism</span><br>
+		<span class="field170">Sunni</span><br>
+		<span class="field170">Taoism</span><br>
+		<span class="field170">Traditional</span><br>
+		<span class="field170">United Church</span><br>
+		<span class="field170">Uniting Church</span><br>
+		<span class="field170">Uniting Church in Australia</span><br>
+		<span class="field170">Vodoun</span><br>
+		<span class="field170">Yezidi</span><br>
+		<span class="field170">Zionist</span><br>
+		<span class="field170">Native Religion</span><br>
+		<span class="field170">Other Religion</span><br>
+	</blockquote>
+	<span class="example" onclick="Expand('3.7.3')" > + Show me other examples</span>.
+	<div id="3.7.3" style="display:none">
+	<blockquote>
+		<span class="field170">butterfly</span><br/>
+		<span class="field170">black bear</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.3.1] The SPS field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.3.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.3.1a" style="display:none">
+	<blockquote>
+		<span class="field100">sp</span>		<span class="comment">Species (default)</span><br/>
+		<span class="field100">race</span>		<span class="comment">Race</span><br/>
+		<span class="field100">ethnic</span>	<span class="comment">Ethnicity</span><br/>
+		<span class="field100">religion</span>	<span class="comment">Religious Belief</span><br/>
+		
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.3.1b')" > + Show me an examples</span>.
+	<div id="3.7.3.1b" style="display:none">
+	<blockquote>
+		<span class="field170">black[race]</span><br/>
+		<span class="field170">catholic[religion]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.4] YEAR is the year that the population statistics were collected.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.4')" > + Show me an example</span>.
+	<div id="3.7.4" style="display:none">
+	<blockquote>
+		<span class="field170">2010</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.4.1] The YEAR field value may be appended with the [~] qualifier to indicate that all the
+	field values are estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.4.1')" > + Show me an example</span>.
+	<div id="3.7.4.1" style="display:none">
+	<blockquote>
+		<span class="field170">2010[~]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.4.2] The YEAR field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.4.2a')" > + Show me the qualifiers</span>.
+	<div id="3.7.4.2a" style="display:none">
+	<blockquote>
+		<span class="field100">date</span>		<span class="comment">Sampling date (yyyy-mm-dd)</span><br/>
+		<span class="field100">qtr</span>		<span class="comment">Annual Quarter</span><br/>
+		<span class="field100">founded</span>	<span class="comment">Date Founded, e.g., incorporated, independence (yyyy-mm-dd)</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.4.2b')" > + Show me an examples</span>.
+	<div id="3.7.4.2b" style="display:none">
+	<blockquote>
+		<span class="field170">2013-07-01[date]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.5] POP is the total population of the entity. The population may be either permanent inhabitants
+	or partial inhabitation, such as seasonal (e.g., resort) or employed (business). field value may be appended with the [~] qualifier to indicate that all the
+	field values are estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.5')" > + Show me an example</span>.
+	<div id="3.7.5" style="display:none">
+	<blockquote>
+		<span class="field170">12465</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.5.1] The POP field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.5.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.5.1a" style="display:none">
+	<blockquote>
+		<span class="field100">male</span>		<span class="comment">Males</span><br/>
+		<span class="field100">female</span>	<span class="comment">Females</span><br/>
+		<span class="field100">foreign</span>	<span class="comment">Non-permanent inhabitants</span><br/>
+		<span class="field100">adult</span>		<span class="comment">Adults (18+)</span><br/>
+		<span class="field100">child</span>		<span class="comment">Children (under 18)</span><br/>
+		<span class="field100">toddler</span>	<span class="comment">Toddler and Infants (under 5)</span><br/>
+		<span class="field100">senior</span>	<span class="comment">Senior (65+)</span><br/>
+		<span class="field100">birth</span>		<span class="comment">Births</span><br/>
+		<span class="field100">death</span>		<span class="comment">Deaths</span><br/>
+		<span class="field100">deathm</span>	<span class="comment">Maternal Mortality</span><br/>
+		<span class="field100">deathi</span>	<span class="comment">Infant Mortality</span><br/>
+		<span class="field100">lifespan</span>	<span class="comment">Life Expectency (append + for male or - for female)</span><br/>
+		<span class="field100">obese</span>		<span class="comment">Adult Obesity</span><br/>
+		<span class="field100">malnourish</span> <span class="comment">Malnourished Children</span><br/>
+		<span class="field100">fertility</span>	<span class="comment">Fertility Rate</span><br/>
+		<span class="field100">tuber</span>		<span class="comment">Tuberculosis Rate</span><br/>
+		<span class="field100">hiv</span>		<span class="comment">HIV 15-49 Rate</span><br/>
+		<span class="field100">contraceptive</span>		<span class="comment">Contraceptive Usage 15-49 Rate</span><br/>
+		<span class="field100">prenatal</span>	<span class="comment">Prenatal Care Rate</span><br/>
+		<span class="field100">migration</span>	<span class="comment">Net Migration</span><br/>
+		<span class="field100">veteran</span>  	<span class="comment">Veterans</span><br/>
+		<span class="field100">poor</span>  	<span class="comment">Inhabitants living in poor conditions (poverty)</span><br/>
+		<span class="field100">health</span>  	<span class="comment">Inhabitants having Health Insurance</span><br/>
+		<span class="field100">employed</span>  <span class="comment">Employees</span><br/>
+		<span class="field100">unemployed</span> <span class="comment">Unemployed</span><br/>
+		<span class="field100">labor</span> 	<span class="comment">Labor Force</span><br/>
+		<span class="field100">farm</span> 		<span class="comment">Employed in Agriculture</span><br/>
+		<span class="field100">electr</span> 	<span class="comment">Electricity Access (%)</span><br/>
+		<span class="field100">married</span>	<span class="comment">Married</span><br/>
+		<span class="field100">divorce</span>	<span class="comment">Divorced</span><br/>
+		<span class="field100">separated</span>	<span class="comment">Separated</span><br/>
+		<span class="field100">widow</span>		<span class="comment">Widow(er)</span><br/>
+		<span class="field100">single</span>	<span class="comment">Single</span><br/>
+		<span class="field100">common</span>	<span class="comment">Common Law Marriage</span><br/>
+		<span class="field100">teacher</span>	<span class="comment">Teachers (school)</span><br/>
+		<span class="field100">HDDiploma</span>	<span class="comment">High School graduates (school)</span><br/>
+		<span class="field100">HDGED</span>		<span class="comment">High School general eqivalency diplomas (school)</span><br/>
+		<span class="field100">HDDropout</span>	<span class="comment">High School dropouts (school)</span><br/>
+		<span class="field100">incident</span>	<span class="comment">Incidents (e.g., crime incidents)</span><br/>
+		<span class="field100">volume</span>	<span class="comment">Volume (e.g., barrels of oil) in litres</span><br/>
+		<span class="field100">weight</span>	<span class="comment">Weight (e.g., steel) in kilograms</span><br/>
+		<span class="field100">qty</span>		<span class="comment">Quantity</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.5.1b')" > + Show me an examples</span>.
+	<div id="3.7.5.1b" style="display:none">
+	<blockquote>
+		<span class="field170">10000[male]</span><br/>
+		<span class="field170">9091[female]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.5.2] The field qualifiers for the POP field may be appended with a '%' symbol indicating that the value is a percentage
+	of the population value.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.5.2')" > + Show me an examples</span>.
+	<div id="3.7.5.2" style="display:none">
+	<blockquote>
+		<span class="field170">49.2[male%]</span><br/>
+		<span class="field170">50.8[female%]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.5.3] The field qualifiers for the POP field may be appended with a '*' symbol indicating that the value is per thousand
+	of the population value (e.g., births per thousand).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.5.3')" > + Show me an examples</span>.
+	<div id="3.7.5.3" style="display:none">
+	<blockquote>
+		<span class="field170">49.2[birth*]</span><br/>
+		<span class="field170">50.8[death*]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.6] HSU is the total number of inhabitable housing units, such as apartment units in a building,
+	or the number of nesting sites in a wildlife locale. The field value may be appended with the [~] qualifier to indicate that all the
+	field value is estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.6')" > + Show me an example</span>.
+	<div id="3.7.6" style="display:none">
+	<blockquote>
+		<span class="field170">610</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.6.1] The HSU field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.6.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.6.1a" style="display:none">
+	<blockquote>
+		<span class="field100">capacity</span>	<span class="comment">Capacity (e.g., seating)</span><br/>
+		<span class="field100">bed</span>		<span class="comment">Number of Beds (e.g., Hospital)</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.7] IHSU is the total number of inhabited housing units, such as the number of occupied apartment units in a building,
+	or the number of active nesting sites in a wildlife locale. The field value may be appended with the [~] qualifier to indicate that all the
+	field value is estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.7')" > + Show me an example</span>.
+	<div id="3.7.7" style="display:none">
+	<blockquote>
+		<span class="field170">500</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	[3.7.7.1] The IHSU field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.7.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.7.1a" style="display:none">
+	<blockquote>
+		<span class="field100">biz</span>		<span class="comment">Business Establishments</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.7.1b')" > + Show me an examples</span>.
+	<div id="3.7.7.1b" style="display:none">
+	<blockquote>
+		<span class="field170">1500[biz]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.8] POPA is the total urban agglomeration of population of the entity. The population may be either permanent inhabitants
+	or partial inhabitation, such as seasonal (e.g., resort) or employed (business). The field value may be appended with the [~] qualifier to indicate that all the
+	field value is estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.8')" > + Show me an example</span>.
+	<div id="3.7.8" style="display:none">
+	<blockquote>
+		<span class="field170">200000[~]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	[3.7.8.1] The POPA field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.8.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.8.1a" style="display:none">
+	<blockquote>
+		<span class="field100">rural</span>		<span class="comment">Rural Popuation</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.8.1b')" > + Show me an examples</span>.
+	<div id="3.7.8.1b" style="display:none">
+	<blockquote>
+		<span class="field170">250100[rural]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.9] HSUA is the total urban agglomeration of the number of inhabitable housing units. The field value may be appended with the [~] qualifier to indicate that all the
+	field value is estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.9')" > + Show me an example</span>.
+	<div id="3.7.9" style="display:none">
+	<blockquote>
+		<span class="field170">207610</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.10] IHSUA is the total urban agglomeration of the number of inhabited housing units. The field value may be appended with the [~] qualifier to indicate that all the
+	field value is estimated.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.10')" > + Show me an example</span>.
+	<div id="3.7.10" style="display:none">
+	<blockquote>
+		<span class="field170">606320</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.11] HRS is the date and/or hours that the entity is inhabited when inhabitation is not permanent.
+	The field value is expressed in the international standard for Date and Time format ISO 8601. DateTime
+	ranges can be expressed using the range notation and sets of DateTime can be expressed using the set notation.
+	<a href="http://www.iso.org/iso/date_and_time_format" target="_blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.11')" > + Show me an example</span>.
+	<div id="3.7.11" style="display:none">
+	<blockquote>
+		<span class="field170">07:00-18:00 ;</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.11.1] The HRS field value may be appended with the following specific field qualifiers:
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.11.1a')" > + Show me the qualifiers</span>.
+	<div id="3.7.11.1a" style="display:none">
+	<blockquote>
+		<span class="field100">utc</span>		<span class="comment">UTC Timezone</span><br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.7.11.1b')" > + Show me an examples</span>.
+	<div id="3.7.11.1b" style="display:none">
+	<blockquote>
+		<span class="field170">+4[utc]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.11.1] Sequentially repeated date, day or time sequences may be specified as a start, followed by
+	a set value containing three dots.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.11.1')" > + Show me an example</span>.
+	<div id="3.7.11.1" style="display:none">
+	<blockquote>
+		<span class="field370">Mon 07:00-18:00|...|Sat 07:00-17:00 ;</span>
+		<span class="comment"># Tue through Fri repeat the same time sequence as Mon</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.7.12] Examples of population segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.7.12')" > + Show me the examples</span>.
+	<div id="3.7.12" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	312810000[~] ; 2011 ; ; ; ; ;<br/>
+		<span class="field100">State</span>		6830038[~] ; 2011 ; ; ; ; ;<br/>	
+		<span class="field100">City</span>		40120 ; 2010 ; ; ; ; ;<br/>
+		<br/>
+		<span class="field100">Residence</span>	4 ; 2011 ; 1 ; 1 ; ; ;<br/>
+		<br/>
+		<span class="field100">Business Center</span>	 500[~] ; 2010; 25 ; 20 ; ; Mon 07:00-18:00| ...|Sat  07:00-17:00 ;<br/>
+		<span class="field100">Building</span> 	 150[~] ; 2010; 6 ; 6 ; ; Mon 08:00-18:00| ...|Fri  08:00-18:00 ;<br/>
+		<span class="field100">Store</span>		 17 ; 2009 ; 1; 1 ; ;  Mon 08:00-18:00| ...|Fri  08:00-17:00 ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.8 Resource</h4>
+	<p>
+	[3.8.1] The resource segment specifies resources on the Internet of the entity and most follow the population segment. The resource segment has the following field sequence:
+	<blockquote>
+	<span class="optional">WEB</span> ; <span class="optional">SM</span> ; <span class="optional">IMG</span> ; 
+	<br/><br/>
+	<span class="field70">WEB</span> 		= Web Address<br/>
+	<span class="field70">SM</span> 		= Social Media Web Address<br/>
+	<span class="field70">IMG</span> 		= Images<br/> 
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.8.2] All the field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.2')" > + Show me an example</span>.
+	<div id="3.8.2" style="display:none">
+		<blockquote>
+		<span class="optional">mycompany.com</span> ; 
+		<span class="optional">twitter.com/#mycompany|facebook.com/mycompany</span> ; 
+		<span class="optional">mycompany.com/logo.png</span> ;
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.3] WEB is a resource link on the Internet relating to the entity. Muliple resources 
+	can be specified using the set notation.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.3')" > + Show me an example</span>.
+	<div id="3.8.3" style="display:none">
+	<blockquote>
+		<span class="field250">portlandonline.com|nps.gov/state/or</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.3.1] The WEB field may be appended with a field specific qualifier. If no qualifier is
+	specified, then the resource link is the primary or administrative domain for the entity.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.3.1a')" > + Show me the qualifiers</span>.
+	<div id="3.8.3.1a" style="display:none">
+	<blockquote>
+		<span class="field70">[gis]</span>  = GIS information<br/>
+		<span class="field70">[stat]</span> = Statistics information<br/>
+		<span class="field70">[post]</span> = Post Office<br/>
+		<span class="field70">[login]</span> = Login<br/>
+		<span class="field70">[data]</span> = Data (this) download<br/>
+		<span class="field70">[sales]</span> = Product and Service sales, ticket purchasing<br/>
+		<span class="field70">[support]</span> = Customer or other support<br/>
+		<span class="field70">[faid]</span> = Financial Aid or Assistance<br/>
+		<span class="field70">[directory]</span> = Directory or Locator<br/>
+		<span class="field70">[calc]</span> = Online Calculator or Estimator<br/>
+		<span class="field70">[schedule]</span> = Schedule or Calendar<br/>
+		<span class="field70">[apply]</span> = Application (e.g., to College)<br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.8.3.1b')" > + Show me an example</span>.
+	<div id="3.8.3.1b" style="display:none">
+	<blockquote>
+		<span class="field250">mycompany.com/products[sales]</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.4] SM is a resource link for social media on the Internet relating to the entity. Muliple resources 
+	can be specified using the set notation.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.4')" > + Show me an example</span>.
+	<div id="3.8.4" style="display:none">
+	<blockquote>
+		<span class="field250">twitter.com/#mycompany|facebook.com/mycompany</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.4.1] The SM field may be appended with a field specific qualifier. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.4.1a')" > + Show me the qualifiers</span>.
+	<div id="3.8.4.1a" style="display:none">
+	<blockquote>
+		<span class="field70">[twitter]</span>  = Twitter<br/>
+		<span class="field70">[facebook]</span> = Facebook<br/>
+		<span class="field70">[youtube]</span> = Youtube<br/>
+		<span class="field70">[blog]</span> = Blog<br/>
+
+
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.8.4.1b')" > + Show me an example</span>.
+	<div id="3.8.4.1b" style="display:none">
+	<blockquote>
+		twitter.com/#mycompany[twitter]|facebook.com/mycompany[facebook]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.5] IMG is a resource link to images on the Internet relating to the entity. Muliple resources 
+	can be specified using the set notation.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.5')" > + Show me an example</span>.
+	<div id="3.8.5" style="display:none">
+	<blockquote>
+		<span class="field250">mycompany.com/logo.png</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.5.1] The IMG field may be appended with a field specific qualifier. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.5.1a')" > + Show me the qualifiers</span>.
+	<div id="3.8.5.1a" style="display:none">
+	<blockquote>
+		<span class="field70">[logo]</span>  = Logo<br/>
+		<span class="field70">[flag]</span> = Flag<br/>
+		<span class="field70">[coat]</span> = Coat of Arms<br/>
+		<span class="field70">[pin]</span> = Map pin<br/>
+		<span class="field70">[self]</span> = Image of entity<br/>
+		<span class="field70">[camera]</span> = Web Camera<br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.8.5.1b')" > + Show me an example</span>.
+	<div id="3.8.5.1b" style="display:none">
+	<blockquote>
+		mycompany.com/logo.png[logo]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.8.6] Examples of resource segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.8.6')" > + Show me the examples</span>.
+	<div id="3.8.6" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	us.gov|censos.gov[stat] ; facebook.com/usa ; ;<br/>
+		<span class="field100">State</span>		alabama.gov ; ; ;<br/>	
+		<span class="field100">City</span>		mc-ala.org ; ; ;<br/>
+		<br/>
+		<span class="field100">Residence</span>	; facebook.com/thesmiths[fb]|twitter.com#thesmiths.com ; ;<br/>
+		<br/>
+		<span class="field100">Business Center</span>	 ourcenter.com ; ; ;<br/>
+		<span class="field100">Building</span> 	 bldg1.ourcenter.com ; ; ;<br/>
+		<span class="field100">Store</span>		 ourstore.com|login.ourstore.com[login]|; facebook.com/ourstore[facebook] ; ourstore.com/pin/ourstore.png[pin] ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.9 Scope</h4>
+	<p>
+	[3.9.1] The scope segment specifies the economic scope of the entity and most follow the resource segment. The scope segment has the following field sequence:
+	<blockquote>
+	<span class="optional">ECN</span> ; <span class="optional">GRS</span> ; <span class="optional">CST</span> ;<span class="optional">WPTS</span> ;
+	<br/><br/>
+	<span class="field70">ECN</span> 		= Economic Activity <span class="comments">NAICS 2007 codes</span><br/>
+	<span class="field70">GRS</span> 		= Gross Value of Economic Activity.<br/>
+	<span class="field70">CST</span> 		= Total Cost of Economic Activity.<br/>
+	<span class="field70">WPTS</span> 		= Waypoints for the coordinate outline of entity.<br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.9.2] All the field values are optional and may be left blank.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.2')" > + Show me an example</span>.
+	<div id="3.9.2" style="display:none">
+		<blockquote>
+		<span class="optional">11-92</span> ; 
+		<span class="optional">4000000000</span> ; 
+		<span class="optional">2000000000</span> ; 
+		<span class="optional">10.0,20.0|11.0,21.0|12.3,22.7|12.5,23.0</span> ;
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.3] ECN is the economic (human) activities relating to the entity. Muliple econonic activity codes can be specified using the set notation. 
+	Economic activity codes are specified using NAICS 2007 industry codes. <a href="http://www.census.gov/naics/2007/NAICO607.HTM" target="blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.3')" > + Show me an example</span>.
+	<div id="3.9.3" style="display:none">
+	<blockquote>
+		<span class="field70">441110</span> <span class="comments"># New Car Dealers</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.3.1] The ECN field may be appended with a field specific qualiier. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.3.1a')" > + Show me the qualifiers</span>.
+	<div id="3.9.3.1a" style="display:none">
+	<blockquote>
+		<span class="field70">[sic]</span>  = standard industry code (SIC)<br/>
+		<span class="field70">[grade]</span>  = a grade level or range of grades (pertains to schools)<br/>
+		<ul>
+			<li>-1 = prekindergarten</li>
+			<li>0 = kindergarten</li>
+			<li>1 .. 12 = corresponding grade</li>
+			<li>13 = post-secondary certificate, adult voicational</li>
+			<li>14 = associates degree</li>
+			<li>16 = bachelors degree</li>
+			<li>18 = masters degree</li>>
+			<li>20 = doctorate degree</li>
+		</ul>
+		<span class="field70">[schtype]</span> = school type (pertains to school)<br/>
+		<ul>
+			<li>Private</li>
+			<li>Public</li>
+			<li>Charter</li>
+			<li>Religious - religious operated</li>
+			<li>Federal - federal government operated</li>
+			<li>French - French speaking (private) school</li>
+		</ul>
+		<span class="field70">[age]</span>  = age or age range (pertains to popuulation)<br/>
+		<span class="field70">[govn]</span> = type of governance<br/>
+		<span class="field70">[code]</span> = violation code<br/>
+		<span class="field70">[road]</span> = roads paved<br/>
+		<span class="field70">[rail]</span> = rail lines<br/>
+
+		<p>
+		The codes for weather are the codes used by the National Oceanic and Atmospheric Administration (NOAA) for daily and annual
+		weather data.
+		</p>
+		
+		<span class="field70">[temp]</span> = average daily temperature or min and max daily temperature in the form: TMIN - TMAX<br/>
+		<span class="field70">[prcp]</span> = daily percipitation in mm<br/>
+		<span class="field70">[awnd]</span> = average daily wind speed in km/hrs<br/>
+		<span class="field70">[snow]</span> = Snowfall in mm<br/>
+		<span class="field70">[snwd]</span> = Snow depth in mm<br/>
+		<span class="field70">[asch]</span> = Average cloudiness (percent)<br/>
+		<span class="field70">[tsun]</span> = Total daily sunshine (minutes)<br/>
+		<span class="field70">[wt]</span> = Weather Type<br/>	
+		<ul>
+			<li>01 = Fog, ice fog, or freezing fog</li>
+			<li>02 = Heavy fog or heaving freezing fog</li>
+			<li>03 = Thunder</li>
+			<li>04 = Ice pellets, sleet, snow pellets, or small hail</li>
+			<li>05 = Hail</li>
+			<li>06 = Glaze or rime</li>
+			<li>07 = Dust, volcanic ash, blowing dust, blowing sand, or blowing obstruction</li>
+			<li>08 = Smoke or haze</li>
+			<li>09 = Blowing or drifting snow</li>
+			<li>10 = Tornado, waterspout, or funnel cloud</li>
+			<li>11 = High or damaging winds</li>
+			<li>12 = Blowing spray</li>
+			<li>13 = Mist</li>
+			<li>14 = Drizzle</li>
+			<li>15 = Freezing drizzle</li>
+			<li>16 = Rain</li>
+			<li>17 = Freezing rain</li>
+			<li>18 = Snow, snow pellets, snow grains, or ice crystals</li>
+			<li>19 = Unknown source of precipitation</li>
+			<li>21 = Ground fog</li>
+			<li>22 = Ice fog or freezing fog</li>
+		</ul>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.9.3.1b')" > + Show me an example</span>.
+	<div id="3.9.3.1b" style="display:none">
+	<blockquote>
+		1-6[grades]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.4] GRS is gross value of the economic (human) activities relating to the entity. By default, gross
+	value is specified in US Dollars. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.4')" > + Show me an example</span>.
+	<div id="3.9.4" style="display:none">
+	<blockquote>
+		<span class="field70">20000</span> <span class="comments"># $20,000 US Dollars</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.4.1] GRS is defined based on the Feature Class (FC).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.4.1')" > + Show me the definitions</span>.
+	<div id="3.9.4.1" style="display:none">
+	<blockquote>
+		A = <span class="std">Annual Gross Product (e.g., gross national (domestic) product)</span><br/>
+		P = <span class="std">Annual Gross Product</span> <br/>
+		V = <span class="std"></span> <br/>
+		L = <span class="std">Annual Gross Product</span> <br/>
+		U = <span class="std"></span> <br/>
+		R = <span class="std">Value of the structure</span> <br/>
+		T = <span class="std"></span> <br/>
+		H = <span class="std"></span> <br/>
+		S = <span class="std">Either value of the structure or gross annual revenue</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.4.2] The GRS field may be appended with a field specific qualiier. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.4.2a')" > + Show me the qualifiers</span>.
+	<div id="3.9.4.2a" style="display:none">
+	<blockquote>
+		<span class="field70">[GNI]</span>  = Gross National Income<br/>
+		<span class="field70">[median]</span> = annual median household income<br/>
+		<span class="field70">[GDP]</span> = Gross Domestic Product (append % for percentage)<br/>
+		<span class="field70">[score]</span> = inspection score (e.g., food service inspection).<br/>
+		<span class="field70">[sale]</span> = total sales (or invoiced) receipts.<br/>
+		<span class="field70">[marketcap]</span> = market capitalization (value of all outstanding shares).<br/>
+		<span class="field70">[currency]</span> = Name of Monetary Currency.<br/>
+		<span class="field70">[currencysym]</span> = Currency Symbol.<br/>
+		<span class="field70">[iso4127a3]</span> = ISO 4127 alpha-3 Currency Code.<br/>
+		<span class="field70">[iso4127n3]</span> = ISO 4127 numeric-3 Currency Code.<br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.9.4.2b')" > + Show me an example</span>.
+	<div id="3.9.4.2b" style="display:none">
+	<blockquote>
+		12100[GNI*]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.5] CST is cost of the economic (human) activities relating to the entity. By default, cost is specified in US Dollars.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.5')" > + Show me an example</span>.
+	<div id="3.9.5" style="display:none">
+	<blockquote>
+		<span class="field70">10000</span> <span class="comments"># $10,000 US Dollars</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.5.1] CST is defined based on the Feature Class (FC).
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.5.1')" > + Show me the definitions</span>.
+	<div id="3.9.5.1" style="display:none">
+	<blockquote>
+		A = <span class="std">Annual Operating Budget (e.g., national budget)</span><br/>
+		P = <span class="std">Annual Operating Budget</span> <br/>
+		V = <span class="std"></span> <br/>
+		L = <span class="std"></span> <br/>
+		U = <span class="std"></span> <br/>
+		R = <span class="std">Annual maintenace cost</span> <br/>
+		T = <span class="std"></span> <br/>
+		H = <span class="std"></span> <br/>
+		S = <span class="std">Annual tax and maintenance costs or or annual operating budget</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.5.2] The CST field may be appended with a field specific qualiier. 
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.5.2a')" > + Show me the qualifiers</span>.
+	<div id="3.9.5.2a" style="display:none">
+	<blockquote>
+		<span class="field70">[wage]</span> = annual average employee cost<br/>
+		<span class="field70">[wages]</span> = annual total wages (payroll)<br/>
+		<span class="field70">[household]</span> = annual cost of household<br/>
+		<span class="field70">[housing]</span> = annual cost of housing<br/>
+		<span class="field70">[tuition]</span> = annual tuition for an institution<br/>
+		<span class="field70">[fee]</span> = annual enrollment, membership or maintenace fee<br/>
+		<span class="field70">[books]</span> = annual cost of books<br/>
+		<span class="field70">[food]</span> = annual cost of food<br/>
+		<span class="field70">[health]</span> = health expenditures (append % for percentage)<br/>
+		<span class="field70">[education]</span> = education expenditures (append % for percentage)<br/>
+		<span class="field70">[penalty]</span> = penalty paid<br/>
+		<span class="field70">[code]</span> = fee or violation code<br/>
+		<span class="field70">[co2]</span> = CO2 emissions (append * for per capita)<br/>
+		<span class="field70">[electr]</span> = Electricity Consumption<br/>
+		<span class="field70">[energy]</span> = Energy Consumption<br/>
+		<span class="field70">[debt]</span> = Debt<br/>
+		<span class="field70">[balance]</span> = Balance (surplus/deficit)<br/>
+	</blockquote>
+	</div>
+	<span class="example" onclick="Expand('3.9.5.2b')" > + Show me an example</span>.
+	<div id="3.9.5.2b" style="display:none">
+	<blockquote>
+		16200[household]<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.5.3] GRS and CST may be appended with a ISO 4127:2008 monetary unit specifier.
+	<a href="http://www.currency-iso.org/dl_iso_table_a1.xml" target="_blank">citation</a>
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.5.3')" > + Show me an example</span>.
+	<div id="3.9.5.3" style="display:none">
+	<blockquote>
+		<span class="field70">[$:USD]</span> <span class="comments"># US Dollars</span><br/>
+		<span class="field70">[$:CAD]</span> <span class="comments"># Canadian Dollars</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.6] WPTS are the coordinate (waypoints) outline of the entity. Coordinates can be expressed in
+	set notation.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.6')" > + Show me an example</span>.
+	<div id="3.9.6" style="display:none">
+	<blockquote>
+		<span class="field170">10.0,20.0|11.0,21.0|12.3,22.7|12.5,23.0</span><br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.9.7] Examples of scope segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.9.7')" > + Show me the examples</span>.
+	<div id="3.9.7" style="display:none">
+	<blockquote>
+		<span class="field100">Country</span>	; 20000000000 ; 10000000000; 10.0,20.0|11.0,21.0|12.3,22.7|12.5,23.0 ;<br/>
+		<span class="field100">State</span>		; 2000000000 ; 1000000000 ; 10.0,11.0||10.1,11.1|10.3,11.6|10.5,21.1 ;<br/>	
+		<span class="field100">City</span>		; 16000000 ; 2000000 ; 10.01,11.01|10.02,11.03|10.04,11.07|10.05,11.1 ;<br/>
+	</blockquote>
+	</div>
+	</p>
+	
+	<h4>3.10 Extended</h4>
+	<p>
+	[3.10.1] The extended segment provides a means to extend the information for fields not otherwise
+	defined by this standard and most follow the scope segment. The extended segment has the following field sequence:
+	<blockquote>
+	<span class="optional">Extension1</span> ; <span class="optional">Extension2</span> ; ... <span class="optional">ExtensionN</span>
+	<br/><br/>
+	<span class="field70">Extension1</span> 		= The first extended value.<br/>
+	<span class="field70">Extension2</span> 		= The last extended value.<br/>
+	</blockquote>
+	</p>
+	
+	<p>
+	[3.10.2] Each field value must be specified as a name=value pair, where name is the extended field.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.10.2')" > + Show me an example</span>.
+	<div id="3.10.2" style="display:none">
+		<blockquote>
+		<span class="optional">fees=200</span> ; 
+		<span class="optional">OPEID=100765</span> ;
+		</blockquote>
+	</div>
+	</p>
+	
+	<p>
+	[3.10.3] Examples of extended segments.
+	<br/><br/>
+	<span class="example" onclick="Expand('3.10.3')" > + Show me the examples</span>.
+	<div id="3.10.3" style="display:none">
+	<blockquote>
+		tuition_in=2000 ; tuition_ou=4000 ; <br/>
+		UFI=1010336 ; UNI=2240067 ;<br/>	
+		<br/>
+	</blockquote>
+	</div>
+	</p>
+</div>
+
+<!--
+<div>
+	<h4>4. Metadata</h4>
+	
+	<p>
+	[4.1] Metadata Information - summary description of the order and definition of each field.
+	<br/><br/>
+	<a href="metadata.html">Metadata Information</a>
+	</p>
+</div>
+
+<div>
+	<h4>5. Tools</h4>
+	
+	<p>
+	[5.1] Generic Parser - Parses the fields of a CUDE compliant file.
+	</p>
+	
+	<p>
+	[5.1.1] PHP Generic Parser - PHP based parser.
+	<br/><br/>
+	<a href="download.php?file=cude_parser.php" target="_blank">cude_parser1.1.php</a>
+	</p>
+</div>
+-->
+
+<h5>Copyright &copy; 2011-14 - OpenGeoCode.Org</h5>
+
+</body>
+</html>

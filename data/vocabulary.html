@@ -1,0 +1,1933 @@
+
+<style>
+.id, .label
+{
+	width: 150px;
+}
+.datatype
+{
+	width: 100px;
+}
+
+sup
+{
+	font-weight: bold; font-style: italic;
+}
+
+.site_links a:link
+{
+	text-decoration	: none;
+	color			: #0066FF;
+}
+.site_links a:visited
+{
+	text-decoration	: none;
+	color			: #0066FF;
+}
+</style>
+
+	<div style="text-align:center;">
+		<h3>CUDE Linked CSV Vocabulary (CUDE v1.2)</h3>
+		<h4>OpenGeoCode.Org<br/>
+		Nov. 14, 2014</h4>
+	</div>
+	
+	<p>
+	This document describes the field namimg convention and data types ('the vocabulary') used in the
+	<i>Linked CSV</i> generated datasets. For more information on <i>Linked CSV</i>, see 
+	<a href='http://jenit.github.io/linked-csv/' target='_blank'>Linked CSV, ODI</a>
+	</p>
+	
+	<legend>
+		<p>% - Percentage</p>
+		<p>* - per Hectacre</p>
+		<p>** - per capita (1000)</p>
+	</legend>
+	
+	<div>
+		<table>
+			<tr style='font-weight: bold'>
+				<td class="id">$id,</td>
+				<td class="label">label,</td>
+				<td class="datatype">type,<sup>1</sup></td>
+				<td>description</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ISO3166A2,</td>
+				<td class="label">ISO 3166-1 A2,</td>
+				<td class="datatype">char(2),</td>
+				<td>ISO 3166-1 alpha-2 Country codes</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ISO3166A3,</td>
+				<td class="label">ISO 3166-1 A3,</td>
+				<td class="datatype">char(3),</td>
+				<td>ISO 3166-1 alpha-3 Country codes</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ISO3166N3,</td>
+				<td class="label">ISO 3166-1 N3,</td>
+				<td class="datatype">int(3),</td>
+				<td>ISO 3166-1 numeric-3 Country Codes</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ISO3166N3R,</td>
+				<td class="label">ISO 3166-1 N3 Region,</td>
+				<td class="datatype">int(3),</td>
+				<td>ISO 3166-1 numeric-3 Macro Geographical (Continental) Region Code</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ISO3166N3S,</td>
+				<td class="label">ISO 3166-1 N3 Sub-Region,</td>
+				<td class="datatype">int(3),</td>
+				<td>ISO 3166-1 numeric-3 Geographical Sub-Region Code</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FIPS104,</td>
+				<td class="label">FIPS 10-4,</td>
+				<td class="datatype">char(2),</td>
+				<td>US FIPS 10-4 Country Codes</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:ISO31662A2,</td>
+				<td class="label">ISO 3166-2,</td>
+				<td class="datatype">vchar(3),</td>
+				<td>ISO 3166-1 alpha-2/3 Subdivision Codes</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FIPS52,</td>
+				<td class="label">FIPS 5-2,</td>
+				<td class="datatype">int(2),</td>
+				<td>US FIPS 5-2 1st Level Adminstrative Division Codes <sup>2</sup></td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:CONV,</td>
+				<td class="label">ConvAbbr,</td>
+				<td class="datatype">vchar(8),</td>
+				<td>Local Conventional Abbreviation for 1st Level Administrative Divisions</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FIPS64,</td>
+				<td class="label">FIPS 6-4,</td>
+				<td class="datatype">int(3),</td>
+				<td>US FIPS 6-4 2nd Level Adminstrative Division Codes</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:LOCODE,</td>
+				<td class="label">UN/LOCODE,</td>
+				<td class="datatype">char(3),</td>
+				<td>United Nations Code for Trade and Transport Locations</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:IATA,</td>
+				<td class="label">IATA,</td>
+				<td class="datatype">vchar(4),</td>
+				<td>International Air Transport Airport Codes for Airports</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:ICAO,</td>
+				<td class="label">ICAO,</td>
+				<td class="datatype">char(4),</td>
+				<td>International Civilian Aviation Organization Codes for  Aviation Facilities</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FIPS553,</td>
+				<td class="label">FIPS 55-3,</td>
+				<td class="datatype">int(5),</td>
+				<td>US FIPS 55-3 Codes for Populated Places</td>
+			</tr>
+			
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:FC,</td>
+				<td class="label">NGA/GNS FC,</td>
+				<td class="datatype">char,</td>
+				<td>NGA Geonet Server GNS Feature Class (FC)</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FD,</td>
+				<td class="label">NGA/GNS DSG,</td>
+				<td class="datatype">vchar(12),</td>
+				<td>NGA Geonet Server GNS Feature Designation (DSG)</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:FX,</td>
+				<td class="label">FX,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Proprietary Description of Feature</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:GNISFC,</td>
+				<td class="label">GNIS FC,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>USGS GNIS Feature Class Codes</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:GNIS,</td>
+				<td class="label">GNIS,</td>
+				<td class="datatype">int(10),</td>
+				<td>USGS GNIS Feature Identifier</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:UNI,</td>
+				<td class="label">NGA/GNS UNI,</td>
+				<td class="datatype">int(10),</td>
+				<td>US NGA/GNS Unique Name Identifier</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:UFI,</td>
+				<td class="label">NGA/GNS UFI,</td>
+				<td class="datatype">int(10),</td>
+				<td>US NGA/GNS Unique Feature Identifier</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:SGC,</td>
+				<td class="label">SGC,</td>
+				<td class="datatype">int(7),</td>
+				<td>Statistics Canada: Standard Geographical Classification</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:TRACT,</td>
+				<td class="label">US Census Tract,</td>
+				<td class="datatype">int(6),</td>
+				<td>US Census Tract Identifier</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:CBSA,</td>
+				<td class="label">US Census CBSA,</td>
+				<td class="datatype">int(5),</td>
+				<td>US Census Core Based Statistical Area</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:EIN,</td>
+				<td class="label">US EIN,</td>
+				<td class="datatype">int(10),</td>
+				<td>US Employer Tax Identifier</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:IPEDS,</td>
+				<td class="label">US IPEDS,</td>
+				<td class="datatype">int(8),</td>
+				<td>US Education The Integrated Postsecondary Education Data System</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:SCHD,</td>
+				<td class="label">School District,</td>
+				<td class="datatype">int(7),</td>
+				<td>School District Identifier (US - Local Education Agency [LEA])</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:VOTF,</td>
+				<td class="label">Federal Voting District,</td>
+				<td class="datatype">int(5),</td>
+				<td>Federal Voting District (US - Congressional District)</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:VOTA,</td>
+				<td class="label">Administrative Voting District,</td>
+				<td class="datatype">int(5),</td>
+				<td>Administrative Voting District (US - State Legislative District)</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:UCR,</td>
+				<td class="label">UCR,</td>
+				<td class="datatype">vchar(4),</td>
+				<td>Uniform Crime Reporting code (US/FBI)</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:DSIT,</td>
+				<td class="label">UN DSIT,</td>
+				<td class="datatype">vchar(4),</td>
+				<td>UN Designated Vehicle Signs for International Travel</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:NBHD,</td>
+				<td class="label">Neighborhood,</td>
+				<td class="datatype">vchar(32)</td>
+				<td>Neighborhood Name</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:PP,</td>
+				<td class="label">Police Precient,</td>
+				<td class="datatype">vchar(16)</td>
+				<td>Police Precient</td>
+			</tr>
+
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#ROOT:UPC,</td>
+				<td class="label">UPC,</td>
+				<td class="datatype">int(12),</td>
+				<td>Universal Product Code</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:EAN,</td>
+				<td class="label">EAN,</td>
+				<td class="datatype">int(13),</td>
+				<td>International Article Number</td>
+			</tr>
+			<tr>
+				<td class="id">#ROOT:SKU,</td>
+				<td class="label">SKU,</td>
+				<td class="datatype">vchar(16),</td>
+				<td>Stock Keeping Unit</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			
+			<tr>
+				<td class="id">#LOCATION:COORD,</td>
+				<td class="label">Coord,</td>
+				<td class="datatype">point,</td>
+				<td>WGS84 Latitude/Longitude coordinate - area centroid</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:ROOFTOP,</td>
+				<td class="label">Coord(Rooftop),</td>
+				<td class="datatype">point,</td>
+				<td>WGS84 Latitude/Longitude coordinate - rooftop</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:STREET,</td>
+				<td class="label">Coord(Street),</td>
+				<td class="datatype">point,</td>
+				<td>WGS84 Latitude/Longitude coordinate - street entrance</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:POP,</td>
+				<td class="label">Coord(Pop),</td>
+				<td class="datatype">point,</td>
+				<td>WGS84 Latitude/Longitude coordinate - population centroid</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:SRC,</td>
+				<td class="label">Coord(Src),</td>
+				<td class="datatype">point,</td>
+				<td>WGS84 Latitude/Longitude coordinate - source (origin)</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:NAC,</td>
+				<td class="label">NAC,</td>
+				<td class="datatype">vchar(8),</td>
+				<td>Natural Area Code</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#LOCATION:ELV,</td>
+				<td class="label">Elevation (meters),</td>
+				<td class="datatype">decimal/decimal,</td>
+				<td>Elevation (meters) highest/lowest</td>
+			</tr>
+			<tr>
+				<td class="id">#LOCATION:LVL,</td>
+				<td class="label">Level,</td>
+				<td class="datatype">int(3),</td>
+				<td>Level (e.g., floor)</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:LVL#,</td>
+				<td class="label">Levels (#),</td>
+				<td class="datatype">int(3),</td>
+				<td>Number of Levels (e.g., floors)</td>
+			</tr>
+
+			<tr><td>&nbsp;</td></tr>		
+			<tr>
+				<td class="id">#LOCATION:AREA,</td>
+				<td class="label">Area (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:LAND,</td>
+				<td class="label">Land (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Land Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:LAND%,</td>
+				<td class="label">Land (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Land Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:WTR,</td>
+				<td class="label">Water (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Water Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:WTR%,</td>
+				<td class="label">Water (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage Water Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FERTILE,</td>
+				<td class="label">Fertile (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Fertile Land Area (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:FERTILE%,</td>
+				<td class="label">Fertile (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Fertile Land Area</td>
+			</tr>				
+			<tr>
+				<td class="id">#LOCATION:FERTILE*,</td>
+				<td class="label">Fertile (ha per capita),</td>
+				<td class="datatype">int(6),</td>
+				<td>Hectacres of Fertile Land per Person</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FARM,</td>
+				<td class="label">Farm (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Farm Area (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:FARM%,</td>
+				<td class="label">Farm (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Farm Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:IRRIGATED,</td>
+				<td class="label">Irrigated (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Irrigated Land Area (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:IRRIGATED%,</td>
+				<td class="label">Irrigated (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Irrigated Land Area</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:CROP,</td>
+				<td class="label">Permanent Crop Land (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Permanent Crop Land (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:CROP%,</td>
+				<td class="label">Permanent Crop Land (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Permanent Crop Land</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:CEREAL,</td>
+				<td class="label">Cereal Crop Land (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Cereal Crop Land (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:CEREAL%,</td>
+				<td class="label">Cereal Crop Land (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Cereal Crop Land</td>
+			</tr>
+			<tr>
+				<td class="id">#LOCATION:URBAN,</td>
+				<td class="label">Urban (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Urbanized Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:URBAN%,</td>
+				<td class="label">Urban (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Urbanized Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:DESERT,</td>
+				<td class="label">Desert (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Desert Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:DESERT%,</td>
+				<td class="label">Desert (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Desert Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FOREST,</td>
+				<td class="label">Forest (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Forested Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FOREST%,</td>
+				<td class="label">Forest (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Forested Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:GLACIER,</td>
+				<td class="label">Glacier (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Glacier Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:GLACIER%,</td>
+				<td class="label">Glacier (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Glacier Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:PERMA,</td>
+				<td class="label">Permafrost (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Permafrost Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:PERMA%,</td>
+				<td class="label">Permafrost (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Permafrost Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:SNOW,</td>
+				<td class="label">Snow Cover (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Area Covered by Snow (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:SNOW%,</td>
+				<td class="label">Snow Cover (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Area Covered by Snow</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FRESH,</td>
+				<td class="label">Fresh Water (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Fresh Water Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FRESH%,</td>
+				<td class="label">Fresh Water (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Fresh Water Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:SALT,</td>
+				<td class="label">Salt Water (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Salt Water Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:SALT%,</td>
+				<td class="label">Salt Water (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Salt Water Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:WET,</td>
+				<td class="label">Wetland (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Wetland Area (sq km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:WET%,</td>
+				<td class="label">Wetland (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Wetland Area</td>
+			</tr>		
+			<tr>
+				<td class="id">#LOCATION:FLOOD,</td>
+				<td class="label">Flood (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Flooded Area (sq km)</td>
+			</tr>			
+			<tr>
+				<td class="id">#LOCATION:FLOOD%,</td>
+				<td class="label">Flood (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Flooded Area</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:INH,</td>
+				<td class="label">Inhabited (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Inhabited Area (sq km)</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:INH%,</td>
+				<td class="label">Inhabited (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Inhabited Area</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:ELV5M,</td>
+				<td class="label">Land below 5 meters (sq km),</td>
+				<td class="datatype">decimal,</td>
+				<td>Total Land below 5 meters (sq km)</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:ELV5M%,</td>
+				<td class="label">Land below 5 meters (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Land below 5 meters</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#NAME:LANG,</td>
+				<td class="label">ISO 639-1,</td>
+				<td class="datatype">vchar(7),</td>
+				<td>ISO 639-1 2/3 letter Language Code</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:SCRIPT,</td>
+				<td class="label">Script,</td>
+				<td class="datatype">vchar(16),</td>
+				<td>Language Script</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>	
+			<tr>
+				<td class="id">#NAME:ABBR,</td>
+				<td class="label">Abbr,</td>
+				<td class="datatype">vchar(16),</td>
+				<td>Abbreviated Name (Std. or Local)</td>
+			</tr>	
+			<tr>
+				<td class="id">#NAME:SHORT,</td>
+				<td class="label">Short Name,</td>
+				<td class="datatype">vchar(48),</td>
+				<td>Short Name (Gazetteer)</td>
+			</tr>	
+			<tr>
+				<td class="id">#NAME:SHORTRO,</td>
+				<td class="label">Short Name (RO),</td>
+				<td class="datatype">vchar(48),</td>
+				<td>Short Name (Reading Order)</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:DBA,</td>
+				<td class="label">DBA,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Doing Business As</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:FORMAL,</td>
+				<td class="label">Formal Name,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Formal Name (Gazetteer)</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:FORMALRO,</td>
+				<td class="label">Formal Name (RO),</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Formal Name (Reading Order)</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:LEGAL,</td>
+				<td class="label">Legal Name,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Legal Name of Entity (e.g., license)</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:CORP,</td>
+				<td class="label">Parent Corporation,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Parent Corporation</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:AGENCY,</td>
+				<td class="label">Agency,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Agency (managed or operated by)</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:MODEL,</td>
+				<td class="label">Model Name,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Model Name</td>
+			</tr>			
+			<tr>
+				<td class="id">#NAME:HISTORIC,</td>
+				<td class="label">Historic Name,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Historic Name</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:NICKNAME,</td>
+				<td class="label">Nickname,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Nickname of the Entity</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:DENOMYN,</td>
+				<td class="label">Nationality,</td>
+				<td class="datatype">vchar(96),</td>
+				<td>Nationality (Noun) of the Entity</td>
+			</tr>
+			<tr>
+				<td class="id">#NAME:DENOMYNADJ,</td>
+				<td class="label">Nationality (Adj),</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Nationality (Adjective) of the Entity</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#ADDRESS:STREET,</td>
+				<td class="label">Street,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Street Address</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:SAU,</td>
+				<td class="label">SAU,</td>
+				<td class="datatype">vchar(16),</td>
+				<td>Secondary Address Unit (e.g., Floor, Apt, etc)</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:CITY,</td>
+				<td class="label">City,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>City</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:POSTAL,</td>
+				<td class="label">Postal,</td>
+				<td class="datatype">vchar(12),</td>
+				<td>Postal Code (Primary)</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:SPC,</td>
+				<td class="label">SPC,</td>
+				<td class="datatype">vchar(6),</td>
+				<td>Secondary Postal Code (e.g., +4 in zip5+4)</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:STREETNUM,</td>
+				<td class="label">Street Number,</td>
+				<td class="datatype">vchar(12),</td>
+				<td>Street Number</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:STREETNAME,</td>
+				<td class="label">Street Name,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Street Name</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:STREETTYPE,</td>
+				<td class="label">Street Type,</td>
+				<td class="datatype">vchar(8),</td>
+				<td>Street Type</td>
+			</tr>		
+			<tr>
+				<td class="id">#ADDRESS:STREETDIR,</td>
+				<td class="label">Street Direction,</td>
+				<td class="datatype">vchar(2),</td>
+				<td>Street Direction</td>
+			</tr>	
+			<tr><td>&nbsp;</td></tr>
+					
+			<tr>
+				<td class="id">#CONTACT:TEL,</td>
+				<td class="label">Telephone,</td>
+				<td class="datatype">int(13),</td>
+				<td>Telephone Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:CELL,</td>
+				<td class="label">Cell Number,</td>
+				<td class="datatype">int(13),</td>
+				<td>Cellular Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:ITL,</td>
+				<td class="label">Intl Number,</td>
+				<td class="datatype">int(13),</td>
+				<td>International Telephone Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:FAX,</td>
+				<td class="label">FAX,</td>
+				<td class="datatype">int(13),</td>
+				<td>FAX Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:800,</td>
+				<td class="label">800 Number,</td>
+				<td class="datatype">int(13),</td>
+				<td>800 Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:CS,</td>
+				<td class="label">Customer Service,</td>
+				<td class="datatype">int(13),</td>
+				<td>Customer Service Number</td>
+			</tr>
+			<tr>
+				<td class="id">#CONTACT:ORDER,</td>
+				<td class="label">Ordering,</td>
+				<td class="datatype">int(13),</td>
+				<td>Ordering/Purchasing/Registering Number</td>
+			</tr>	
+			<tr>
+				<td class="id">#CONTACT:ITU,</td>
+				<td class="label">ITU,</td>
+				<td class="datatype">int(3),</td>
+				<td>International Country Calling Code</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#CONTACT:EML,</td>
+				<td class="label">Email,</td>
+				<td class="datatype">vchar(128),</td>
+				<td>Email Address</td>
+			</tr>	
+			<tr>
+				<td class="id">#CONTACT:CON,</td>
+				<td class="label">Contact,</td>
+				<td class="datatype">vchar(64),</td>
+				<td>Contact Name</td>
+			</tr>	
+			<tr>
+				<td class="id">#CONTACT:ROL,</td>
+				<td class="label">Contact Role,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Contact Role</td>
+			</tr>		
+			<tr><td>&nbsp;</td></tr>
+						
+			<tr>
+				<td class="id">#POPULATION:YEAR,</td>
+				<td class="label">Year,</td>
+				<td class="datatype">int(4),</td>
+				<td>Year data was gathered</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:DATE,</td>
+				<td class="label">Date,</td>
+				<td class="datatype">date,</td>
+				<td>ISO 8601 Date</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:TIME,</td>
+				<td class="label">Time,</td>
+				<td class="datatype">timestamp,</td>
+				<td>Time of Day hh:dd:mm</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:QTR,</td>
+				<td class="label">Annual Quarter,</td>
+				<td class="datatype">int(1)</td>
+				<td>Annual Quarter</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:FOUNDED,</td>
+				<td class="label">Founded,</td>
+				<td class="datatype">date,</td>
+				<td>Date Entity was Founded</td>
+			</tr>		
+			<tr><td>&nbsp;</td></tr>
+			
+			<tr>
+				<td class="id">#POPULATION:POP,</td>
+				<td class="label">Population,</td>
+				<td class="datatype">int(10),</td>
+				<td>Total Population</td>
+			</tr>	
+			<tr>
+				<td class="id">#POPULATION:POP%,</td>
+				<td class="label">Population (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Population</td>
+			</tr>	
+			<tr>
+				<td class="id">#POPULATION:POPA,</td>
+				<td class="label">Urban Population,</td>
+				<td class="datatype">int(10),</td>
+				<td>Total Urban Population</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:POPA%,</td>
+				<td class="label">Urban Population (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Urban Population</td>
+			</tr>			
+			<tr>
+				<td class="id">#POPULATION:RURAL,</td>
+				<td class="label">Rural Population,</td>
+				<td class="datatype">int(10),</td>
+				<td>Total Rural Population</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:RURAL%,</td>
+				<td class="label">Rural Population (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Rural Population</td>
+			</tr>		
+			<tr><td>&nbsp;</td></tr>		
+			
+			<tr>
+				<td class="id">#POPULATION:RACE,</td>
+				<td class="label">Race,</td>
+				<td class="datatype">vchar(12),</td>
+				<td>Race</td>
+			</tr>	
+			<tr>
+				<td class="id">#POPULATION:ETHNIC,</td>
+				<td class="label">Ethnic,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Ethnicity</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:RELIGION,</td>
+				<td class="label">Religion,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Religion</td>
+			</tr>	
+			<tr>
+				<td class="id">#POPULATION:SPS,</td>
+				<td class="label">Species,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Specifies (non-human)</td>
+			</tr>			
+			<tr><td>&nbsp;</td></tr>		
+			<tr>
+				<td class="id">#POPULATION:MALE,</td>
+				<td class="label">Male,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Males</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:MALE%,</td>
+				<td class="label">Male (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Males</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:FEMALE,</td>
+				<td class="label">Female,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Females</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:FEMALE%,</td>
+				<td class="label">Female (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Females</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:ADULT,</td>
+				<td class="label">Adult,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Adults (18+)</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:ADULT%,</td>
+				<td class="label">Adult (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Adults (18+)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:CHILD,</td>
+				<td class="label">Child,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Minor Children (under 18)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:CHILD%,</td>
+				<td class="label">Child (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Minor Children (under 18)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:TODDLER,</td>
+				<td class="label">Toddler,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Toddlers and Infants (under 5)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:TODDLER%,</td>
+				<td class="label">Toddler (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Toddlers and Infants (under 5)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:SENIOR,</td>
+				<td class="label">Senior,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Seniors (65+)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:SENIOR%,</td>
+				<td class="label">Senior (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Seniors (65+)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:FOREIGN,</td>
+				<td class="label">Foreign,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Foreigners (65+)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:FOREIGN%,</td>
+				<td class="label">Foreign (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Foreigners (65+)</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:BIRTH,</td>
+				<td class="label">Birth,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Births</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:BIRTH**,</td>
+				<td class="label">Birth (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Birth Rate per 1000</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATH,</td>
+				<td class="label">Death,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Deaths</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATH**,</td>
+				<td class="label">Death (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Deaths Rate per 1000</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATHM,</td>
+				<td class="label">Maternal Mortality,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Maternal Mortality Deaths</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATHM**</td>
+				<td class="label">Maternal Mortality (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Maternal Mortality Deaths Rate per 1000</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATHI,</td>
+				<td class="label">Infant Mortality,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Infant Mortality Deaths</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:DEATHI**,</td>
+				<td class="label">Infant Mortality (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Infant Mortality Deaths Rate per 1000</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:LIFESPAN,</td>
+				<td class="label">Lifespan,</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Life Expectency at Birth</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:LIFESPAN+,</td>
+				<td class="label">Lifespan (Male),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Life Expectency at Birth for Males</td>
+			</tr>								
+			<tr>
+				<td class="id">#POPULATION:LIFESPAN-,</td>
+				<td class="label">Lifespan (Female),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Life Expectency at Birth for Females</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:FERTILITY,</td>
+				<td class="label">Fertility,</td>
+				<td class="datatype">decimal(4,2),</td>
+				<td>Fertility Rate</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:OBESE,</td>
+				<td class="label">Obese,</td>
+				<td class="datatype">int(10),</td>
+				<td>Adult Obesity</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:OBESE%,</td>
+				<td class="label">Obese (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Obese Adults</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:MALNOURISH,</td>
+				<td class="label">Malnourish,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Malnourished Children (under 5)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:MALNOURISH%,</td>
+				<td class="label">Malnourish (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Malnurished Children (under 5)</td>
+			</tr>								
+			<tr>
+				<td class="id">#POPULATION:TUBER,</td>
+				<td class="label">Tuberculosis,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of People with Tuberculosis</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:TUBER**,</td>
+				<td class="label">Tuberculosis (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Rate of Tuberculosis per 1000</td>
+			</tr>									
+			<tr>
+				<td class="id">#POPULATION:HIV,</td>
+				<td class="label">HIV 15-49,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Adults (15-49) with HIV</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:HIV%,</td>
+				<td class="label">HIV 15-49(%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Adults (15-49) with HIV</td>
+			</tr>										
+			<tr>
+				<td class="id">#POPULATION:CONTRACEPTIVE,</td>
+				<td class="label">Contraceptive 15-49,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Females (15-49) using Contraceptives</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:CONTRACEPTIVE%,</td>
+				<td class="label">Contraceptive 15-49(%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Females (15-49) using Contraceptives</td>
+			</tr>										
+			<tr>
+				<td class="id">#POPULATION:PRENATAL,</td>
+				<td class="label">Prenatal Care,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Women whom received Prenatal Care during Birth</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:PRENATAL%,</td>
+				<td class="label">Prenatal Care(%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Womenwhom received Prenatal Care during Birth</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:MIGRATION,</td>
+				<td class="label">Migration,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Net Migrations</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:MIGRATION*,</td>
+				<td class="label">Migration (per 1000),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Net Migration Rate per 1000</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:VETERAN,</td>
+				<td class="label">Veteran,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Veterans</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:VETERAN%</td>
+				<td class="label">Veteran (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Rate of Veterans (Percentage)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:POOR,</td>
+				<td class="label">Poverty,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Living in Poverty</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:POOR%,</td>
+				<td class="label">Poverty (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Rate Individuals Living in Poverty (Percentage)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:HEALTH,</td>
+				<td class="label">Health Uninsured,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Living without Health Insurance</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:HEALTH%,</td>
+				<td class="label">Health Uninsured (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Rate of Individuals Living without Health Insurance (Percentage)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:TOILET,</td>
+				<td class="label">Sanitation,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals with Access to Improved Sanitation</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:TOILET%,</td>
+				<td class="label">Sanitation (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percent of Individuals with Access to Improved Sanitation</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:EMPLOYED,</td>
+				<td class="label">Employed,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Employed Individuals</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:EMPLOYED%,</td>
+				<td class="label">Employed (%),</td>
+				<td class="datatype">decimal(5,2)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:UNEMPLOYED,</td>
+				<td class="label">Unemployed,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Unemployed</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:UNEMPLOYED%,</td>
+				<td class="label">Unemployed (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Individuals Unemployed</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:LABOR,</td>
+				<td class="label">Labor Force,</td>
+				<td class="datatype">int(10),</td>
+				<td>Total Size of Labor Force (employed+unemployed+first-time seekers)</td>
+			</tr>								
+			<tr>
+				<td class="id">#POPULATION:FARM,</td>
+				<td class="label">Farm Employment,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Employed in Agriculture</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:FARM%,</td>
+				<td class="label">Farm Employment (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Total Employment Employed in Agriculture</td>
+			</tr>				
+			<tr>
+				<td class="id">#POPULATION:ELECTR%,</td>
+				<td class="label">Electricity Access (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percentage of Individuals with Access to Electricity</td>
+			</tr>				
+			<tr>
+				<td class="id">#POPULATION:MARRIED,</td>
+				<td class="label">Married,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Married</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:DIVORCED,</td>
+				<td class="label">Divorced,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Divorced</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:SEPARATED,</td>
+				<td class="label">Separated,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Separated</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:SINGLE,</td>
+				<td class="label">Single,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Single (unmarried)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:WIDOW,</td>
+				<td class="label">Widow(er),</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Widow(er)ed</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:COMMON,</td>
+				<td class="label">Common,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals Common Law Marriage</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:TEACHER,</td>
+				<td class="label">Teacher,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Teachers (as pertain to schools)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:STUDENT,</td>
+				<td class="label">Student,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Students (as pertain to schools)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:HSDIPLOMA,</td>
+				<td class="label">HS Diploma,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals with High School Diploma</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:HSGED,</td>
+				<td class="label">HS GED,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals with High School GED</td>
+			</tr>					
+			<tr>
+				<td class="id">#POPULATION:HSDROPOUT,</td>
+				<td class="label">HS Dropout,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Individuals whom Dropped out of High School</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:INCIDENT,</td>
+				<td class="label">Incidents,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Incidents (e.g., crime)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:VOLUME,</td>
+				<td class="label">Volume (l),</td>
+				<td class="datatype">int(8),</td>
+				<td>Volume (liters)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:WEIGHT,</td>
+				<td class="label">Weight (kg),</td>
+				<td class="datatype">int(8),</td>
+				<td>Volume (kilograms)</td>
+			</tr>						
+			<tr>
+				<td class="id">#POPULATION:QTY,</td>
+				<td class="label">Quantity,</td>
+				<td class="datatype">int(8),</td>
+				<td>Quantity</td>
+			</tr>			
+			<tr><td>&nbsp;</td></tr>						
+			<tr>
+				<td class="id">#POPULATION:HSU,</td>
+				<td class="label">Housing Units,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Housing Units</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:CAPACITY,</td>
+				<td class="label">Capacity,</td>
+				<td class="datatype">int(8),</td>
+				<td>Capacity (e.g., seating)</td>
+			</tr>				
+			<tr><td>&nbsp;</td></tr>								
+			<tr>
+				<td class="id">#POPULATION:BED,</td>
+				<td class="label">Beds,</td>
+				<td class="datatype">int(8),</td>
+				<td>Number of Beds (e.g. hospital)</td>
+			</tr>								
+			<tr>
+				<td class="id">#POPULATION:BEDROOM,</td>
+				<td class="label">Bedrooms,</td>
+				<td class="datatype">int(4),</td>
+				<td>Number of Bedrooms</td>
+			</tr>				
+			<tr><td>&nbsp;</td></tr>						
+			<tr>
+				<td class="id">#POPULATION:IHSU,</td>
+				<td class="label">Occupied Housing Units,</td>
+				<td class="datatype">int(10),</td>
+				<td>Number of Occupied Housing Units</td>
+			</tr>							
+			<tr>
+				<td class="id">#POPULATION:BIZ,</td>
+				<td class="label">Businesses,</td>
+				<td class="datatype">int(8),</td>
+				<td>Number of Businesses</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:HSUA,</td>
+				<td class="label">Housing Units (Urban),</td>
+				<td class="datatype">int(10),</td>
+				<td>Housing Units in Urban Agglomeration</td>
+			</tr>
+			<tr>
+				<td class="id">#POPULATION:IHSUA,</td>
+				<td class="label">Occupied Housing Units (Urban),</td>
+				<td class="datatype">int(10),</td>
+				<td>Occupied Housing Units in Urban Agglomeration</td>
+			</tr>	
+			<tr>
+				<td class="id">#POPULATION:HRS,</td>
+				<td class="label">Hours,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Operating Hours</td>
+			</tr>		
+			<tr>
+				<td class="id">#POPULATION:UTC,</td>
+				<td class="label">UTC Timezone,</td>
+				<td class="datatype">decimal,</td>
+				<td>UTC Timezone</td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#RESOURCE:WEB,</td>
+				<td class="label">Web,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:GIS,</td>
+				<td class="label">GIS,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Geographic Information Services</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:STAT,</td>
+				<td class="label">Statistics,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Statistical Information</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:POST,</td>
+				<td class="label">Postal Service,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Postal Service</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:LOGIN,</td>
+				<td class="label">Login,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Login/Registration</td>
+			</tr>			
+			<tr>
+				<td class="id">#RESOURCE:DATA,</td>
+				<td class="label">Data,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Data Download</td>
+			</tr>	
+			<tr>
+				<td class="id">#RESOURCE:SALES,</td>
+				<td class="label">Sales,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Sales/Purchasing/Ordering</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:SUPPORT,</td>
+				<td class="label">Support,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Customer Support</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:FAID,</td>
+				<td class="label">FAID,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Financial Assistance Services</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:DIRECTORY,</td>
+				<td class="label">Directory,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Directory/Locator</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:CALC,</td>
+				<td class="label">Calc,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Online Calculator</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:SCHEDULE,</td>
+				<td class="label">Schedule,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Schedule/Calendar</td>
+			</tr>			
+			<tr>
+				<td class="id">#RESOURCE:APPLY,</td>
+				<td class="label">Apply,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Application (e.g., to College)</td>
+			</tr>						
+			<tr><td>&nbsp;</td></tr>		
+			<tr>
+				<td class="id">#RESOURCE:SM,</td>
+				<td class="label">Social Media,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Social Media</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:FACEBOOK,</td>
+				<td class="label">Facebook,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Facebook</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:TWITTER,</td>
+				<td class="label">Twitter,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Twitter</td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>		
+			<tr>
+				<td class="id">#RESOURCE:IMG,</td>
+				<td class="label">Image,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Image</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:LOGO,</td>
+				<td class="label">Logo,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Logo</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:FLAG,</td>
+				<td class="label">Flag,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Flag</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:COAT,</td>
+				<td class="label">Coat of Arms,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Coat of Arms</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:PIN,</td>
+				<td class="label">Pin,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Map Pin</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:SELF,</td>
+				<td class="label">Entity Image,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of Image of Entity</td>
+			</tr>		
+			<tr>
+				<td class="id">#RESOURCE:CAMERA,</td>
+				<td class="label">Camera,</td>
+				<td class="datatype">url,</td>
+				<td>Web Address of We Camera</td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>
+				
+			<tr>
+				<td class="id">#SCOPE:ECN,</td>
+				<td class="label">NAICS 2007,</td>
+				<td class="datatype">List int(6),</td>
+				<td>NAICS 2007 Industry Code(s)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:SIC,</td>
+				<td class="label">SIC,</td>
+				<td class="datatype">List int(4),</td>
+				<td>Standard Industry Code(s)</td>
+			</tr>
+
+			<tr>
+				<td class="id">#SCOPE:GRADE,</td>
+				<td class="label">Grade,</td>
+				<td class="datatype">int(2)/int(2),</td>
+				<td>Grade or Grade Range (as pertains to schools)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:SCHTYPE,</td>
+				<td class="label">School Type,</td>
+				<td class="datatype">vchar(10),</td>
+				<td>School Type (private, public, etc.) </td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#SCOPE:AGE,</td>
+				<td class="label">Age,</td>
+				<td class="datatype">int(3),</td>
+				<td>Age (as pertains to population)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:TEMP,</td>
+				<td class="label">Temperature (C),</td>
+				<td class="datatype">int(3)/int(3),</td>
+				<td>Mean Temperature or Min/Max range (celcius)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:PRCP,</td>
+				<td class="label">Precipitation (mm),</td>
+				<td class="datatype">int(4),</td>
+				<td>Precipitation (mm)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:AWND,</td>
+				<td class="label">Wind (km/h),</td>
+				<td class="datatype">int(4),</td>
+				<td>Average Wind Speed (km/h)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:SNOW,</td>
+				<td class="label">Snow (mm),</td>
+				<td class="datatype">int(4),</td>
+				<td>Snowfall (mm)</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:SNWD,</td>
+				<td class="label">Snow Depth (mm),</td>
+				<td class="datatype">int(4),</td>
+				<td>Snow depth (mm)</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:TSUN,</td>
+				<td class="label">Total Daily Sun (min),</td>
+				<td class="datatype">int(3),</td>
+				<td>Total Daily Sunshine (minutes)</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:ASCH,</td>
+				<td class="label">Average Cloudiness (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Average Cloudiness from Sunrise to Sunset (percent)</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:WT,</td>
+				<td class="label">Weather Type</td>
+				<td class="datatype">int(2),</td>
+				<td>Weather Type</td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#SCOPE:GRS,</td>
+				<td class="label">GRS,</td>
+				<td class="datatype">bigint,</td>
+				<td>Gross Value</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:GNI,</td>
+				<td class="label">GNI,</td>
+				<td class="datatype">bigint,</td>
+				<td>Gross National Income</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:GNI*,</td>
+				<td class="label">GNI (capita),</td>
+				<td class="datatype">int(8),</td>
+				<td>Gross National Income (capita)</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:MEDIAN,</td>
+				<td class="label">Median Household Income,</td>
+				<td class="datatype">int(8),</td>
+				<td>Annual Median Household Income</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:GDP,</td>
+				<td class="label">GDP,</td>
+				<td class="datatype">bigint</td>
+				<td>Gross Domestic Product</td>
+			</tr>	
+			<tr>
+				<td class="id">,</td>
+				<td class="label">GDP (Billions),</td>
+				<td class="datatype">int(5),</td>
+				<td>Gross Domestic Product in Billions</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:GDP*,</td>
+				<td class="label">GDP (capita),</td>
+				<td class="datatype">int(8)</td>
+				<td>Gross Domestic Product</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:GDP%,</td>
+				<td class="label">GDP %,</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Gross Domestic Product Growth</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:SCORE,</td>
+				<td class="label">Score,</td>
+				<td class="datatype">int(4),</td>
+				<td>Inspection Score</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:SALE,</td>
+				<td class="label">Sale,</td>
+				<td class="datatype">bigint,</td>
+				<td>Total Sales (or invoiced) Receipts</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:MARKETCAP,</td>
+				<td class="label">Market Capitalization,</td>
+				<td class="datatype">bigint,</td>
+				<td>Market Capitalization (value of all outstanding shares)</td>
+			</tr>					
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#SCOPE:CST,</td>
+				<td class="label">Cost,</td>
+				<td class="datatype">bigint,</td>
+				<td>Cost</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:WAGE,</td>
+				<td class="label">Wage,</td>
+				<td class="datatype">bigint,</td>
+				<td>Annual Average Employee Cost</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:WAGES,</td>
+				<td class="label">Wages,</td>
+				<td class="datatype">bigint,</td>
+				<td>Annual Total Wages (payroll)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:CURRENCY,</td>
+				<td class="label">Currency,</td>
+				<td class="datatype">vchar(16),</td>
+				<td>Name of Monetary Unit</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:CURRENCYSYM,</td>
+				<td class="label">Currency Symbol,</td>
+				<td class="datatype">vchar(4),</td>
+				<td>Monetary Unit Symbol</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:ISO4127A3,</td>
+				<td class="label">ISO 4127 alpha-3,</td>
+				<td class="datatype">vchar(3),</td>
+				<td>ISO 4127 alpha-3 currency code</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:ISO4127N3,</td>
+				<td class="label">ISO 4127 numeric-3,</td>
+				<td class="datatype">int(3),</td>
+				<td>ISO 4127 numeric-3 currency code</td>
+			</tr>	
+			<tr>
+				<td class="id">#LOCATION:CEREAL^,</td>
+				<td class="label">Cereal Yield (kg/ha),</td>
+				<td class="datatype">decimal(6,2),</td>
+				<td>Cereal Yield per Hectacre</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:HOUSEHOLD,</td>
+				<td class="label">Household,</td>
+				<td class="datatype">bigint,</td>
+				<td>Annual Cost of Household</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:HOUSING,</td>
+				<td class="label">Housing,</td>
+				<td class="datatype">bigint,</td>
+				<td>Annual Cost of Housing</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:TUITION,</td>
+				<td class="label">Tuition,</td>
+				<td class="datatype">int(10),</td>
+				<td>Annual Cost of Tuition</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:FEE,</td>
+				<td class="label">Fee,</td>
+				<td class="datatype">int(10),</td>
+				<td>Annual Cost of Fees (or other fees)</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:BOOKS,</td>
+				<td class="label">Books,</td>
+				<td class="datatype">int(10),</td>
+				<td>Annual Cost of Books</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:FOOD,</td>
+				<td class="label">Food,</td>
+				<td class="datatype">int(10),</td>
+				<td>Annual Cost of Meals</td>
+			</tr>							
+			<tr>
+				<td class="id">#SCOPE:HEALTH,</td>
+				<td class="label">Health Expenditure,</td>
+				<td class="datatype">int(10),</td>
+				<td>Health Expenditure</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:HEALTH%,</td>
+				<td class="label">Health Expenditure (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Health Expenditure of Income or GDP (Percentage) </td>
+			</tr>						
+			<tr>
+				<td class="id">#SCOPE:EDUCATION,</td>
+				<td class="label">Education Expenditure,</td>
+				<td class="datatype">int(10),</td>
+				<td>Education Expenditure</td>
+			</tr>							
+			<tr>
+				<td class="id">#SCOPE:EDUCATION%,</td>
+				<td class="label">Education Expenditure (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Education Expenditure of Income or GDP (Percentage) </td>
+			</tr>						
+			<tr><td>&nbsp;</td></tr>
+
+			<tr>
+				<td class="id">#SCOPE:DEBT,</td>
+				<td class="label">Debt,</td>
+				<td class="datatype">bigint,</td>
+				<td>Debt</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:DEBT%,</td>
+				<td class="label">Debt (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Debt percentage of GDP</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:DEFICIT,</td>
+				<td class="label">Deficit,</td>
+				<td class="datatype">bigint,</td>
+				<td>Debt</td>
+			</tr>			
+			<tr>
+				<td class="id">#SCOPE:DEFICIT%,</td>
+				<td class="label">Deficit (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Deficit percentage of GDP</td>
+			</tr>						
+			<tr><td>&nbsp;</td></tr>
+			
+			<tr>
+				<td class="id">#SCOPE:CO2,</td>
+				<td class="label">CO2 Emissions,</td>
+				<td class="datatype">int(8)</td>
+				<td>CO2 Emissions in kilotons</td>
+			</tr>	
+			<tr>
+				<td class="id">SCOPE:CO2*,</td>
+				<td class="label">CO2 Emissions (per capita),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>CO2 Emissions per capita (metric tons)</td>
+			</tr>									
+			<tr>
+				<td class="id">#SCOPE:ELECTR,</td>
+				<td class="label">Electric Power Consumption (Mwh),</td>
+				<td class="datatype">int(6),</td>
+				<td>Electrical Consumption (Mwh)</td>
+			</tr>								
+			<tr>
+				<td class="id">#SCOPE:ELECTR*,</td>
+				<td class="label">Electric Power Consumption (kWh per capita),</td>
+				<td class="datatype">int(6),</td>
+				<td>Electric Power Consumption (kWh per capita)</td>
+			</tr>								
+			<tr>
+				<td class="id">#SCOPE:ENERGY,</td>
+				<td class="label">Energy Power Consumption (kt),</td>
+				<td class="datatype">int(7),</td>
+				<td>Energy Consumption (kt)</td>
+			</tr>								
+			<tr>
+				<td class="id">#SCOPE:ENERGY*,</td>
+				<td class="label">Energy Consumption (kg per capita),</td>
+				<td class="datatype">int(6),</td>
+				<td>Energy Consumption (kg per capita)</td>
+			</tr>									
+			<tr>
+				<td class="id">#SCOPE:ENERGY+,</td>
+				<td class="label">Energy Production (kt),</td>
+				<td class="datatype">int(7),</td>
+				<td>Energy Production (kt)</td>
+			</tr>										
+			<tr>
+				<td class="id">#SCOPE:ENERGY%,</td>
+				<td class="label">Energy Import (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Energy Import (% of use)</td>
+			</tr>		
+			<tr><td>&nbsp;</td></tr>	
+			
+			<tr>
+				<td class="id">#SCOPE:RAIL,</td>
+				<td class="label">Rail Lines (km),</td>
+				<td class="datatype">int(7),</td>
+				<td>Amount of Rail Lines (km)</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:ROADS,</td>
+				<td class="label">Paved Roads (km),</td>
+				<td class="datatype">int(7),</td>
+				<td>Amount of Paved Roads (km)</td>
+			</tr>		
+			<tr>
+				<td class="id">#SCOPE:ROADS%,</td>
+				<td class="label">Paved Roads (%),</td>
+				<td class="datatype">decimal(5,2),</td>
+				<td>Percent of Roads that are Paved</td>
+			</tr>	
+			<tr><td>&nbsp;</td></tr>
+			
+			<tr>
+				<td class="id">#SCOPE:PENALTY,</td>
+				<td class="label">Penalty,</td>
+				<td class="datatype">int(10),</td>
+				<td>Penalty (e.g., fine)</td>
+			</tr>	
+			<tr>
+				<td class="id">#SCOPE:CODE,</td>
+				<td class="label">Code,</td>
+				<td class="datatype">vchar(32),</td>
+				<td>Violation Code</td>
+			</tr>			
+							
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#SCOPE:WPTS,</td>
+				<td class="label">Waypoints,</td>
+				<td class="datatype">List points,</td>
+				<td>Waypoints</td>
+			</tr>
+			<tr>
+				<td class="id">#SCOPE:BBOX,</td>
+				<td class="label">Bounding Box,</td>
+				<td class="datatype">Rectangle,</td>
+				<td>Bounding Box (NE, SW corner)</td>
+			</tr>	
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td class="id">#SCOPE:GOVN,</td>
+				<td class="label">Government,</td>
+				<td class="datatype">vchar(96),</td>
+				<td>Government Level or Type</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div>
+		<h4>Footnotes</h4>
+		<ol>
+			<li>Data type size indicator (..) represents the number of digits. The size is the maximum
+			    anticipated value when the value is a summation for the entire world.</li>
+			<li>To avoid name confusion with FIPS 10-4 codes covering both countries and principal divisions, 
+				the FIPS 10-4 codes for principal administrative divisions are relabeled as FIPS 5-2 codes, 
+				which otherwise would be defined only for US principal administrative divisions.
+			</li>
+		</ul/>
+	</div>
