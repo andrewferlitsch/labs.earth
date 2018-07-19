@@ -60,6 +60,12 @@ labs.controller( 'presentationCtrl', function( $scope ) {
 		templateUrl: 'presentations/mlmlinear.html'
 	}
 })
+.directive( "mlDecision", function() {
+	return {
+		restrict: 'A',
+		templateUrl: 'presentations/mldecision.html'
+	}
+})
 .directive( "mlEnsemble", function() {
 	return {
 		restrict: 'A',
