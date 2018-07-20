@@ -228,6 +228,18 @@ labs.controller( 'presentationCtrl', function( $scope ) {
 		templateUrl: 'presentations/oop.html'
 	}
 })
+.directive( "network", function() {
+	return {
+		restrict: 'A',
+		templateUrl: 'presentations/network.html'
+	}
+})
+.directive( "http", function() {
+	return {
+		restrict: 'A',
+		templateUrl: 'presentations/http.html'
+	}
+})
 .directive( "whiteboarding", function() {
 	return {
 		restrict: 'A',
